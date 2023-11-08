@@ -1,3 +1,12 @@
 {
-  "signin": "Se connecter"
+  "sign-in": "Se connecter",
+  "log-in": "Se connecter",
+  "email-placeholder": "monsuperemail@gmail.com",
+  "password": "Mot de passe",
+  "forgotten-password": "Mot de passe oublié ?",
+  "dont-have-an-account?": "Pas de compte ?",
+  "with-google": "avec Google",
+  "with-apple": "avec Apple",
+  "with-facebook": "avec Facebook",
+  "or": "Ou"
 }

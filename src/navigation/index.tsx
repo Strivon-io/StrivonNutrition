@@ -9,6 +9,7 @@ import { ScheduleScreen } from '../scene/schedule'
 import { ProfileScreen } from '../scene/profile'
 import { SignupScreen } from '../scene/signup'
 import { SigninScreen } from '../scene/signin'
+import { colors } from '../constants/theme'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -26,7 +27,11 @@ const AppNavigator = () => {
 
 const UnauthenticatedApp = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        cardStyle: { backgroundColor: colors.light.PureWhite },
+      }}
+    >
       <Stack.Screen
         options={{ headerShown: false }}
         name="Signin"
