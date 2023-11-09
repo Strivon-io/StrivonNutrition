@@ -16,6 +16,13 @@ export const colors = {
   Bloody: '#E02637',
 }
 
+export interface FontType {
+  regular: 'regular'
+  medium: 'medium'
+  bold: 'bold'
+  'bold-italic': 'bold-italic'
+}
+
 export interface Spacing {
   xs: number
   s: number

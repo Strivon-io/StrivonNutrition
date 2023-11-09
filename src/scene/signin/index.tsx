@@ -35,8 +35,8 @@ export const SigninScreen = () => {
       <Wrapper>
         <MainText
           style={{ marginBottom: spacing.m }}
-          fontSize={fontSize.l}
-          fontWeight="bold-italic"
+          fontSize="l"
+          fontType="bold-italic"
         >
           {t('sign-in')}
         </MainText>
@@ -47,11 +47,7 @@ export const SigninScreen = () => {
           />
           <MainInput placeholder={t('password')} secureTextEntry={true} />
           <ForgotPasswordText onPress={() => {}}>
-            <MainText
-              color={colors.Alizarin}
-              fontSize={fontSize.s}
-              fontWeight="medium"
-            >
+            <MainText color={colors.Alizarin} fontSize="s" fontType="medium">
               {t('forgotten-password')}
             </MainText>
           </ForgotPasswordText>
@@ -83,8 +79,8 @@ export const SigninScreen = () => {
           <Or>
             <MainText
               color={colors.darker.DarkestBlack}
-              fontSize={fontSize.l}
-              fontWeight="medium"
+              fontSize="l"
+              fontType="medium"
             >
               {t('or')}
             </MainText>

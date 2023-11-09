@@ -1,18 +1,18 @@
 import React, { ReactNode } from 'react'
 import { Text, TextStyle } from 'react-native'
 import styled from 'styled-components/native'
-import { colors, fontSize, fontSizePx } from '../../constants/theme'
+import { colors, fontSizePx, FontSize, FontType } from '../../constants/theme'
 
 interface MainTextProps {
-  fontWeight?: 'regular' | 'medium' | 'bold' | 'bold-italic'
-  fontSize?: number
+  fontType?: keyof FontType
+  fontSize?: keyof FontSize
   color?: string
   children: ReactNode
   style?: TextStyle
 }
 
 export const MainText = ({
-  fontWeight,
+  fontType,
   fontSize,
   color,
   children,
@@ -22,7 +22,7 @@ export const MainText = ({
     <MainTextStyled
       style={style}
       color={color}
-      fontWeight={fontWeight}
+      fontType={fontType}
       fontSize={fontSize}
     >
       {children}
@@ -31,14 +31,14 @@ export const MainText = ({
 }
 
 interface MainTextStyledProps {
-  fontWeight: MainTextProps['fontWeight']
-  fontSize?: number
+  fontType: MainTextProps['fontType']
+  fontSize?: keyof FontSize
   color: string
 }
 
 const MainTextStyled = styled(Text)<MainTextStyledProps>`
   font-family: ${(props) => {
-    switch (props.fontWeight) {
+    switch (props.fontType) {
       case 'regular':
         return 'AvenirNext-Regular'
       case 'medium':
@@ -52,6 +52,6 @@ const MainTextStyled = styled(Text)<MainTextStyledProps>`
     }
   }};
   font-size: ${(props) =>
-    props.fontSize ? `${props.fontSize}px` : fontSizePx.m};
+    props.fontSize ? `${fontSizePx[props.fontSize]}` : fontSizePx.m};
   color: ${(props) => (props.color ? props.color : colors.darker.DarkestBlack)};
 `
