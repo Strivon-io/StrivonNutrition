@@ -5,14 +5,19 @@ import { HeaderLogo } from './headerLogo'
 
 interface props {
   useSafeAreaView: boolean
+  isHeaderLogo?: boolean
   children: any
 }
 
-export const AppLayout = ({ useSafeAreaView, children }: props) => {
+export const AppLayout = ({
+  useSafeAreaView,
+  isHeaderLogo,
+  children,
+}: props) => {
   return (
     <LayoutStyled>
-      {useSafeAreaView ? <SafeAreaView /> : <></>}
-      <HeaderLogo />
+      {useSafeAreaView && <SafeAreaView />}
+      {isHeaderLogo && <HeaderLogo />}
       {children}
     </LayoutStyled>
   )

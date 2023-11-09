@@ -16,7 +16,15 @@ export const colors = {
   Bloody: '#E02637',
 }
 
-export const spacing = {
+export interface Spacing {
+  xs: number
+  s: number
+  m: number
+  l: number
+  xl: number
+}
+
+export const spacing: Spacing = {
   xs: 8,
   s: 16,
   m: 24,
@@ -24,11 +32,22 @@ export const spacing = {
   xl: 80,
 }
 
+export interface SpacingPx extends Record<keyof Spacing, string> {}
+
 export const spacingPx = Object.fromEntries(
   Object.entries(spacing).map(([key, value]) => [key, `${value}px`]),
 )
 
-export const fontSize = {
+export interface FontSize {
+  xs: number
+  s: number
+  m: number
+  l: number
+  xl: number
+  xxl: number
+}
+
+export const fontSize: FontSize = {
   xs: 12,
   s: 14,
   m: 16,
@@ -37,11 +56,23 @@ export const fontSize = {
   xxl: 42,
 }
 
+export interface FontSizePx extends Record<keyof FontSize, string> {}
+
 export const fontSizePx = Object.fromEntries(
   Object.entries(fontSize).map(([key, value]) => [key, `${value}px`]),
 )
 
-export const boxShadow = {
+export interface BoxShadow {
+  shadowColor: string
+  shadowOffset: {
+    width: number
+    height: number
+  }
+  shadowOpacity: number
+  shadowRadius: number
+}
+
+export const boxShadow: BoxShadow = {
   shadowColor: '#3A296A',
   shadowOffset: {
     width: 0,

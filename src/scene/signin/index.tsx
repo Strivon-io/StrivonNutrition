@@ -15,12 +15,23 @@ import { useTranslation } from 'react-i18next'
 import { MainText } from '../../components/atoms/mainText'
 import { MainInput } from '../../components/molecules/mainInput'
 import { MainButton } from '../../components/molecules/mainButton'
+import { GoogleIcon } from '../../components/atoms/icons/googleIcon'
+import { FacebookIcon } from '../../components/atoms/icons/facebookIcon'
+import { AppleIcon } from '../../components/atoms/icons/appleIcon'
+import { SocialNetworkConnectionButton } from './components/molecules/socialConnectionButton'
+import { useNavigation } from '@react-navigation/native'
 
 export const SigninScreen = () => {
   const { t } = useTranslation()
+  const navigation = useNavigation()
+
+  const handleSignupPress = () => {
+    // fake error : maybe to fix later
+    navigation.navigate('Signup')
+  }
 
   return (
-    <AppLayout useSafeAreaView={true}>
+    <AppLayout useSafeAreaView isHeaderLogo>
       <Wrapper>
         <MainText
           style={{ marginBottom: spacing.m }}
@@ -46,13 +57,26 @@ export const SigninScreen = () => {
           </ForgotPasswordText>
         </View>
         <MainButton label={t('log-in')} style={boxShadow} onPress={() => {}} />
-        <MainText style={{ marginTop: spacing.m }}>
-          {t('dont-have-an-account?')}
-        </MainText>
+        <View
+          style={{
+            marginTop: spacing.m,
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
+          <MainText style={{ marginRight: spacing.xs }}>
+            {t('dont-have-an-account?')}
+          </MainText>
+          <TouchableOpacity onPress={handleSignupPress}>
+            <MainText color={colors.Alizarin}>{t('sign-up')}</MainText>
+          </TouchableOpacity>
+        </View>
         <View
           style={{
             width: '100%',
             alignItems: 'center',
+            marginBottom: spacing.s,
+            marginTop: spacing.s,
           }}
         >
           <Separator />
@@ -66,6 +90,29 @@ export const SigninScreen = () => {
             </MainText>
           </Or>
         </View>
+        <SocialNetworkConnectionButton
+          onPress={() => {}}
+          icon={<GoogleIcon />}
+          text={`${t('sign-in')} ${t('with-google')}`}
+        />
+        <View
+          style={{
+            width: '100%',
+            marginTop: spacing.s,
+            marginBottom: spacing.s,
+          }}
+        >
+          <SocialNetworkConnectionButton
+            onPress={() => {}}
+            icon={<AppleIcon />}
+            text={`${t('sign-in')} ${t('with-apple')}`}
+          />
+        </View>
+        <SocialNetworkConnectionButton
+          onPress={() => {}}
+          icon={<FacebookIcon />}
+          text={`${t('sign-in')} ${t('with-facebook')}`}
+        />
       </Wrapper>
     </AppLayout>
   )
@@ -75,7 +122,7 @@ const Separator = styled(View)`
   width: 100%;
   height: 1px;
   margin: ${spacingPx.m};
-  background-color: ${colors.darker.DarkestBlack};
+  background-color: ${colors.medium.LinkWater};
 `
 
 const Or = styled(View)`
@@ -88,7 +135,7 @@ const Or = styled(View)`
 `
 
 const Wrapper = styled(View)`
-  margin-top: ${spacingPx.l};
+  margin-top: ${spacingPx.m};
   justify-content: center;
   align-items: center;
 `

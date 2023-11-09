@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 import { Text, TextStyle } from 'react-native'
 import styled from 'styled-components/native'
+import { colors, fontSize, fontSizePx } from '../../constants/theme'
 
 interface MainTextProps {
   fontWeight?: 'regular' | 'medium' | 'bold' | 'bold-italic'
@@ -50,6 +51,7 @@ const MainTextStyled = styled(Text)<MainTextStyledProps>`
         return 'AvenirNext-Regular'
     }
   }};
-  font-size: ${(props) => (props.fontSize ? `${props.fontSize}px` : 'inherit')};
-  color: ${(props) => props.color};
+  font-size: ${(props) =>
+    props.fontSize ? `${props.fontSize}px` : fontSizePx.m};
+  color: ${(props) => (props.color ? props.color : colors.darker.DarkestBlack)};
 `
