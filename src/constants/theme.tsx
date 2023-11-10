@@ -1,3 +1,21 @@
+export interface Colors {
+  light: {
+    PureWhite: string
+    WhiteSmoke: string
+    Solitude: string
+    AliceBlue: string
+  }
+  medium: {
+    LinkWater: string
+    StormyCloud: string
+  }
+  darker: {
+    DarkestBlack: string
+  }
+  Alizarin: string
+  Bloody: string
+}
+
 export const colors = {
   light: {
     PureWhite: '#ffffff',
@@ -69,17 +87,7 @@ export const fontSizePx = Object.fromEntries(
   Object.entries(fontSize).map(([key, value]) => [key, `${value}px`]),
 )
 
-export interface BoxShadow {
-  shadowColor: string
-  shadowOffset: {
-    width: number
-    height: number
-  }
-  shadowOpacity: number
-  shadowRadius: number
-}
-
-export const boxShadow: BoxShadow = {
+export const boxShadow = {
   shadowColor: '#3A296A',
   shadowOffset: {
     width: 0,
@@ -87,4 +95,13 @@ export const boxShadow: BoxShadow = {
   },
   shadowOpacity: 0.2,
   shadowRadius: 20,
+}
+
+export const iconSize = {
+  xs: 8,
+  s: 16,
+  m: 24,
+  l: 32,
+  xl: 48,
+  xxl: 64,
 }

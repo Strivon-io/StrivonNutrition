@@ -1,17 +1,19 @@
 import React, { ReactNode } from 'react'
-import { TouchableOpacity, TouchableOpacityProps } from 'react-native'
+import { TouchableOpacity, TouchableOpacityProps, View } from 'react-native'
 import styled from 'styled-components/native'
 import {
   colors,
-  fontSize,
   fontSizePx,
+  iconSize,
   spacing,
   spacingPx,
-} from '../../constants/theme'
-import { MainText } from '../atoms/mainText'
+} from '@constants/theme'
+import { MainText } from '@components/atoms/mainText'
 
-interface ButtonProps extends TouchableOpacityProps {
+interface Props extends TouchableOpacityProps {
   label: string
+  icon?: ReactNode
+  onPress: () => void
 }
 
 const ButtonContainer = styled(TouchableOpacity)`
@@ -20,6 +22,8 @@ const ButtonContainer = styled(TouchableOpacity)`
   align-items: center;
   border-radius: ${spacingPx.xs};
   width: 100%;
+  flex-direction: row;
+  justify-content: center;
 `
 
 const ButtonText = styled(MainText)`
@@ -28,14 +32,11 @@ const ButtonText = styled(MainText)`
   font-weight: medium;
 `
 
-export const MainButton: React.FC<ButtonProps> = ({
-  onPress,
-  label,
-  ...rest
-}) => {
+export const MainButton = ({ onPress, label, icon }: Props) => {
   return (
-    <ButtonContainer onPress={onPress} {...rest}>
+    <ButtonContainer onPress={onPress}>
       <ButtonText>{label}</ButtonText>
+      <View style={{ marginLeft: spacing.xs }}>{icon}</View>
     </ButtonContainer>
   )
 }

@@ -1,0 +1,29 @@
+import { MainInput } from '@components/molecules/mainInput'
+import { spacing } from '@constants/theme'
+import { useTranslation } from 'react-i18next'
+import { View } from 'react-native'
+
+export const SignupStepOne = () => {
+  const { t } = useTranslation()
+  return (
+    <View style={{ marginTop: spacing.m, marginBottom: spacing.s }}>
+      <MainInput
+        label={t('name')}
+        placeholder="Hugues"
+        keyboardType="default"
+      />
+      <View style={{ marginTop: spacing.m, marginBottom: spacing.m }}>
+        <MainInput
+          label={t('surname')}
+          placeholder="Romain"
+          keyboardType="default"
+        />
+      </View>
+      <MainInput
+        label={t('email')}
+        placeholder={t('email-placeholder')}
+        keyboardType="email-address"
+      />
+    </View>
+  )
+}
