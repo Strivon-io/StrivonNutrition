@@ -27,8 +27,8 @@ export const SocialNetworkConnectionButton = ({
       {icon}
       <MainText
         color={colors.darker.DarkestBlack}
-        fontSize={fontSize.m}
-        fontWeight="medium"
+        fontSize="m"
+        fontType="medium"
         style={{ marginLeft: spacing.l }}
       >
         {text}

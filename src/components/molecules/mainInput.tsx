@@ -1,10 +1,12 @@
 import React from 'react'
-import { TextInput } from 'react-native'
+import { TextInput, View } from 'react-native'
 import { colors, spacing, spacingPx } from '../../constants/theme'
 import { styled } from 'styled-components/native'
+import { MainText } from '../atoms/mainText'
 
 interface InputProps {
-  placeholder: string
+  placeholder?: string
+  label?: string
   secureTextEntry?: boolean
   onChangeText?: (text: string) => void
   keyboardType?:
@@ -18,7 +20,8 @@ interface InputProps {
   value?: string
 }
 
-export const MainInput: React.FC<InputProps> = ({
+export const MainInput = ({
+  label,
   placeholder,
   secureTextEntry,
   onChangeText,
@@ -26,20 +29,27 @@ export const MainInput: React.FC<InputProps> = ({
   value,
 }: InputProps) => {
   return (
-    <StyledInput
-      placeholder={placeholder}
-      placeholderTextColor={colors.medium.LinkWater}
-      keyboardType={keyboardType}
-      secureTextEntry={secureTextEntry}
-      onChangeText={onChangeText}
-      value={value}
-    />
+    <View>
+      {label && (
+        <MainText fontType="medium" color={colors.Alizarin} fontSize="m">
+          {label}
+        </MainText>
+      )}
+      <StyledInput
+        placeholder={placeholder}
+        placeholderTextColor={colors.medium.LinkWater}
+        keyboardType={keyboardType}
+        secureTextEntry={secureTextEntry}
+        onChangeText={onChangeText}
+        value={value}
+      />
+    </View>
   )
 }
 
 const StyledInput = styled(TextInput)`
   width: 100%;
-  padding: ${spacingPx.m};
+  padding: ${spacingPx.s};
   margin: ${spacingPx.xs} 0;
   background-color: ${colors.light.AliceBlue};
   border-radius: ${spacingPx.xs};

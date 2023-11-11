@@ -1,120 +1,157 @@
-import React, { ReactNode } from 'react'
-import { View, TextInput, TouchableOpacity } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { HeaderLogo } from '../../components/layout/headerLogo'
-import {
-  boxShadow,
-  colors,
-  fontSize,
-  spacing,
-  spacingPx,
-} from '../../constants/theme'
-import { styled } from 'styled-components'
-import { AppLayout } from '../../components/layout/layout'
+import React from 'react'
+import { View, TouchableOpacity, ScrollView } from 'react-native'
+import { boxShadow, colors, spacing, spacingPx } from '@constants/theme'
+import { css, styled } from 'styled-components'
+
 import { useTranslation } from 'react-i18next'
-import { MainText } from '../../components/atoms/mainText'
-import { MainInput } from '../../components/molecules/mainInput'
-import { MainButton } from '../../components/molecules/mainButton'
-import { GoogleIcon } from '../../components/atoms/icons/googleIcon'
-import { FacebookIcon } from '../../components/atoms/icons/facebookIcon'
-import { AppleIcon } from '../../components/atoms/icons/appleIcon'
-import { SocialNetworkConnectionButton } from './components/molecules/socialConnectionButton'
+
 import { useNavigation } from '@react-navigation/native'
+import { isSmallScreen } from '@utils/deviceDetector'
+
+import { MainText } from '@components/atoms/mainText'
+import { MainInput } from '@components/molecules/mainInput'
+import { MainButton } from '@components/molecules/mainButton'
+import { GoogleIcon } from '@components/atoms/icons/googleIcon'
+import { FacebookIcon } from '@components/atoms/icons/facebookIcon'
+import { AppleIcon } from '@components/atoms/icons/appleIcon'
+import { AppLayout } from '@components/layout/layout'
+import { SocialNetworkConnectionButton } from './components/molecules/socialConnectionButton'
+import { ScrollSafeZone } from '@utils/scrollSafeZone'
 
 export const SigninScreen = () => {
+  return (
+    <AppLayout useSafeAreaView isHeaderLogo>
+      {isSmallScreen ? (
+        <WrapperScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <RenderedContent />
+        </WrapperScrollView>
+      ) : (
+        <Wrapper>
+          <RenderedContent />
+        </Wrapper>
+      )}
+    </AppLayout>
+  )
+}
+
+const WrapperStyled = css`
+  margin-top: ${spacingPx.m};
+`
+
+const Wrapper = styled(View)`
+  ${WrapperStyled}
+  justify-content: center;
+  align-items: center;
+`
+const WrapperScrollView = styled(ScrollView)`
+  ${WrapperStyled}
+`
+
+const RenderedContent = () => {
   const { t } = useTranslation()
   const navigation = useNavigation()
 
   const handleSignupPress = () => {
-    // fake error : maybe to fix later
+    // TODO fake error : maybe to fix later
     navigation.navigate('Signup')
   }
 
   return (
-    <AppLayout useSafeAreaView isHeaderLogo>
-      <Wrapper>
-        <MainText
-          style={{ marginBottom: spacing.m }}
-          fontSize={fontSize.l}
-          fontWeight="bold-italic"
-        >
-          {t('sign-in')}
-        </MainText>
-        <View style={{ width: '100%', marginBottom: spacing.l }}>
+    <>
+      <MainText
+        style={{ marginBottom: spacing.m }}
+        fontSize="l"
+        fontType="bold-italic"
+      >
+        {t('sign-in')}
+      </MainText>
+      <View style={{ width: '100%', marginBottom: spacing.l }}>
+        <View style={{ marginBottom: spacing.s }}>
           <MainInput
+            label={t('email')}
             placeholder={t('email-placeholder')}
             keyboardType="email-address"
           />
-          <MainInput placeholder={t('password')} secureTextEntry={true} />
-          <ForgotPasswordText onPress={() => {}}>
-            <MainText
-              color={colors.Alizarin}
-              fontSize={fontSize.s}
-              fontWeight="medium"
-            >
-              {t('forgotten-password')}
-            </MainText>
-          </ForgotPasswordText>
         </View>
-        <MainButton label={t('log-in')} style={boxShadow} onPress={() => {}} />
-        <View
-          style={{
-            marginTop: spacing.m,
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
-        >
-          <MainText style={{ marginRight: spacing.xs }}>
-            {t('dont-have-an-account?')}
+        <MainInput label={t('password')} secureTextEntry={true} />
+        <ForgotPasswordText onPress={() => {}}>
+          <MainText
+            color={colors.Alizarin}
+            fontSize="s"
+            fontType="medium"
+            underline
+          >
+            {t('forgot-password')}
           </MainText>
-          <TouchableOpacity onPress={handleSignupPress}>
-            <MainText color={colors.Alizarin}>{t('sign-up')}</MainText>
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{
-            width: '100%',
-            alignItems: 'center',
-            marginBottom: spacing.s,
-            marginTop: spacing.s,
-          }}
-        >
-          <Separator />
-          <Or>
-            <MainText
-              color={colors.darker.DarkestBlack}
-              fontSize={fontSize.l}
-              fontWeight="medium"
-            >
-              {t('or')}
-            </MainText>
-          </Or>
-        </View>
+        </ForgotPasswordText>
+      </View>
+      <MainButton label={t('log-in')} style={boxShadow} onPress={() => {}} />
+      <View
+        style={{
+          marginTop: spacing.m,
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}
+      >
+        <MainText style={{ marginRight: spacing.xs }}>
+          {t('dont-have-an-account?')}
+        </MainText>
+        <TouchableOpacity onPress={handleSignupPress}>
+          <MainText color={colors.Alizarin} underline>
+            {t('sign-up')}
+          </MainText>
+        </TouchableOpacity>
+      </View>
+      <View
+        style={{
+          width: '100%',
+          alignItems: 'center',
+          marginBottom: spacing.s,
+          marginTop: spacing.s,
+        }}
+      >
+        <Separator />
+        <Or>
+          <MainText
+            color={colors.darker.DarkestBlack}
+            fontSize="l"
+            fontType="medium"
+          >
+            {t('or')}
+          </MainText>
+        </Or>
+      </View>
+      <SocialNetworkConnectionButton
+        onPress={() => {}}
+        icon={<GoogleIcon />}
+        text={`${t('sign-in')} ${t('with-google')}`}
+      />
+      <View
+        style={{
+          width: '100%',
+          marginTop: spacing.s,
+          marginBottom: spacing.s,
+        }}
+      >
         <SocialNetworkConnectionButton
           onPress={() => {}}
-          icon={<GoogleIcon />}
-          text={`${t('sign-in')} ${t('with-google')}`}
+          icon={<AppleIcon />}
+          text={`${t('sign-in')} ${t('with-apple')}`}
         />
-        <View
-          style={{
-            width: '100%',
-            marginTop: spacing.s,
-            marginBottom: spacing.s,
-          }}
-        >
-          <SocialNetworkConnectionButton
-            onPress={() => {}}
-            icon={<AppleIcon />}
-            text={`${t('sign-in')} ${t('with-apple')}`}
-          />
-        </View>
-        <SocialNetworkConnectionButton
-          onPress={() => {}}
-          icon={<FacebookIcon />}
-          text={`${t('sign-in')} ${t('with-facebook')}`}
-        />
-      </Wrapper>
-    </AppLayout>
+      </View>
+      <SocialNetworkConnectionButton
+        onPress={() => {}}
+        icon={<FacebookIcon />}
+        text={`${t('sign-in')} ${t('with-facebook')}`}
+      />
+      <ScrollSafeZone />
+    </>
   )
 }
 
@@ -132,12 +169,6 @@ const Or = styled(View)`
   justify-content: center;
   align-items: center;
   background-color: ${colors.light.PureWhite};
-`
-
-const Wrapper = styled(View)`
-  margin-top: ${spacingPx.m};
-  justify-content: center;
-  align-items: center;
 `
 
 const ForgotPasswordText = styled(TouchableOpacity)`
