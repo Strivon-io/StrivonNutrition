@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { View, TouchableOpacity } from 'react-native'
+import { Dispatch, SetStateAction, useState } from 'react'
+import { View, TouchableOpacity, ScrollView } from 'react-native'
 import { styled } from 'styled-components'
 
 import { useTranslation } from 'react-i18next'
@@ -14,34 +14,110 @@ import { MainButton } from '@components/molecules/mainButton'
 import { MainCheckbox } from '@components/atoms/mainCheckbox'
 import { RightChevron } from '@components/atoms/icons/rightChevron'
 import { ValidateFormBlock } from './components/validateFormBlock'
+import { StepOne } from './components/stepOne'
+import { StepTwo } from './components/stepTwo'
+import { LeftArrow } from '@components/atoms/icons/leftArrow'
+import { LeftChevron } from '@components/atoms/icons/leftChevron'
 
 export const SignupScreen = () => {
   const [signUpStep, setSignUpStep] = useState(0)
-  const { t } = useTranslation()
+  const [isChecked, setIsChecked] = useState(false)
+  const [gender, setGender] = useState<'female' | 'male' | null>(null)
+  const [goal, setGoal] = useState<'gain' | 'lose' | null>(null)
 
   const handleValidate = () => {
     setSignUpStep(signUpStep + 1)
   }
+  const handleCheck = () => setIsChecked(!isChecked)
   return (
     <>
       <AppLayout useSafeAreaView isHeaderLogo isBackArrow>
-        <Wrapper>
-          <SectionHeader
-            title={t('my-informations')}
-            sideElement={
-              <MainText fontType="bold-italic">{`(${
-                signUpStep + 1
-              }/2)`}</MainText>
-            }
+        {isSmallScreen ? (
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <RenderedContent
+              signUpStep={signUpStep}
+              setSignUpStep={setSignUpStep}
+              gender={gender}
+              setGender={setGender}
+              goal={goal}
+              setGoal={setGoal}
+            />
+          </ScrollView>
+        ) : (
+          <RenderedContent
+            signUpStep={signUpStep}
+            setSignUpStep={setSignUpStep}
+            gender={gender}
+            setGender={setGender}
+            goal={goal}
+            setGoal={setGoal}
           />
-        </Wrapper>
-        <ValidateFormBlock handleValidate={handleValidate} />
+        )}
+        <ValidateFormBlock
+          signUpStep={signUpStep}
+          handleValidate={handleValidate}
+          isChecked={isChecked}
+          handleCheck={handleCheck}
+        />
       </AppLayout>
     </>
   )
 }
 
+interface Props {
+  signUpStep: number
+  setSignUpStep: Dispatch<SetStateAction<number>>
+  gender: string | null
+  setGender: Dispatch<SetStateAction<string>>
+  goal: string | null
+  setGoal: Dispatch<SetStateAction<string>>
+}
+
+const RenderedContent = ({
+  signUpStep,
+  setSignUpStep,
+  gender,
+  setGender,
+  goal,
+  setGoal,
+}: Props) => {
+  const { t } = useTranslation()
+
+  const handleBackArrow = () => {
+    setSignUpStep(signUpStep - 1)
+  }
+
+  return (
+    <Wrapper>
+      <SectionHeader
+        title={t('my-informations')}
+        sideElement={
+          <MainText fontType="bold-italic">{`(${signUpStep + 1}/2)`}</MainText>
+        }
+        handleBackArrow={handleBackArrow}
+        isBackArrow={signUpStep > 0}
+      />
+      {signUpStep === 0 && <StepOne />}
+      {signUpStep === 1 && (
+        <StepTwo
+          gender={gender}
+          setGender={setGender}
+          goal={goal}
+          setGoal={setGoal}
+        />
+      )}
+    </Wrapper>
+  )
+}
+
 const Wrapper = styled(View)`
-  margin-top: ${isSmallScreen ? spacingPx.s : spacingPx.l};
+  width: 100%;
+  margin-top: ${isSmallScreen ? spacingPx.xs : spacingPx.m};
   position: relative;
 `

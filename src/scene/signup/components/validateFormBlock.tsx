@@ -3,44 +3,60 @@ import { MainCheckbox } from '@components/atoms/mainCheckbox'
 import { MainText } from '@components/atoms/mainText'
 import { MainButton } from '@components/molecules/mainButton'
 import { colors, iconSize, spacing, spacingPx } from '@constants/theme'
+import { isSmallScreen } from '@utils/deviceDetector'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TouchableOpacity, View } from 'react-native'
 import { styled } from 'styled-components'
 
 interface Props {
+  signUpStep: number
   handleValidate: () => void
+  isChecked: boolean
+  handleCheck: () => void
 }
 
-export const ValidateFormBlock = ({ handleValidate }: Props) => {
+export const ValidateFormBlock = ({
+  signUpStep,
+  isChecked,
+  handleCheck,
+  handleValidate,
+}: Props) => {
   const { t } = useTranslation()
-  const [isChecked, setIsChecked] = useState(false)
-  const handleIsChecked = () => setIsChecked(!isChecked)
+
   return (
     <ValidateFormBlockWrapper>
       <View
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
+          marginBottom: isSmallScreen ? spacing.m : spacing.l,
         }}
       >
-        <View style={{ marginRight: spacing.xs }}>
-          <MainCheckbox isChecked={isChecked} setIsChecked={handleIsChecked} />
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
+          <View style={{ marginRight: spacing.xs }}>
+            <MainCheckbox isChecked={isChecked} setIsChecked={handleCheck} />
+          </View>
+          <TouchableOpacity onPress={handleCheck}>
+            <MainText>{t('i-accept-the')}</MainText>
+          </TouchableOpacity>
+          <MainText color={colors.Alizarin} underline>
+            {' '}
+            {t('terms-of-use')}
+          </MainText>
         </View>
-        <TouchableOpacity onPress={handleIsChecked}>
-          <MainText>{t('i-accept-the')}</MainText>
-        </TouchableOpacity>
-        <MainText color={colors.Alizarin} underline>
-          {' '}
-          {t('terms-of-use')}
-        </MainText>
-      </View>
-      <View style={{ marginTop: spacing.m }}>
-        <MainButton
-          label={t('next')}
-          onPress={handleValidate}
-          icon={<RightChevron size={iconSize.s} />}
-        />
+        <View style={{ marginTop: spacing.m }}>
+          <MainButton
+            label={
+              signUpStep === 0 ? t('next') : t('calculate-my-calories-need')
+            }
+            onPress={handleValidate}
+            icon={signUpStep === 0 && <RightChevron size={iconSize.s} />}
+          />
+        </View>
       </View>
     </ValidateFormBlockWrapper>
   )
@@ -48,6 +64,8 @@ export const ValidateFormBlock = ({ handleValidate }: Props) => {
 
 const ValidateFormBlockWrapper = styled(View)`
   position: absolute;
+  padding-top: ${spacingPx.m};
   width: 100%;
-  bottom: ${spacingPx.m};
+  bottom: 0;
+  background-color: ${colors.light.PureWhite};
 `

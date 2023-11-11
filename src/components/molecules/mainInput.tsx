@@ -20,7 +20,7 @@ interface InputProps {
   value?: string
 }
 
-export const MainInput: React.FC<InputProps> = ({
+export const MainInput = ({
   label,
   placeholder,
   secureTextEntry,
@@ -49,7 +49,7 @@ export const MainInput: React.FC<InputProps> = ({
 
 const StyledInput = styled(TextInput)`
   width: 100%;
-  padding: ${spacingPx.m};
+  padding: ${spacingPx.s};
   margin: ${spacingPx.xs} 0;
   background-color: ${colors.light.AliceBlue};
   border-radius: ${spacingPx.xs};

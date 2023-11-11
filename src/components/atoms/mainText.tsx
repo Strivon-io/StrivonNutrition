@@ -10,6 +10,7 @@ interface MainTextProps {
   children: ReactNode
   style?: TextStyle
   underline?: boolean
+  underlineColor?: string
 }
 
 export const MainText = ({
@@ -19,6 +20,7 @@ export const MainText = ({
   children,
   style,
   underline,
+  underlineColor,
 }: MainTextProps) => {
   return (
     <MainTextStyled
@@ -27,6 +29,7 @@ export const MainText = ({
       fontType={fontType}
       fontSize={fontSize}
       underline={underline}
+      underlineColor={underlineColor}
     >
       {children}
     </MainTextStyled>
@@ -38,6 +41,7 @@ interface MainTextStyledProps {
   fontSize?: keyof FontSize
   color: string
   underline: boolean
+  underlineColor: string
 }
 
 const MainTextStyled = styled(Text)<MainTextStyledProps>`
@@ -59,5 +63,6 @@ const MainTextStyled = styled(Text)<MainTextStyledProps>`
     props.fontSize ? `${fontSizePx[props.fontSize]}` : fontSizePx.m};
   color: ${(props) => (props.color ? props.color : colors.darker.DarkestBlack)};
   text-decoration: ${(props) => (props.underline ? 'underline' : 'none')};
-  text-decoration-color: ${colors.Alizarin};
+  text-decoration-color: ${(props) =>
+    props.underlineColor ? props.underlineColor : colors.Alizarin};
 `

@@ -2,18 +2,39 @@ import { styled } from 'styled-components'
 import { MainText } from '../atoms/mainText'
 import { View } from 'react-native'
 import { ReactNode } from 'react'
+import { LeftArrow } from '@components/atoms/icons/leftArrow'
+import { colors, iconSize, spacing } from '@constants/theme'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 interface Props {
   title: string
   sideElement?: ReactNode
+  isBackArrow?: boolean
+  handleBackArrow?: () => void
 }
 
-export const SectionHeader = ({ title, sideElement }: Props) => {
+export const SectionHeader = ({
+  title,
+  sideElement,
+  isBackArrow,
+  handleBackArrow,
+}: Props) => {
   return (
     <SectionHeaderStyled>
-      <MainText fontSize="xl" fontType="bold-italic">
-        {title}
-      </MainText>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        {isBackArrow && (
+          <TouchableOpacity onPress={handleBackArrow}>
+            <LeftArrow size={iconSize.l} color={colors.darker.DarkestBlack} />
+          </TouchableOpacity>
+        )}
+        <MainText
+          style={{ marginLeft: isBackArrow && spacing.s }}
+          fontSize="xl"
+          fontType="bold-italic"
+        >
+          {title}
+        </MainText>
+      </View>
       {sideElement}
     </SectionHeaderStyled>
   )

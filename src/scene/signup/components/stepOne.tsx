@@ -3,7 +3,7 @@ import { spacing } from '@constants/theme'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 
-export const SignupStepOne = () => {
+export const StepOne = () => {
   const { t } = useTranslation()
   return (
     <View style={{ marginTop: spacing.m, marginBottom: spacing.s }}>
@@ -12,7 +12,7 @@ export const SignupStepOne = () => {
         placeholder="Hugues"
         keyboardType="default"
       />
-      <View style={{ marginTop: spacing.m, marginBottom: spacing.m }}>
+      <View style={{ marginTop: spacing.s, marginBottom: spacing.s }}>
         <MainInput
           label={t('surname')}
           placeholder="Romain"

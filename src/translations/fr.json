@@ -16,5 +16,15 @@
   "email": "Email",
   "next": "Suivant",
   "i-accept-the": "J'accepte les",
-  "terms-of-use": "conditions d'utilisation"
+  "terms-of-use": "conditions d'utilisation",
+  "my-size-(in-cm)": "Ma taille (en cm)",
+  "my-weight-(in-kg)": "Mon poids (en kg)",
+  "my-birth-date": "Ma date de naissance",
+  "i-am": "Je suis",
+  "man": "Homme",
+  "woman": "Femme",
+  "my-goal": "Mon objectif",
+  "lose-weight": "Perdre du poids",
+  "gain-weight": "Prendre du poids",
+  "calculate-my-calories-need": "Calculer mon besoin en calories"
 }

@@ -18,6 +18,41 @@ import { AppLayout } from '@components/layout/layout'
 import { SocialNetworkConnectionButton } from './components/molecules/socialConnectionButton'
 import { ScrollSafeZone } from '@utils/scrollSafeZone'
 
+export const SigninScreen = () => {
+  return (
+    <AppLayout useSafeAreaView isHeaderLogo>
+      {isSmallScreen ? (
+        <WrapperScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <RenderedContent />
+        </WrapperScrollView>
+      ) : (
+        <Wrapper>
+          <RenderedContent />
+        </Wrapper>
+      )}
+    </AppLayout>
+  )
+}
+
+const WrapperStyled = css`
+  margin-top: ${spacingPx.m};
+`
+
+const Wrapper = styled(View)`
+  ${WrapperStyled}
+  justify-content: center;
+  align-items: center;
+`
+const WrapperScrollView = styled(ScrollView)`
+  ${WrapperStyled}
+`
+
 const RenderedContent = () => {
   const { t } = useTranslation()
   const navigation = useNavigation()
@@ -120,28 +155,6 @@ const RenderedContent = () => {
   )
 }
 
-export const SigninScreen = () => {
-  return (
-    <AppLayout useSafeAreaView isHeaderLogo>
-      {isSmallScreen ? (
-        <WrapperScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <RenderedContent />
-        </WrapperScrollView>
-      ) : (
-        <Wrapper>
-          <RenderedContent />
-        </Wrapper>
-      )}
-    </AppLayout>
-  )
-}
-
 const Separator = styled(View)`
   width: 100%;
   height: 1px;
@@ -156,20 +169,6 @@ const Or = styled(View)`
   justify-content: center;
   align-items: center;
   background-color: ${colors.light.PureWhite};
-`
-
-const WrapperStyled = css`
-  margin-top: ${spacingPx.m};
-`
-
-const Wrapper = styled(View)`
-  ${WrapperStyled}
-  justify-content: center;
-  align-items: center;
-`
-
-const WrapperScrollView = styled(ScrollView)`
-  ${WrapperStyled}
 `
 
 const ForgotPasswordText = styled(TouchableOpacity)`
