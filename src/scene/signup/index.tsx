@@ -18,20 +18,24 @@ import { StepOne } from './components/stepOne'
 import { StepTwo } from './components/stepTwo'
 import { LeftArrow } from '@components/atoms/icons/leftArrow'
 import { LeftChevron } from '@components/atoms/icons/leftChevron'
+import { useNavigation } from '@react-navigation/native'
 
 export const SignupScreen = () => {
   const [signUpStep, setSignUpStep] = useState(0)
   const [isChecked, setIsChecked] = useState(false)
   const [gender, setGender] = useState<'female' | 'male' | null>(null)
   const [goal, setGoal] = useState<'gain' | 'lose' | null>(null)
+  const navigation = useNavigation()
 
   const handleValidate = () => {
-    setSignUpStep(signUpStep + 1)
+    const isBeforeFinalStep = signUpStep <= 0
+    isBeforeFinalStep && setSignUpStep(signUpStep + 1)
+    !isBeforeFinalStep && navigation.navigate('NeedsResult')
   }
   const handleCheck = () => setIsChecked(!isChecked)
   return (
     <>
-      <AppLayout useSafeAreaView isHeaderLogo isBackArrow>
+      <AppLayout isSideSafeColumns useSafeAreaView isHeaderLogo isBackArrow>
         {isSmallScreen ? (
           <ScrollView
             showsVerticalScrollIndicator={false}

@@ -1,12 +1,7 @@
 import React, { ReactNode } from 'react'
 import { TouchableOpacity, ViewStyle } from 'react-native'
-import { MainText } from '../../../../components/atoms/mainText'
-import {
-  colors,
-  fontSize,
-  spacing,
-  spacingPx,
-} from '../../../../constants/theme'
+import { MainText } from '@components/atoms/mainText'
+import { colors, spacing, spacingPx } from '@constants/theme'
 import { styled } from 'styled-components'
 
 interface SocialNetworkConnectionButtonProps {

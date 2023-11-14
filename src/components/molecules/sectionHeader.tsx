@@ -28,7 +28,7 @@ export const SectionHeader = ({
           </TouchableOpacity>
         )}
         <MainText
-          style={{ marginLeft: isBackArrow && spacing.s }}
+          style={{ marginLeft: isBackArrow ? spacing.s : 0 }}
           fontSize="xl"
           fontType="bold-italic"
         >

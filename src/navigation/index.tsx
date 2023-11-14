@@ -10,17 +10,45 @@ import { ProfileScreen } from '../scene/profile'
 import { SignupScreen } from '../scene/signup'
 import { SigninScreen } from '../scene/signin'
 import { colors } from '../constants/theme'
+import { NeedsResultScreen } from '@scene/needsResult'
+import { View } from 'react-native'
+import { RecipesResultScreen } from '@scene/recipesResult'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
 
 const AppNavigator = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Recipe" component={RecipesScreen} />
-      <Tab.Screen name="Schedule" component={ScheduleScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: colors.Alizarin,
+        tabBarIconStyle: { fontFamily: 'AvenirNext-Medium' },
+        // cardStyle: { backgroundColor: colors.light.PureWhite },
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name="Recipe"
+        component={RecipesScreen}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name="Schedule"
+        component={ScheduleScreen}
+        options={{ headerShown: false }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{ headerShown: false }}
+      />
     </Tab.Navigator>
   )
 }
@@ -41,6 +69,16 @@ const UnauthenticatedApp = () => {
         options={{ headerShown: false }}
         name="Signup"
         component={SignupScreen}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="NeedsResult"
+        component={NeedsResultScreen}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="RecipesResult"
+        component={RecipesResultScreen}
       />
     </Stack.Navigator>
   )

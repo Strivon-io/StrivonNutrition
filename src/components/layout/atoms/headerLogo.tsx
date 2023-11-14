@@ -5,7 +5,7 @@ export const HeaderLogo = () => {
   return (
     <LogoHeaderStyled>
       <StrivonLogo
-        source={require('../../../assets/brand/Strivon.png')}
+        source={require('@assets/brand/Strivon.png')}
         resizeMode="contain"
       />
     </LogoHeaderStyled>

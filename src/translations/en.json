@@ -26,5 +26,12 @@
   "my-goal": "My goal",
   "lose-weight": "Lose weight",
   "gain-weight": "Gain weight",
-  "calculate-my-calories-need": "Calculate my calorie needs"
+  "calculate-my-calories-need": "Calculate my calorie needs",
+  "youNeed": "You need",
+  "perDayToMaintainYourCurrentWeight": "per day to maintain your current weight",
+  "howItWorks": "How it works?",
+  "viewMyFirstRecipes": "View my first recipes",
+  "yourFirst3Recipes": "Your first 3 recipes!",
+  "ingredient": "Ingredient",
+  "instructions": "Instructions"
 }

@@ -10,6 +10,7 @@ interface Props extends TouchableOpacityProps {
   icon?: ReactNode
   isHighlighted?: boolean
   onPress: () => void
+  style?: {}
 }
 
 const MainButtonStyled = css`
@@ -38,9 +39,19 @@ const ButtonText = styled(MainText)<{ isHighlighted?: boolean }>`
     props.isHighlighted ? colors.Alizarin : colors.light.PureWhite};
 `
 
-export const MainButton = ({ onPress, label, icon, isHighlighted }: Props) => {
+export const MainButton = ({
+  onPress,
+  label,
+  icon,
+  isHighlighted,
+  style,
+}: Props) => {
   return (
-    <ButtonContainer onPress={onPress} isHighlighted={isHighlighted}>
+    <ButtonContainer
+      style={style}
+      onPress={onPress}
+      isHighlighted={isHighlighted}
+    >
       <ButtonText
         fontType="medium"
         fontSize={isSmallScreen ? 's' : 'm'}
