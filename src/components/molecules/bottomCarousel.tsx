@@ -73,16 +73,3 @@ const RightArrowContainer = styled(View)<{
   align-items: center;
   opacity: ${(props) => (props.hasRightArrow ? 1 : 0.2)};
 `
-
-const ArrowText = styled(MainText)`
-  margin-top: 2px;
-  margin-left: 8px;
-`
-
-const ArrowIconContainer = styled(View)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  border-radius: 100px;
-`
