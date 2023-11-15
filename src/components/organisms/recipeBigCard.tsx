@@ -6,8 +6,13 @@ import { MainText } from '@components/atoms/mainText'
 import { useTranslation } from 'react-i18next'
 import { ScrollView } from 'react-native-gesture-handler'
 import { ScrollSafeZone } from '@utils/scrollSafeZone'
+import Animated, {
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated'
 
-export const RecipeBigCard = ({ title, kcal, recipe }) => {
+export const RecipeBigCard = ({ title, kcal, recipe, index }) => {
   const { t } = useTranslation()
   const ingredients = [
     '100g de blanc de poulet grillé',
@@ -27,10 +32,30 @@ export const RecipeBigCard = ({ title, kcal, recipe }) => {
     'Servez : mélangez doucement la salade pour mélanger les ingrédients. Servez immédiatement.',
   ]
 
+  const scrollY = useSharedValue(0)
+
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      scrollY.value = event.contentOffset.y
+    },
+  })
+
+  const imageStyle = useAnimatedStyle(() => {
+    const minHeight = 80
+    const Height = 140
+
+    const newHeight = Math.max(minHeight, Height - scrollY.value)
+
+    return {
+      height: 140,
+      maxHeight: newHeight,
+    }
+  })
+
   return (
     <CardWrapper style={boxShadow}>
-      <View>
-        <DishImageWrapper>
+      <View style={{ flex: 1 }}>
+        <Animated.View style={[imageStyle]}>
           <DishImage
             source={require('@assets/recipeImages/exempleOfRecipe.png')}
             resizeMode="cover"
@@ -48,9 +73,18 @@ export const RecipeBigCard = ({ title, kcal, recipe }) => {
               240Kcal
             </MainText>
           </TitleAndKcal>
-        </DishImageWrapper>
-        <MainContent>
-          <View style={{ marginBottom: spacing.m }}>
+        </Animated.View>
+        <Animated.ScrollView
+          style={{
+            flex: 1,
+            paddingRight: spacing.l,
+            paddingLeft: spacing.s,
+            paddingTop: spacing.s,
+          }}
+          onScroll={scrollHandler}
+          scrollEventThrottle={16}
+        >
+          <View style={{ marginBottom: spacing.l }}>
             <MainText
               style={{ marginBottom: spacing.xs }}
               fontType="bold-italic"
@@ -80,11 +114,33 @@ export const RecipeBigCard = ({ title, kcal, recipe }) => {
               </InstructionItem>
             ))}
           </View>
-        </MainContent>
+        </Animated.ScrollView>
       </View>
+      <TextDisappearanceBlock
+        style={{
+          shadowColor: 'white',
+          shadowOffset: {
+            width: 0,
+            height: -10,
+          },
+          shadowOpacity: 1,
+          shadowRadius: 4,
+        }}
+      />
     </CardWrapper>
   )
 }
+
+const TextDisappearanceBlock = styled(View)`
+  position: absolute;
+  bottom: 0;
+  height: 15px;
+  width: 93%;
+  background-color: white;
+  align-self: center;
+  padding: 0 ${spacingPx.m};
+  opacity: 0.9;
+`
 
 const InstructionItem = styled(View)`
   flex-direction: row;
@@ -105,7 +161,7 @@ const TitleAndKcal = styled(View)`
 const CardWrapper = styled(View)`
   background-color: ${colors.light.PureWhite};
   border-radius: ${spacingPx.s};
-  height: 100%;
+  height: 90%;
 `
 
 const DishImageWrapper = styled(View)`

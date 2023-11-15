@@ -33,5 +33,7 @@
   "viewMyFirstRecipes": "Voir mes premières recettes",
   "yourFirst3Recipes": "Vos 3 premières recettes !",
   "ingredient": "Ingrédient",
-  "instructions": "Instructions"
+  "instructions": "Instructions",
+  "next": "Suivant",
+  "previous": "Précédent"
 }
