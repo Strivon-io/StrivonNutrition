@@ -8,8 +8,9 @@ import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { styled } from 'styled-components'
 import { View, Image, Text, Dimensions } from 'react-native'
-import Carousel, { Pagination } from 'react-native-snap-carousel'
 import { BottomCarousel } from '@components/molecules/bottomCarousel'
+import Carousel, { Pagination } from 'react-native-snap-carousel'
+import { LayoutSideColumns } from '@components/layout/layoutSideColumns'
 
 export const RecipesResultScreen = () => {
   const { t } = useTranslation()
@@ -96,6 +97,7 @@ export const RecipesResultScreen = () => {
           onScrollIndexChanged={(index) => setActiveSlide(index)}
           itemWidth={viewportWidth - 70}
           ref={carouselRef}
+          vertical={false}
         />
         <BottomCarousel
           onPressRightArrow={onPressNext}
@@ -107,7 +109,9 @@ export const RecipesResultScreen = () => {
       </View>
 
       <ButtonWrapper>
-        <MainButton label={t('viewMyFirstRecipes')} onPress={handleGoToApp} />
+        <LayoutSideColumns>
+          <MainButton label={t('viewMyFirstRecipes')} onPress={handleGoToApp} />
+        </LayoutSideColumns>
       </ButtonWrapper>
     </AppLayout>
   )
@@ -116,7 +120,7 @@ export const RecipesResultScreen = () => {
 const ButtonWrapper = styled(View)`
   position: absolute;
   align-self: center;
-  width: 90%;
+  width: 100%;
   padding-top: ${spacingPx.m};
   bottom: ${isSmallScreen ? spacingPx.m : spacingPx.l};
   background-color: ${colors.light.PureWhite};

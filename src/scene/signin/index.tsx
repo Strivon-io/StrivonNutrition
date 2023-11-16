@@ -17,25 +17,28 @@ import { AppleIcon } from '@components/atoms/icons/appleIcon'
 import { AppLayout } from '@components/layout/layout'
 import { SocialNetworkConnectionButton } from './components/molecules/socialConnectionButton'
 import { ScrollSafeZone } from '@utils/scrollSafeZone'
+import { LayoutSideColumns } from '@components/layout/layoutSideColumns'
 
 export const SigninScreen = () => {
   return (
-    <AppLayout isSideSafeColumns useSafeAreaView isHeaderLogo>
-      {isSmallScreen ? (
-        <WrapperScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <RenderedContent />
-        </WrapperScrollView>
-      ) : (
-        <Wrapper>
-          <RenderedContent />
-        </Wrapper>
-      )}
+    <AppLayout useSafeAreaView isHeaderLogo>
+      <LayoutSideColumns>
+        {isSmallScreen ? (
+          <WrapperScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <RenderedContent />
+          </WrapperScrollView>
+        ) : (
+          <Wrapper>
+            <RenderedContent />
+          </Wrapper>
+        )}
+      </LayoutSideColumns>
     </AppLayout>
   )
 }

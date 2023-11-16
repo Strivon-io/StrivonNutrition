@@ -5,6 +5,7 @@ import { LeftChevron } from '../atoms/icons/leftChevron'
 import { colors } from '@constants/theme'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
+import { LayoutSideColumns } from './layoutSideColumns'
 
 interface Props {
   isLogo?: boolean
@@ -17,16 +18,18 @@ export const AppHeader = ({ isLogo, isBackArrow }: Props) => {
     navigation.goBack()
   }
   return (
-    <Wrapper>
-      {isBackArrow && (
-        <View style={{ position: 'absolute', left: 0 }}>
-          <TouchableOpacity onPress={handleBackPress}>
-            <LeftChevron color={colors.Alizarin} />
-          </TouchableOpacity>
-        </View>
-      )}
-      {isLogo && <HeaderLogo />}
-    </Wrapper>
+    <LayoutSideColumns>
+      <Wrapper>
+        {isBackArrow && (
+          <View style={{ position: 'absolute', left: 0 }}>
+            <TouchableOpacity onPress={handleBackPress}>
+              <LeftChevron color={colors.Alizarin} />
+            </TouchableOpacity>
+          </View>
+        )}
+        {isLogo && <HeaderLogo />}
+      </Wrapper>
+    </LayoutSideColumns>
   )
 }
 

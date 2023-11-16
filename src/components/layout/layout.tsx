@@ -5,25 +5,19 @@ import { AppHeader } from './header'
 
 interface Props {
   useSafeAreaView?: boolean
-  isSideSafeColumns?: boolean
   isHeaderLogo?: boolean
   isBackArrow?: boolean
   children: React.ReactNode
 }
 
-interface LayoutStyledProps {
-  isSideSafeColumns: boolean
-}
-
 export const AppLayout = ({
   useSafeAreaView,
-  isSideSafeColumns,
   isHeaderLogo,
   isBackArrow,
   children,
 }: Props) => {
   return (
-    <LayoutStyled isSideSafeColumns={isSideSafeColumns}>
+    <LayoutStyled>
       {useSafeAreaView && <SafeAreaView />}
       {isHeaderLogo && (
         <AppHeader isLogo={isHeaderLogo} isBackArrow={isBackArrow} />
@@ -33,7 +27,6 @@ export const AppLayout = ({
   )
 }
 
-const LayoutStyled = styled(View)<LayoutStyledProps>`
+const LayoutStyled = styled(View)`
   height: 100%;
-  margin: 0 ${(props) => (props.isSideSafeColumns ? spacingPx.m : 0)};
 `
