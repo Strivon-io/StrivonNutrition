@@ -2,7 +2,13 @@ import { RightChevron } from '@components/atoms/icons/rightChevron'
 import { MainCheckbox } from '@components/atoms/mainCheckbox'
 import { MainText } from '@components/atoms/mainText'
 import { MainButton } from '@components/molecules/mainButton'
-import { colors, iconSize, spacing, spacingPx } from '@constants/theme'
+import {
+  boxShadow,
+  colors,
+  iconSize,
+  spacing,
+  spacingPx,
+} from '@constants/theme'
 import { isSmallScreen } from '@utils/deviceDetector'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -50,6 +56,7 @@ export const ValidateFormBlock = ({
         </View>
         <View style={{ marginTop: spacing.m }}>
           <MainButton
+            style={boxShadow}
             label={
               signUpStep === 0 ? t('next') : t('calculate-my-calories-need')
             }

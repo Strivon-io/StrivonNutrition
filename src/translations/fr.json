@@ -26,5 +26,14 @@
   "my-goal": "Mon objectif",
   "lose-weight": "Perdre du poids",
   "gain-weight": "Prendre du poids",
-  "calculate-my-calories-need": "Calculer mon besoin en calories"
+  "calculate-my-calories-need": "Calculer mon besoin en calories",
+  "youNeed": "Vous avez besoin de",
+  "perDayToMaintainYourCurrentWeight": "par jour pour maintenir votre poids actuel",
+  "howItWorks": "Comment ça marche ?",
+  "viewMyFirstRecipes": "Voir mes premières recettes",
+  "yourFirst3Recipes": "Vos 3 premières recettes !",
+  "ingredient": "Ingrédient",
+  "instructions": "Instructions",
+  "next": "Suivant",
+  "previous": "Précédent"
 }

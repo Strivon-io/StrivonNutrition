@@ -20,7 +20,7 @@ import { ScrollSafeZone } from '@utils/scrollSafeZone'
 
 export const SigninScreen = () => {
   return (
-    <AppLayout useSafeAreaView isHeaderLogo>
+    <AppLayout isSideSafeColumns useSafeAreaView isHeaderLogo>
       {isSmallScreen ? (
         <WrapperScrollView
           showsVerticalScrollIndicator={false}
@@ -58,9 +58,11 @@ const RenderedContent = () => {
   const navigation = useNavigation()
 
   const handleSignupPress = () => {
-    // TODO fake error : maybe to fix later
+    // TODO fake nav error : maybe to fix later
     navigation.navigate('Signup')
   }
+
+  const handleSignInPress = () => {}
 
   return (
     <>
@@ -91,7 +93,11 @@ const RenderedContent = () => {
           </MainText>
         </ForgotPasswordText>
       </View>
-      <MainButton label={t('log-in')} style={boxShadow} onPress={() => {}} />
+      <MainButton
+        label={t('log-in')}
+        style={boxShadow}
+        onPress={handleSignInPress}
+      />
       <View
         style={{
           marginTop: spacing.m,

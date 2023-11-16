@@ -11,6 +11,7 @@ interface MainTextProps {
   style?: TextStyle
   underline?: boolean
   underlineColor?: string
+  textAlign?: string
 }
 
 export const MainText = ({
@@ -21,6 +22,7 @@ export const MainText = ({
   style,
   underline,
   underlineColor,
+  textAlign,
 }: MainTextProps) => {
   return (
     <MainTextStyled
@@ -30,6 +32,7 @@ export const MainText = ({
       fontSize={fontSize}
       underline={underline}
       underlineColor={underlineColor}
+      textAlign={textAlign}
     >
       {children}
     </MainTextStyled>
@@ -42,9 +45,11 @@ interface MainTextStyledProps {
   color: string
   underline: boolean
   underlineColor: string
+  textAlign: string
 }
 
 const MainTextStyled = styled(Text)<MainTextStyledProps>`
+  text-align: ${(props) => (props.textAlign ? props.textAlign : 'left')};
   font-family: ${(props) => {
     switch (props.fontType) {
       case 'regular':

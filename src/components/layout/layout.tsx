@@ -1,23 +1,29 @@
 import { SafeAreaView, View } from 'react-native'
-import { styled } from 'styled-components'
+import { styled } from 'styled-components/native'
 import { spacingPx } from '@constants/theme'
 import { AppHeader } from './header'
 
-interface props {
-  useSafeAreaView: boolean
+interface Props {
+  useSafeAreaView?: boolean
+  isSideSafeColumns?: boolean
   isHeaderLogo?: boolean
   isBackArrow?: boolean
-  children: any
+  children: React.ReactNode
+}
+
+interface LayoutStyledProps {
+  isSideSafeColumns: boolean
 }
 
 export const AppLayout = ({
   useSafeAreaView,
+  isSideSafeColumns,
   isHeaderLogo,
   isBackArrow,
   children,
-}: props) => {
+}: Props) => {
   return (
-    <LayoutStyled>
+    <LayoutStyled isSideSafeColumns={isSideSafeColumns}>
       {useSafeAreaView && <SafeAreaView />}
       {isHeaderLogo && (
         <AppHeader isLogo={isHeaderLogo} isBackArrow={isBackArrow} />
@@ -27,7 +33,7 @@ export const AppLayout = ({
   )
 }
 
-const LayoutStyled = styled(View)`
+const LayoutStyled = styled(View)<LayoutStyledProps>`
   height: 100%;
-  margin: 0 ${spacingPx.m};
+  margin: 0 ${(props) => (props.isSideSafeColumns ? spacingPx.m : 0)};
 `

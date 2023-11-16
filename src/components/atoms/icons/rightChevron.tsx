@@ -13,7 +13,7 @@ export const RightChevron = ({ color, size }: IconProps) => (
     <Path
       d="M7.5 21L16.5 12L7.5 3"
       stroke={color ? color : colors.light.PureWhite}
-      strokeWidth="2"
+      strokeWidth="3"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
