@@ -2,8 +2,10 @@ import { View } from 'react-native'
 import { LayoutSideColumns } from '@components/layout/layoutSideColumns'
 import { MainText } from '@components/atoms/mainText'
 import { spacing } from '@constants/theme'
+import { useTranslation } from 'react-i18next'
 
 export const HomeWelcomeSection = () => {
+  const { t } = useTranslation()
   return (
     <View style={[{ marginBottom: spacing.m }]}>
       <LayoutSideColumns>
@@ -15,7 +17,7 @@ export const HomeWelcomeSection = () => {
           fontType="regular"
           fontSize="m"
         >
-          Voici ce que tu dois savoir aujourd'hui 👨‍🍳
+          {t('hereIsWhatYouNeedToKnowToday')} 👨‍🍳
         </MainText>
       </LayoutSideColumns>
     </View>

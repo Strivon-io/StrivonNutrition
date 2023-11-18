@@ -23,7 +23,7 @@ export const HomeScreen = () => {
     scrollA.value = event.contentOffset.y
   })
 
-  const bannerStyle = useAnimatedStyle(() => {
+  const HomeWelcomeSectionStyle = useAnimatedStyle(() => {
     return {
       transform: [
         {
@@ -35,6 +35,12 @@ export const HomeScreen = () => {
           ),
         },
       ],
+      opacity: interpolate(
+        scrollA.value,
+        [0, BANNER_H * 0.1],
+        [1, 0],
+        Extrapolate.CLAMP,
+      ),
     }
   })
 
@@ -47,7 +53,7 @@ export const HomeScreen = () => {
         />
       </LayoutSideColumns>
       <Animated.ScrollView onScroll={scrollHandler} scrollEventThrottle={16}>
-        <Animated.View style={bannerStyle}>
+        <Animated.View style={HomeWelcomeSectionStyle}>
           <HomeWelcomeSection />
         </Animated.View>
         <HomeCardSection>
@@ -71,7 +77,7 @@ const boxShadow = {
 }
 
 const HomeCardSection = styled(View)`
-  ${boxShadow}
+  /* ${boxShadow} */
   background-color: ${colors.light.PureWhite};
   border-radius: ${spacingPx.m};
   height: 100%;
