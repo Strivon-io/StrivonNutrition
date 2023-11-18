@@ -86,7 +86,7 @@ const UnauthenticatedApp = () => {
 }
 
 export const MainNavigation = () => {
-  const isLoggedIn = false
+  const isLoggedIn = true
   return (
     <NavigationContainer>
       <Stack.Navigator>
