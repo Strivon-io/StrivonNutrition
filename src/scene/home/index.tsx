@@ -46,12 +46,14 @@ export const HomeScreen = () => {
 
   return (
     <AppLayout useSafeAreaView>
-      <LayoutSideColumns>
-        <StrivonLogo
-          source={require('@assets/brand/Strivon.png')}
-          resizeMode="contain"
-        />
-      </LayoutSideColumns>
+      <View>
+        <LayoutSideColumns>
+          <StrivonLogo
+            source={require('@assets/brand/Strivon.png')}
+            resizeMode="contain"
+          />
+        </LayoutSideColumns>
+      </View>
       <Animated.ScrollView onScroll={scrollHandler} scrollEventThrottle={16}>
         <Animated.View style={HomeWelcomeSectionStyle}>
           <HomeWelcomeSection />

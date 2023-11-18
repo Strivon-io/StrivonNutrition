@@ -1,48 +1,50 @@
-import { View, Text, Image } from 'react-native'
-import { LayoutSideColumns } from '@components/layout/layoutSideColumns'
-import { styled } from 'styled-components'
 import { MainText } from '@components/atoms/mainText'
-import { colors, spacing, spacingPx } from '@constants/theme'
+import { boxShadow, colors, spacingPx } from '@constants/theme'
+import { Image, ImageSourcePropType } from 'react-native'
+import { View } from 'react-native'
+import styled from 'styled-components'
 
-export const MealSmallCard = () => {
+interface Props {
+  title: string
+  kcal: number
+  imagePath: ImageSourcePropType
+}
+
+export const MealSmallCard = ({ title, kcal, imagePath }: Props) => {
   return (
-    <View style={{ height: 100 }}>
-      <DishImage
-        source={require('@assets/recipeImages/exempleOfRecipe.png')}
-        resizeMode="cover"
-      />
-      <ImageOverlay />
+    <MealSmallCardStyled>
+      <DishImage source={imagePath} resizeMode="cover" />
       <TitleAndKcal>
-        <MainText fontType="bold" fontSize="m" color={colors.light.PureWhite}>
-          Grilled Chicken and Vegetable Salad
+        <MainText
+          fontType="bold"
+          fontSize="m"
+          color={colors.darker.DarkestBlack}
+        >
+          {title}
         </MainText>
         <MainText fontType="bold" fontSize="m" color={colors.Alizarin}>
-          240Kcal
+          {kcal}Kcal
         </MainText>
       </TitleAndKcal>
-    </View>
+    </MealSmallCardStyled>
   )
 }
 
+const MealSmallCardStyled = styled(View)`
+  justify-content: space-between;
+  width: 95%;
+  min-height: 170px;
+  background-color: ${colors.light.PureWhite};
+  border-radius: ${spacingPx.xs};
+  margin: ${spacingPx.xs};
+`
+
 const TitleAndKcal = styled(View)`
-  position: absolute;
-  bottom: ${spacingPx.s};
-  margin-left: ${spacingPx.s};
+  padding: ${spacingPx.xs};
 `
 
 const DishImage = styled(Image)`
-  flex: 1;
   width: 100%;
-  height: 100%;
-  border-radius: ${spacingPx.s};
-`
-
-const ImageOverlay = styled(View)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: ${spacingPx.s};
+  height: 100px;
+  border-radius: ${spacingPx.xs} ${spacingPx.xs} 0 0;
 `

@@ -6,7 +6,8 @@
       "@components/*": ["src/components/*"],
       "@constants/*": ["src/constants/*"],
       "@utils/*": ["src/utils/*"],
-      "@translations/*": ["src/translations/*"]
+      "@translations/*": ["src/translations/*"],
+      "@assets/*": ["src/assets/*"]
     }
   },
   "include": ["next-env.d.ts", "twin.d.ts", "**/*.ts", "**/*.tsx"],
