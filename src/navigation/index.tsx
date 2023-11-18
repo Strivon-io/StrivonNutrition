@@ -8,11 +8,11 @@ import { RecipesScreen } from '../scene/recipes'
 import { ScheduleScreen } from '../scene/schedule'
 import { ProfileScreen } from '../scene/profile'
 import { SignupScreen } from '../scene/signup'
-import { SigninScreen } from '../scene/signin'
 import { colors } from '../constants/theme'
 import { NeedsResultScreen } from '@scene/needsResult'
-import { View } from 'react-native'
 import { RecipesResultScreen } from '@scene/recipesResult'
+import { TabBar } from './Tabbar'
+import { SigninScreen } from '@scene/signin'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -20,11 +20,12 @@ const Tab = createBottomTabNavigator()
 const AppNavigator = () => {
   return (
     <Tab.Navigator
+      tabBar={(props) => <TabBar {...props} />}
+      sceneContainerStyle={{ backgroundColor: colors.light.WhiteSmoke }}
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: colors.Alizarin,
         tabBarIconStyle: { fontFamily: 'AvenirNext-Medium' },
-        // cardStyle: { backgroundColor: colors.light.PureWhite },
       }}
     >
       <Tab.Screen
@@ -85,7 +86,7 @@ const UnauthenticatedApp = () => {
 }
 
 export const MainNavigation = () => {
-  const isLoggedIn = false
+  const isLoggedIn = true
   return (
     <NavigationContainer>
       <Stack.Navigator>

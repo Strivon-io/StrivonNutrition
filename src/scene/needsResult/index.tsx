@@ -1,5 +1,6 @@
 import { MainText } from '@components/atoms/mainText'
 import { AppLayout } from '@components/layout/layout'
+import { LayoutSideColumns } from '@components/layout/layoutSideColumns'
 import { MainButton } from '@components/molecules/mainButton'
 import { boxShadow, colors, spacing, spacingPx } from '@constants/theme'
 import { useNavigation } from '@react-navigation/native'
@@ -16,36 +17,42 @@ export const NeedsResultScreen = () => {
     navigation.navigate('RecipesResult')
   }
   return (
-    <AppLayout isSideSafeColumns useSafeAreaView isHeaderLogo>
-      <Wrapper>
-        <MainText fontType="medium" fontSize="l">
-          {t('youNeed')}
-        </MainText>
-        <MainText fontType="bold-italic" fontSize="xxl" color={colors.Alizarin}>
-          2700Kcal
-        </MainText>
-        <MainText
-          style={{ width: 300 }}
-          fontType="medium"
-          fontSize="l"
-          textAlign="center"
-        >
-          {t('perDayToMaintainYourCurrentWeight')}
-        </MainText>
-        <TouchableOpacity style={{ marginTop: spacing.xs }}>
-          <MainText fontType="medium" color={colors.Alizarin} underline>
-            {t('howItWorks')}
+    <LayoutSideColumns>
+      <AppLayout useSafeAreaView isHeaderLogo>
+        <Wrapper>
+          <MainText fontType="medium" fontSize="l">
+            {t('youNeed')}
           </MainText>
-        </TouchableOpacity>
-      </Wrapper>
-      <ButtonWrapper>
-        <MainButton
-          style={boxShadow}
-          label={t('viewMyFirstRecipes')}
-          onPress={handleViewRecipes}
-        />
-      </ButtonWrapper>
-    </AppLayout>
+          <MainText
+            fontType="bold-italic"
+            fontSize="xxl"
+            color={colors.Alizarin}
+          >
+            2700Kcal
+          </MainText>
+          <MainText
+            style={{ width: 300 }}
+            fontType="medium"
+            fontSize="l"
+            textAlign="center"
+          >
+            {t('perDayToMaintainYourCurrentWeight')}
+          </MainText>
+          <TouchableOpacity style={{ marginTop: spacing.xs }}>
+            <MainText fontType="medium" color={colors.Alizarin} underline>
+              {t('howItWorks')}
+            </MainText>
+          </TouchableOpacity>
+        </Wrapper>
+        <ButtonWrapper>
+          <MainButton
+            style={boxShadow}
+            label={t('viewMyFirstRecipes')}
+            onPress={handleViewRecipes}
+          />
+        </ButtonWrapper>
+      </AppLayout>
+    </LayoutSideColumns>
   )
 }
 

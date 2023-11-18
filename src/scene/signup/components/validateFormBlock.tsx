@@ -1,6 +1,7 @@
 import { RightChevron } from '@components/atoms/icons/rightChevron'
 import { MainCheckbox } from '@components/atoms/mainCheckbox'
 import { MainText } from '@components/atoms/mainText'
+import { LayoutSideColumns } from '@components/layout/layoutSideColumns'
 import { MainButton } from '@components/molecules/mainButton'
 import {
   boxShadow,
@@ -32,39 +33,41 @@ export const ValidateFormBlock = ({
 
   return (
     <ValidateFormBlockWrapper>
-      <View
-        style={{
-          marginBottom: isSmallScreen ? spacing.m : spacing.l,
-        }}
-      >
+      <LayoutSideColumns>
         <View
           style={{
-            flexDirection: 'row',
-            alignItems: 'center',
+            marginBottom: isSmallScreen ? spacing.m : spacing.l,
           }}
         >
-          <View style={{ marginRight: spacing.xs }}>
-            <MainCheckbox isChecked={isChecked} setIsChecked={handleCheck} />
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            <View style={{ marginRight: spacing.xs }}>
+              <MainCheckbox isChecked={isChecked} setIsChecked={handleCheck} />
+            </View>
+            <TouchableOpacity onPress={handleCheck}>
+              <MainText>{t('i-accept-the')}</MainText>
+            </TouchableOpacity>
+            <MainText color={colors.Alizarin} underline>
+              {' '}
+              {t('terms-of-use')}
+            </MainText>
           </View>
-          <TouchableOpacity onPress={handleCheck}>
-            <MainText>{t('i-accept-the')}</MainText>
-          </TouchableOpacity>
-          <MainText color={colors.Alizarin} underline>
-            {' '}
-            {t('terms-of-use')}
-          </MainText>
+          <View style={{ marginTop: spacing.m }}>
+            <MainButton
+              style={boxShadow}
+              label={
+                signUpStep === 0 ? t('next') : t('calculate-my-calories-need')
+              }
+              onPress={handleValidate}
+              icon={signUpStep === 0 && <RightChevron size={iconSize.s} />}
+            />
+          </View>
         </View>
-        <View style={{ marginTop: spacing.m }}>
-          <MainButton
-            style={boxShadow}
-            label={
-              signUpStep === 0 ? t('next') : t('calculate-my-calories-need')
-            }
-            onPress={handleValidate}
-            icon={signUpStep === 0 && <RightChevron size={iconSize.s} />}
-          />
-        </View>
-      </View>
+      </LayoutSideColumns>
     </ValidateFormBlockWrapper>
   )
 }

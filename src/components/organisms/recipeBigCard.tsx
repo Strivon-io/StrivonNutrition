@@ -15,7 +15,7 @@ import Animated, {
 export const RecipeBigCard = ({ title, kcal, recipe, index }) => {
   const { t } = useTranslation()
 
-  // TODO : Better create fake services that return fake datas 
+  // TODO : Better create fake services that return fake datas
   const ingredients = [
     '100g de blanc de poulet grillé',
     '1 tomate moyenne, tranchée',

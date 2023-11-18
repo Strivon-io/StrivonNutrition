@@ -19,6 +19,7 @@ import { StepTwo } from './components/stepTwo'
 import { LeftArrow } from '@components/atoms/icons/leftArrow'
 import { LeftChevron } from '@components/atoms/icons/leftChevron'
 import { useNavigation } from '@react-navigation/native'
+import { LayoutSideColumns } from '@components/layout/layoutSideColumns'
 
 export const SignupScreen = () => {
   const [signUpStep, setSignUpStep] = useState(0)
@@ -35,7 +36,7 @@ export const SignupScreen = () => {
   const handleCheck = () => setIsChecked(!isChecked)
   return (
     <>
-      <AppLayout isSideSafeColumns useSafeAreaView isHeaderLogo isBackArrow>
+      <AppLayout useSafeAreaView isHeaderLogo isBackArrow>
         {isSmallScreen ? (
           <ScrollView
             showsVerticalScrollIndicator={false}
@@ -99,23 +100,28 @@ const RenderedContent = ({
 
   return (
     <Wrapper>
-      <SectionHeader
-        title={t('my-informations')}
-        sideElement={
-          <MainText fontType="bold-italic">{`(${signUpStep + 1}/2)`}</MainText>
-        }
-        handleBackArrow={handleBackArrow}
-        isBackArrow={signUpStep > 0}
-      />
-      {signUpStep === 0 && <StepOne />}
-      {signUpStep === 1 && (
-        <StepTwo
-          gender={gender}
-          setGender={setGender}
-          goal={goal}
-          setGoal={setGoal}
+      <LayoutSideColumns>
+        <SectionHeader
+          title={t('my-informations')}
+          sideElement={
+            <MainText fontType="bold-italic">{`(${
+              signUpStep + 1
+            }/2)`}</MainText>
+          }
+          handleBackArrow={handleBackArrow}
+          isBackArrow={signUpStep > 0}
         />
-      )}
+
+        {signUpStep === 0 && <StepOne />}
+        {signUpStep === 1 && (
+          <StepTwo
+            gender={gender}
+            setGender={setGender}
+            goal={goal}
+            setGoal={setGoal}
+          />
+        )}
+      </LayoutSideColumns>
     </Wrapper>
   )
 }
