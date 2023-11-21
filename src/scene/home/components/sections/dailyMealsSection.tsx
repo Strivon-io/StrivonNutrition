@@ -4,7 +4,7 @@ import { LayoutSideColumns } from '@components/layout/layoutSideColumns'
 import { styled } from 'styled-components'
 import { MainText } from '@components/atoms/mainText'
 import { colors, spacing, spacingPx } from '@constants/theme'
-import { MealSmallCard } from '@components/organisms/mealSmallCard'
+import { MealCarouselCard } from '@components/organisms/mealCarouselCard'
 import { Carousel } from 'react-native-snap-carousel'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -24,7 +24,7 @@ export const DailyMealsSection = () => {
 
   const renderRecipeCard = () => {
     return (
-      <MealSmallCard
+      <MealCarouselCard
       // title={item.title}
       // kcal={item.kcal}
       // recipe={item.recipe}
