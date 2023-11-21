@@ -30,6 +30,11 @@ export const colors = {
   darker: {
     DarkestBlack: '#090513',
   },
+  tags: {
+    blue: '#D6E4FF',
+    green: '#C5EFD7',
+    orange: '#FCDEC0',
+  },
   Alizarin: '#FF2749',
   Bloody: '#E02637',
 }

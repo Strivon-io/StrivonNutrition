@@ -1,4 +1,5 @@
 import { MainText } from '@components/atoms/mainText'
+import Tag from '@components/atoms/tag'
 import { boxShadow, colors, spacingPx } from '@constants/theme'
 import { Image, ImageSourcePropType } from 'react-native'
 import { View } from 'react-native'
@@ -8,27 +9,41 @@ interface Props {
   title: string
   kcal: number
   imagePath: ImageSourcePropType
+  tags: ('breakfast' | 'meal' | 'snack')[]
 }
 
-export const MealSmallCard = ({ title, kcal, imagePath }: Props) => {
+export const MealSmallCard = ({ title, kcal, imagePath, tags }: Props) => {
   return (
     <MealSmallCardStyled>
       <DishImage source={imagePath} resizeMode="cover" />
       <TitleAndKcal>
         <MainText
-          fontType="bold"
+          fontType="medium"
           fontSize="m"
           color={colors.darker.DarkestBlack}
         >
           {title}
         </MainText>
+
         <MainText fontType="bold" fontSize="m" color={colors.Alizarin}>
           {kcal}Kcal
         </MainText>
+        <TagList>
+          {tags.map((tag, index) => (
+            <Tag key={index.toString()} label={tag} />
+          ))}
+        </TagList>
       </TitleAndKcal>
     </MealSmallCardStyled>
   )
 }
+
+const TagList = styled(View)`
+  flex-wrap: wrap;
+  flex-direction: row;
+  column-gap: 4px;
+  row-gap: 4px;
+`
 
 const MealSmallCardStyled = styled(View)`
   justify-content: space-between;
@@ -41,6 +56,7 @@ const MealSmallCardStyled = styled(View)`
 
 const TitleAndKcal = styled(View)`
   padding: ${spacingPx.xs};
+  row-gap: ${spacingPx.xs};
 `
 
 const DishImage = styled(Image)`

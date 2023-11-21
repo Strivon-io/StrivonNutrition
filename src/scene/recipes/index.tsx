@@ -23,56 +23,19 @@ export const RecipesScreen = () => {
       title: 'Grilled Chicken and Vegetable Salad',
       kcal: 240,
       imagePath: require('@assets/recipeImages/exempleOfRecipe.png'),
+      tags: ['meal'],
     },
     {
       title: 'Grilled Chicken and Vegetable Salad',
       kcal: 240,
       imagePath: require('@assets/recipeImages/exempleOfRecipe.png'),
+      tags: ['breakfast', 'snack'],
     },
     {
       title: 'Grilled Chicken and Vegetable Salad',
       kcal: 240,
       imagePath: require('@assets/recipeImages/exempleOfRecipe.png'),
-    },
-    {
-      title: 'test',
-      kcal: 240,
-      imagePath: require('@assets/recipeImages/exempleOfRecipe.png'),
-    },
-    {
-      title: 'test',
-      kcal: 240,
-      imagePath: require('@assets/recipeImages/exempleOfRecipe.png'),
-    },
-    {
-      title: 'test',
-      kcal: 240,
-      imagePath: require('@assets/recipeImages/exempleOfRecipe.png'),
-    },
-    {
-      title: 'test',
-      kcal: 240,
-      imagePath: require('@assets/recipeImages/exempleOfRecipe.png'),
-    },
-    {
-      title: 'test',
-      kcal: 240,
-      imagePath: require('@assets/recipeImages/exempleOfRecipe.png'),
-    },
-    {
-      title: 'test',
-      kcal: 240,
-      imagePath: require('@assets/recipeImages/exempleOfRecipe.png'),
-    },
-    {
-      title: 'test',
-      kcal: 240,
-      imagePath: require('@assets/recipeImages/exempleOfRecipe.png'),
-    },
-    {
-      title: 'test',
-      kcal: 240,
-      imagePath: require('@assets/recipeImages/exempleOfRecipe.png'),
+      tags: ['snack'],
     },
   ]
 
@@ -104,7 +67,7 @@ export const RecipesScreen = () => {
         }
       />
       <LayoutSideColumns style={{ flex: 1 }}>
-        <View style={{ marginTop: spacing.m, marginBottom: spacing.m }}>
+        <View style={{ marginTop: spacing.m, marginBottom: spacing.xs }}>
           <SearchBar
             placeholder="Chercher une recette"
             onChangeText={updateSearch}
@@ -120,6 +83,7 @@ export const RecipesScreen = () => {
                 title={item.title}
                 kcal={item.kcal}
                 imagePath={item.imagePath}
+                tags={item.tags}
               />
             )}
           />
