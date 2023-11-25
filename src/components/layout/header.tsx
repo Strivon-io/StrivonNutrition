@@ -6,14 +6,22 @@ import { colors, spacing } from '@constants/theme'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
 import { LayoutSideColumns } from './layoutSideColumns'
+import { LeftArrow } from '@components/atoms/icons/leftArrow'
+import { MainText } from '@components/atoms/mainText'
 
 interface Props {
   isLogo?: boolean
   isBackArrow?: boolean
   isSeperatorLine?: boolean
+  pageTitle?: string
 }
 
-export const AppHeader = ({ isLogo, isBackArrow, isSeperatorLine }: Props) => {
+export const AppHeader = ({
+  isLogo,
+  isBackArrow,
+  isSeperatorLine,
+  pageTitle,
+}: Props) => {
   const navigation = useNavigation()
   const handleBackPress = () => {
     navigation.goBack()
@@ -23,18 +31,36 @@ export const AppHeader = ({ isLogo, isBackArrow, isSeperatorLine }: Props) => {
       style={{
         borderBottomColor: colors.Alizarin,
         borderBottomWidth: isSeperatorLine ? 0.3 : 0,
-        paddingBottom: spacing.xs,
+        paddingBottom: isLogo ? spacing.xs : spacing.m,
+        paddingTop: isLogo ? spacing.xs : spacing.m,
       }}
     >
       <LayoutSideColumns>
         <Wrapper>
-          {isBackArrow && (
-            <View style={{ position: 'absolute', left: 0 }}>
+          <View
+            style={{
+              position: 'absolute',
+              left: 0,
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            {isBackArrow && (
               <TouchableOpacity onPress={handleBackPress}>
-                <LeftChevron color={colors.Alizarin} />
+                <LeftArrow color={colors.Alizarin} />
               </TouchableOpacity>
-            </View>
-          )}
+            )}
+            {pageTitle && (
+              <MainText
+                style={{ marginLeft: spacing.s }}
+                fontType="bold-italic"
+                fontSize="xl"
+              >
+                {pageTitle}
+              </MainText>
+            )}
+          </View>
+
           {isLogo && <HeaderLogo />}
         </Wrapper>
       </LayoutSideColumns>

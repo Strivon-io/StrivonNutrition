@@ -64,7 +64,15 @@ export const TabBar = ({ state, descriptors, navigation }) => {
         const iconColor = isFocused
           ? colors.medium.StormyCloud
           : colors.medium.LinkWater
-        const icon = React.cloneElement(icons[route.name], { color: iconColor })
+
+        const iconSecondColor = isFocused
+          ? colors.Alizarin
+          : colors.medium.LinkWater
+
+        const icon = React.cloneElement(icons[route.name], {
+          color: iconColor,
+          secondColor: iconSecondColor,
+        })
 
         return (
           <TabbarWrapper

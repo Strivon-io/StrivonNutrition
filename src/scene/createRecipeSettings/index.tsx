@@ -20,23 +20,17 @@ import { PageTitle } from '@components/molecules/pageTitle'
 import { TextInput } from 'react-native-gesture-handler'
 import { HomeIcon } from '@navigation/icons/homeIcon'
 import { DeleteIcon } from '@navigation/icons/deleteIcon'
+import { InputWithIcon } from './components/molecules/inputWithIcon'
+import { AddIngredientSection } from './components/sections/addIngredientSection'
+import { DietaryRestrictionsSection } from './components/sections/dietaryRestrictionsSection'
+import { NumberOfCaloriesSection } from './components/sections/numberOfCaloriesSection'
 
-interface Props {
-  addIngredient: (ingredient: string) => void
-  setCalories: Dispatch<SetStateAction<string>>
-  calories: string
-}
-
-export const CreateRecipeSettings = ({ calories, setCalories }: Props) => {
-  const [newIngredient, setNewIngredient] = useState('')
+export const CreateRecipeSettings = () => {
   const [ingredients, setIngredients] = useState([])
+  const [calories, setCalories] = useState('')
+  const [dietaryRestrictions, setDietaryRestrictions] = useState([])
 
   const { t } = useTranslation()
-  const scrollViewRef = useRef<ScrollView>(null)
-
-  const scrollToBottom = () => {
-    scrollViewRef.current.scrollToEnd({ animated: true })
-  }
 
   const addIngredient = (ingredient: string) => {
     setIngredients([...ingredients, ingredient])
@@ -54,7 +48,11 @@ export const CreateRecipeSettings = ({ calories, setCalories }: Props) => {
     setIngredients(updatedIngredients)
   }
 
-  const handleNewIngredientSubmit = () => {
+  const handleNewIngredientSubmit = (
+    newIngredient,
+    setNewIngredient,
+    scrollToBottom,
+  ) => {
     if (newIngredient.trim() !== '') {
       addIngredient(newIngredient)
       setNewIngredient('')
@@ -65,186 +63,37 @@ export const CreateRecipeSettings = ({ calories, setCalories }: Props) => {
   }
 
   return (
-    <AppLayout isSeperatorLine isBackArrow isHeaderLogo useSafeAreaView>
+    <AppLayout
+      pageTitle={t('generateRecipe')}
+      isBackArrow
+      isHeader
+      useSafeAreaView
+    >
       <LayoutSideColumns>
         <ScrollView>
-          <View style={{ marginBottom: 200, marginTop: spacing.m }}>
-            <View>
-              <MainText
-                style={{ marginBottom: spacing.xs }}
-                fontType="bold-italic"
-                fontSize="l"
-                onSubmitEditing={handleNewIngredientSubmit}
-              >
-                {t('ingredients')} :
-              </MainText>
-              <CreateIngredientInputWrapper>
-                <MainInput
-                  placeholder={t('ingredients')}
-                  style={{ width: '90%', marginRight: spacing.s }}
-                  value={newIngredient}
-                  onChangeText={(text) => {
-                    setNewIngredient(text)
-                  }}
-                />
-                <TouchableOpacity onPress={handleNewIngredientSubmit}>
-                  <PlusIcon size={iconSize.m} color={colors.Alizarin} />
-                </TouchableOpacity>
-              </CreateIngredientInputWrapper>
-              <IngredientListScrollView ref={scrollViewRef}>
-                <IngredientList>
-                  {ingredients.map((ingredient, index) => (
-                    <View
-                      style={{ flexDirection: 'row', alignItems: 'center' }}
-                    >
-                      <StyledInput
-                        key={index.toString()}
-                        value={ingredient}
-                        onChangeText={(e) => handleIngredientChange(e, index)}
-                      />
-                      <IconInputWrapper onPress={() => removeIngredient(index)}>
-                        <DeleteIcon size={iconSize.m} color={colors.Alizarin} />
-                      </IconInputWrapper>
-                    </View>
-                  ))}
-                </IngredientList>
-              </IngredientListScrollView>
-              <View
-                style={{
-                  marginTop: spacing.xs,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <MainCheckbox isChecked={true} setIsChecked={() => {}} />
-                <MainText
-                  style={{ marginLeft: spacing.xs }}
-                  fontType="medium"
-                  color={colors.Alizarin}
-                  fontSize="s"
-                >
-                  {t('onlyUseIngredientOfThisList')}
-                </MainText>
-              </View>
-            </View>
-            <View style={{ marginTop: spacing.m }}>
-              <MainText
-                style={{ marginBottom: spacing.xs }}
-                fontType="bold-italic"
-                fontSize="l"
-              >
-                {t('dietaryRestrictions')} :
-              </MainText>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  columnGap: spacing.xs,
-                  rowGap: spacing.xs,
-                  marginTop: spacing.s,
-                  flexWrap: 'wrap',
-                }}
-              >
-                <View style={{ flexDirection: 'row' }}>
-                  <MainCheckbox isChecked={true} setIsChecked={() => {}} />
-                  <MainText
-                    style={{ marginLeft: spacing.xs }}
-                    fontType="medium"
-                    fontSize="m"
-                  >
-                    {t('dairyFree')}
-                  </MainText>
-                </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <MainCheckbox isChecked={true} setIsChecked={() => {}} />
-                  <MainText
-                    style={{ marginLeft: spacing.xs }}
-                    fontType="medium"
-                    fontSize="m"
-                  >
-                    {t('glutenFree')}
-                  </MainText>
-                </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <MainCheckbox isChecked={true} setIsChecked={() => {}} />
-                  <MainText
-                    style={{ marginLeft: spacing.xs }}
-                    fontType="medium"
-                    fontSize="m"
-                  >
-                    {t('vegan')}
-                  </MainText>
-                </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <MainCheckbox isChecked={true} setIsChecked={() => {}} />
-                  <MainText
-                    style={{ marginLeft: spacing.xs }}
-                    fontType="medium"
-                    fontSize="m"
-                  >
-                    {t('vegetarian')}
-                  </MainText>
-                </View>
-                <View style={{ flexDirection: 'row' }}>
-                  <MainCheckbox isChecked={true} setIsChecked={() => {}} />
-                  <MainText
-                    style={{ marginLeft: spacing.xs }}
-                    fontType="medium"
-                    fontSize="m"
-                  >
-                    {t('pescatarian')}
-                  </MainText>
-                </View>
-              </View>
-            </View>
-            <View style={{ marginTop: spacing.m }}>
-              <MainText
-                style={{ marginBottom: spacing.xs }}
-                fontType="bold-italic"
-                fontSize="l"
-              >
-                {t('numberOfCalories')} :
-              </MainText>
-              <MainInput
-                style={{
-                  width: 200,
-                  marginRight: spacing.s,
-                }}
-                value={calories}
-                onChangeText={(text) => {
-                  setCalories(text)
-                }}
-                textColor={colors.Alizarin}
-                fontType={'bold'}
-              />
-            </View>
-            <MainButton
-              style={{
-                marginTop: spacing.m,
-              }}
-              onPress={() => {}}
-              label={t('generate')}
-            />
-          </View>
+          <AddIngredientSection
+            ingredients={ingredients}
+            handleNewIngredientSubmit={handleNewIngredientSubmit}
+            handleIngredientChange={handleIngredientChange}
+            removeIngredient={removeIngredient}
+          />
+          <DietaryRestrictionsSection />
+          <NumberOfCaloriesSection
+            calories={calories}
+            setCalories={setCalories}
+          />
+          <MainButton
+            style={{
+              marginTop: spacing.m,
+            }}
+            onPress={() => {}}
+            label={t('generate')}
+          />
         </ScrollView>
       </LayoutSideColumns>
     </AppLayout>
   )
 }
-
-const CreateIngredientInputWrapper = styled(View)`
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-`
-
-const IngredientListScrollView = styled(ScrollView)``
-
-const IngredientList = styled(View)`
-  flex-direction: row;
-  flex-wrap: wrap;
-  column-gap: ${spacingPx.xs};
-  width: 100%;
-`
 
 const StyledInput = styled(TextInput)<{ textColor: string; fontType: string }>`
   padding-left: ${spacingPx.s};
