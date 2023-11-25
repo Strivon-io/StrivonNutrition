@@ -28,8 +28,8 @@ export const GroceryListSection = () => {
 
   return (
     <View>
-      <SectionTitle title={t('yourGroceryList')} />
       <LayoutSideColumns>
+        <SectionTitle title={t('yourGroceryList')} />
         {groceryList.map((item) => (
           <TouchableOpacity onPress={() => toggleCheckbox(item.id)}>
             <ElementWrapper key={item.id}>

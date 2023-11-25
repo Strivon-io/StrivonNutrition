@@ -12,19 +12,18 @@ interface Props {
 
 export const SectionTitle = ({ title, leftChild }: Props) => {
   return (
-    <LayoutSideColumns>
-      <HeaderTitle>
-        <MainText fontType="medium" fontSize="l">
-          {title}
-        </MainText>
-        {leftChild}
-      </HeaderTitle>
-    </LayoutSideColumns>
+    <HeaderTitle>
+      <MainText fontType="medium" fontSize="l">
+        {title}
+      </MainText>
+
+      {leftChild}
+    </HeaderTitle>
   )
 }
 
 const HeaderTitle = styled(View)`
   flex-direction: row;
   justify-content: space-between;
-  margin: ${spacingPx.m} 0;
+  margin: ${spacingPx.s} 0;
 `

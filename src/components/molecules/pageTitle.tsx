@@ -13,14 +13,12 @@ export const PageTitle = ({
 }) => {
   return (
     <View style={{ width: '100%' }}>
-      <LayoutSideColumns>
-        <PageTitleWrapper>
-          <MainText fontType="bold-italic" fontSize="xxl">
-            {title}
-          </MainText>
-          {leftChild && leftChild}
-        </PageTitleWrapper>
-      </LayoutSideColumns>
+      <PageTitleWrapper>
+        <MainText fontType="bold-italic" fontSize="xxl">
+          {title}
+        </MainText>
+        {leftChild && leftChild}
+      </PageTitleWrapper>
     </View>
   )
 }

@@ -56,5 +56,18 @@
   "october": "Octobre",
   "november": "Novembre",
   "december": "Décembre",
-  "recipes": "Recettes"
+  "recipes": "Recettes",
+  "generate": "Générer",
+  "generateNewRecipe": "Générer une nouvelle recette",
+  "theIgredientForMyRecipe": "Les ingrédients pour ma recette",
+  "numberOfCalories": "Nombre de calories",
+  "takePicturesOfMyIngredients": "Prendre en photo mes ingrédients",
+  "writeTheNameOfMyIngredients": "Ecrire le nom de mes ingrédients",
+  "dietaryRestrictions": "Restrictions alimentaires",
+  "onlyUseIngredientOfThisList": "Utiliser uniquement les ingrédients de cette liste",
+  "dairyFree": "Sans lactose",
+  "glutenFree": "Sans gluten",
+  "vegan": "Végan",
+  "vegetarian": "Végétarien",
+  "pescatarian": "Pescétarien"
 }

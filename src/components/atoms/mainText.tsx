@@ -12,6 +12,7 @@ interface MainTextProps {
   underline?: boolean
   underlineColor?: string
   textAlign?: string
+  onSubmitEditing?: () => void
 }
 
 export const MainText = ({
@@ -23,6 +24,7 @@ export const MainText = ({
   underline,
   underlineColor,
   textAlign,
+  onSubmitEditing,
 }: MainTextProps) => {
   return (
     <MainTextStyled
@@ -33,6 +35,7 @@ export const MainText = ({
       underline={underline}
       underlineColor={underlineColor}
       textAlign={textAlign}
+      onSubmitEditing={onSubmitEditing}
     >
       {children}
     </MainTextStyled>

@@ -3,6 +3,7 @@ import { TextInput, View } from 'react-native'
 import { colors, spacing, spacingPx } from '../../constants/theme'
 import { styled } from 'styled-components/native'
 import { MainText } from '../atoms/mainText'
+import { HomeIcon } from '@navigation/icons/homeIcon'
 
 interface InputProps {
   placeholder?: string
@@ -18,6 +19,11 @@ interface InputProps {
     | 'phone-pad'
     | 'visible-password'
   value?: string
+  style?: {}
+  placeholderTextColor?: string
+  textColor?: string
+  fontType?: string
+  leftIcon?: React.ReactNode
 }
 
 export const MainInput = ({
@@ -27,9 +33,13 @@ export const MainInput = ({
   onChangeText,
   keyboardType,
   value,
+  style = {},
+  textColor,
+  fontType,
+  leftIcon,
 }: InputProps) => {
   return (
-    <View>
+    <View style={style}>
       {label && (
         <MainText fontType="medium" color={colors.Alizarin} fontSize="m">
           {label}
@@ -42,16 +52,26 @@ export const MainInput = ({
         secureTextEntry={secureTextEntry}
         onChangeText={onChangeText}
         value={value}
+        textColor={textColor}
+        fontType={fontType}
       />
     </View>
   )
 }
 
-const StyledInput = styled(TextInput)`
+const StyledInput = styled(TextInput)<{ textColor: string; fontType: string }>`
   width: 100%;
   padding: ${spacingPx.s};
   margin: ${spacingPx.xs} 0;
   background-color: ${colors.light.AliceBlue};
   border-radius: ${spacingPx.xs};
-  font-family: 'AvenirNext-Medium';
+  font-family: ${(props) =>
+    props.fontType
+      ? `AvenirNext-${
+          props.fontType.substring(0, 1).toUpperCase() +
+          props.fontType.substring(1)
+        }`
+      : 'AvenirNext-Medium'};
+  color: ${(props) =>
+    props.textColor ? props.textColor : colors.darker.DarkestBlack};
 `

@@ -8,6 +8,7 @@ interface Props {
   isHeaderLogo?: boolean
   isBackArrow?: boolean
   children: React.ReactNode
+  isSeperatorLine?: boolean
 }
 
 export const AppLayout = ({
@@ -15,12 +16,17 @@ export const AppLayout = ({
   isHeaderLogo,
   isBackArrow,
   children,
+  isSeperatorLine,
 }: Props) => {
   return (
     <LayoutStyled>
       {useSafeAreaView && <SafeAreaView />}
       {isHeaderLogo && (
-        <AppHeader isLogo={isHeaderLogo} isBackArrow={isBackArrow} />
+        <AppHeader
+          isSeperatorLine={isSeperatorLine}
+          isLogo={isHeaderLogo}
+          isBackArrow={isBackArrow}
+        />
       )}
       {children}
     </LayoutStyled>
