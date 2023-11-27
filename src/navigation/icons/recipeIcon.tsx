@@ -1,8 +1,9 @@
 import { IconProps } from '@components/atoms/icons/iconPropsType'
+import { colors } from '@constants/theme'
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
 
-export const RecipeIcon = ({ size, color }: IconProps) => (
+export const RecipeIcon = ({ size, color, secondColor }: IconProps) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Path
       fillRule="evenodd"
@@ -36,7 +37,7 @@ export const RecipeIcon = ({ size, color }: IconProps) => (
     />
     <Path
       d="M9.31726 12.2837H20.3725"
-      stroke="#FF2749"
+      stroke={secondColor ? secondColor : colors.Alizarin}
       strokeWidth="1.5"
       strokeLinecap="round"
     />

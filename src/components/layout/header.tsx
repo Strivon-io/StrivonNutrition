@@ -2,34 +2,69 @@ import { View } from 'react-native'
 import { HeaderLogo } from './atoms/headerLogo'
 import { styled } from 'styled-components'
 import { LeftChevron } from '../atoms/icons/leftChevron'
-import { colors } from '@constants/theme'
+import { colors, spacing } from '@constants/theme'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
 import { LayoutSideColumns } from './layoutSideColumns'
+import { LeftArrow } from '@components/atoms/icons/leftArrow'
+import { MainText } from '@components/atoms/mainText'
 
 interface Props {
   isLogo?: boolean
   isBackArrow?: boolean
+  isSeperatorLine?: boolean
+  pageTitle?: string
 }
 
-export const AppHeader = ({ isLogo, isBackArrow }: Props) => {
+export const AppHeader = ({
+  isLogo,
+  isBackArrow,
+  isSeperatorLine,
+  pageTitle,
+}: Props) => {
   const navigation = useNavigation()
   const handleBackPress = () => {
     navigation.goBack()
   }
   return (
-    <LayoutSideColumns>
-      <Wrapper>
-        {isBackArrow && (
-          <View style={{ position: 'absolute', left: 0 }}>
-            <TouchableOpacity onPress={handleBackPress}>
-              <LeftChevron color={colors.Alizarin} />
-            </TouchableOpacity>
+    <View
+      style={{
+        borderBottomColor: colors.Alizarin,
+        borderBottomWidth: isSeperatorLine ? 0.3 : 0,
+        paddingBottom: isLogo ? spacing.xs : spacing.m,
+        paddingTop: isLogo ? spacing.xs : spacing.m,
+      }}
+    >
+      <LayoutSideColumns>
+        <Wrapper>
+          <View
+            style={{
+              position: 'absolute',
+              left: 0,
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            {isBackArrow && (
+              <TouchableOpacity onPress={handleBackPress}>
+                <LeftArrow color={colors.Alizarin} />
+              </TouchableOpacity>
+            )}
+            {pageTitle && (
+              <MainText
+                style={{ marginLeft: spacing.s }}
+                fontType="bold-italic"
+                fontSize="xl"
+              >
+                {pageTitle}
+              </MainText>
+            )}
           </View>
-        )}
-        {isLogo && <HeaderLogo />}
-      </Wrapper>
-    </LayoutSideColumns>
+
+          {isLogo && <HeaderLogo />}
+        </Wrapper>
+      </LayoutSideColumns>
+    </View>
   )
 }
 

@@ -1,8 +1,9 @@
 import { IconProps } from '@components/atoms/icons/iconPropsType'
+import { colors } from '@constants/theme'
 import * as React from 'react'
 import Svg, { Circle, Path } from 'react-native-svg'
 
-export const ProfileIcon = ({ size, color }: IconProps) => (
+export const ProfileIcon = ({ size, color, secondColor }: IconProps) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Path
       d="M16.5833 7C16.5833 9.34721 14.6805 11.25 12.3333 11.25C9.98611 11.25 8.08332 9.34721 8.08332 7C8.08332 4.65279 9.98611 2.75 12.3333 2.75C14.6805 2.75 16.5833 4.65279 16.5833 7Z"
@@ -14,6 +15,11 @@ export const ProfileIcon = ({ size, color }: IconProps) => (
       stroke={color}
       strokeWidth="1.5"
     />
-    <Circle cx="12.5" cy="17.5" r="1.5" fill="#FF2749" />
+    <Circle
+      cx="12.5"
+      cy="17.5"
+      r="1.5"
+      fill={secondColor ? secondColor : colors.Alizarin}
+    />
   </Svg>
 )

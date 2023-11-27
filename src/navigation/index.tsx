@@ -13,11 +13,12 @@ import { NeedsResultScreen } from '@scene/needsResult'
 import { RecipesResultScreen } from '@scene/recipesResult'
 import { TabBar } from './Tabbar'
 import { SigninScreen } from '@scene/signin'
+import { CreateRecipeSettings } from '@scene/createRecipeSettings'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
 
-const AppNavigator = () => {
+const AppTabbar = () => {
   return (
     <Tab.Navigator
       tabBar={(props) => <TabBar {...props} />}
@@ -51,6 +52,35 @@ const AppNavigator = () => {
         options={{ headerShown: false }}
       />
     </Tab.Navigator>
+  )
+}
+
+const NoTabStack = () => {
+  return (
+    <Stack.Group
+      screenOptions={{
+        headerShown: false,
+        gestureResponseDistance: 250,
+        cardStyle: { backgroundColor: colors.light.PureWhite },
+      }}
+    >
+      <Stack.Screen
+        name="CreateRecipeSettingsScreen"
+        key="CreateRecipeSettingsScreen"
+        component={CreateRecipeSettings}
+      />
+    </Stack.Group>
+  )
+}
+
+const AppStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Main" component={AppTabbar} />
+      <Stack.Group screenOptions={{ headerShown: false }}>
+        {NoTabStack()}
+      </Stack.Group>
+    </Stack.Navigator>
   )
 }
 
@@ -93,7 +123,7 @@ export const MainNavigation = () => {
         {isLoggedIn ? (
           <Stack.Screen
             name="App"
-            component={AppNavigator}
+            component={AppStack}
             options={{ headerShown: false }}
           />
         ) : (

@@ -51,14 +51,16 @@ export const DailyMealsSection = () => {
 
   return (
     <View style={{ marginBottom: spacing.m }}>
-      <SectionTitle
-        title={t('yourDailyMeals')}
-        leftChild={
-          <MainText color={colors.Alizarin} fontType="bold" fontSize="m">
-            1459Kcal
-          </MainText>
-        }
-      />
+      <LayoutSideColumns>
+        <SectionTitle
+          title={t('yourDailyMeals')}
+          leftChild={
+            <MainText color={colors.Alizarin} fontType="bold" fontSize="m">
+              1459Kcal
+            </MainText>
+          }
+        />
+      </LayoutSideColumns>
       <MealLabels activeSlide={activeSlide} mealLabels={mealLabels} />
       <Carousel
         data={mealsData}

@@ -1,10 +1,19 @@
-import React, { useEffect } from 'react'
-import { View, Text } from 'react-native'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { View, Text, useWindowDimensions } from 'react-native'
 import styled, { ThemeProvider } from 'styled-components/native'
 import { useTranslation } from 'react-i18next'
 import './src/translations/i18n.config'
 import { MainNavigation } from './src/navigation'
 import * as Font from 'expo-font'
+import { ActionTray, ActionTrayRef } from '@components/molecules/BottomSheet'
+import {
+  Extrapolate,
+  interpolate,
+  useAnimatedStyle,
+  useDerivedValue,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated'
 
 const Container = styled.View`
   flex: 1;
@@ -30,7 +39,8 @@ const loadCustomFonts = async () => {
   })
 }
 
-export default function App() {
-  const { t } = useTranslation()
+const App = () => {
   return <MainNavigation />
 }
+
+export default App

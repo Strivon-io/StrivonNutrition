@@ -5,6 +5,7 @@ import { ReactNode } from 'react'
 import { LeftArrow } from '@components/atoms/icons/leftArrow'
 import { colors, iconSize, spacing } from '@constants/theme'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { LeftChevron } from '@components/atoms/icons/leftChevron'
 
 interface Props {
   title: string
@@ -24,13 +25,13 @@ export const SectionHeader = ({
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         {isBackArrow && (
           <TouchableOpacity onPress={handleBackArrow}>
-            <LeftArrow size={iconSize.l} color={colors.darker.DarkestBlack} />
+            <LeftChevron size={iconSize.m} color={colors.darker.DarkestBlack} />
           </TouchableOpacity>
         )}
         <MainText
           style={{ marginLeft: isBackArrow ? spacing.s : 0 }}
           fontSize="xl"
-          fontType="bold-italic"
+          fontType="medium"
         >
           {title}
         </MainText>

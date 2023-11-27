@@ -57,8 +57,8 @@ export const PlannifiedMealDays = () => {
 
   return (
     <View style={{ paddingBottom: spacing.m }}>
-      <SectionTitle title={t('yourPlannifiedMealsDays')} />
       <LayoutSideColumns>
+        <SectionTitle title={t('yourPlannifiedMealsDays')} />
         <CalendarCard>
           <Calendar
             dayComponent={({ date, state }) => {
@@ -115,9 +115,7 @@ export const PlannifiedMealDays = () => {
               )
             }
             markedDates={markedDates}
-            onDayPress={(day) => {
-              console.log('selected day', day)
-            }}
+            onDayPress={(day) => {}}
           />
         </CalendarCard>
       </LayoutSideColumns>
