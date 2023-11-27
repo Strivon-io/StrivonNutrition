@@ -4,6 +4,7 @@ import { colors, spacing, spacingPx } from '../../constants/theme'
 import { styled } from 'styled-components/native'
 import { MainText } from '../atoms/mainText'
 import { HomeIcon } from '@navigation/icons/homeIcon'
+import { css } from 'styled-components'
 
 interface InputProps {
   placeholder?: string
@@ -36,7 +37,6 @@ export const MainInput = ({
   style = {},
   textColor,
   fontType,
-  leftIcon,
 }: InputProps) => {
   return (
     <View style={style}>
@@ -45,7 +45,7 @@ export const MainInput = ({
           {label}
         </MainText>
       )}
-      <StyledInput
+      <Style
         placeholder={placeholder}
         placeholderTextColor={colors.medium.LinkWater}
         keyboardType={keyboardType}
@@ -59,7 +59,7 @@ export const MainInput = ({
   )
 }
 
-const StyledInput = styled(TextInput)<{ textColor: string; fontType: string }>`
+export const InputStyle = css<{ textColor: string; fontType: string }>`
   width: 100%;
   padding: ${spacingPx.s};
   margin: ${spacingPx.xs} 0;
@@ -74,4 +74,8 @@ const StyledInput = styled(TextInput)<{ textColor: string; fontType: string }>`
       : 'AvenirNext-Medium'};
   color: ${(props) =>
     props.textColor ? props.textColor : colors.darker.DarkestBlack};
+`
+
+const Style = styled(TextInput)<{ textColor: string; fontType: string }>`
+  ${InputStyle}
 `

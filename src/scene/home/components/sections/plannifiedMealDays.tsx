@@ -115,9 +115,7 @@ export const PlannifiedMealDays = () => {
               )
             }
             markedDates={markedDates}
-            onDayPress={(day) => {
-              console.log('selected day', day)
-            }}
+            onDayPress={(day) => {}}
           />
         </CalendarCard>
       </LayoutSideColumns>

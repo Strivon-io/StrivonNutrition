@@ -1,5 +1,17 @@
-import React, { Dispatch, SetStateAction, useState, useRef } from 'react'
-import { colors, iconSize, spacing, spacingPx } from '@constants/theme'
+import React, {
+  Dispatch,
+  SetStateAction,
+  useState,
+  useRef,
+  useEffect,
+} from 'react'
+import {
+  boxShadow,
+  colors,
+  iconSize,
+  spacing,
+  spacingPx,
+} from '@constants/theme'
 import {
   View,
   TouchableOpacity,
@@ -24,9 +36,11 @@ import { InputWithIcon } from './components/molecules/inputWithIcon'
 import { AddIngredientSection } from './components/sections/addIngredientSection'
 import { DietaryRestrictionsSection } from './components/sections/dietaryRestrictionsSection'
 import { NumberOfCaloriesSection } from './components/sections/numberOfCaloriesSection'
+import { isSmallScreen } from '@utils/deviceDetector'
 
 export const CreateRecipeSettings = () => {
   const [ingredients, setIngredients] = useState([])
+  const [onlyUseIngredients, setOnlyUseIngredients] = useState(false)
   const [calories, setCalories] = useState('')
   const [dietaryRestrictions, setDietaryRestrictions] = useState([])
 
@@ -59,6 +73,13 @@ export const CreateRecipeSettings = () => {
       setTimeout(() => {
         scrollToBottom()
       }, 100)
+    } else {
+      setIngredients((prevIngredients) => {
+        const updatedIngredients = prevIngredients.filter(
+          (ingredient) => ingredient.trim() !== '',
+        )
+        return updatedIngredients
+      })
     }
   }
 
@@ -69,54 +90,54 @@ export const CreateRecipeSettings = () => {
       isHeader
       useSafeAreaView
     >
-      <LayoutSideColumns>
-        <ScrollView>
+      <LayoutSideColumns style={{ height: '100%' }}>
+        <View style={{ marginBottom: spacing.m }}>
           <AddIngredientSection
             ingredients={ingredients}
             handleNewIngredientSubmit={handleNewIngredientSubmit}
             handleIngredientChange={handleIngredientChange}
             removeIngredient={removeIngredient}
+            onlyUseIngredients={onlyUseIngredients}
+            setOnlyUseIngredients={setOnlyUseIngredients}
           />
-          <DietaryRestrictionsSection />
+        </View>
+        <View style={{ marginBottom: spacing.m }}>
+          <DietaryRestrictionsSection
+            dietaryRestrictions={dietaryRestrictions}
+            setDietaryRestrictions={setDietaryRestrictions}
+          />
+        </View>
+        <View style={{ marginBottom: spacing.m }}>
           <NumberOfCaloriesSection
             calories={calories}
             setCalories={setCalories}
           />
-          <MainButton
-            style={{
-              marginTop: spacing.m,
-            }}
-            onPress={() => {}}
-            label={t('generate')}
-          />
-        </ScrollView>
+        </View>
       </LayoutSideColumns>
+      <ValidateBlockWrapper>
+        <LayoutSideColumns>
+          <View
+            style={{
+              marginBottom: isSmallScreen ? spacing.xs : spacing.l,
+            }}
+          >
+            <View style={{ marginTop: spacing.m }}>
+              <MainButton
+                style={boxShadow}
+                label={t('generate')}
+                onPress={() => {}}
+              />
+            </View>
+          </View>
+        </LayoutSideColumns>
+      </ValidateBlockWrapper>
     </AppLayout>
   )
 }
 
-const StyledInput = styled(TextInput)<{ textColor: string; fontType: string }>`
-  padding-left: ${spacingPx.s};
-  height: 40px;
-  background-color: ${colors.light.AliceBlue};
-  border-radius: ${spacingPx.xs} 0 0 ${spacingPx.xs};
-  font-family: ${(props) =>
-    props.fontType
-      ? `AvenirNext-${
-          props.fontType.substring(0, 1).toUpperCase() +
-          props.fontType.substring(1)
-        }`
-      : 'AvenirNext-Medium'};
-  color: ${(props) =>
-    props.textColor ? props.textColor : colors.darker.DarkestBlack};
-`
-
-const IconInputWrapper = styled(TouchableOpacity)`
-  flex-direction: row;
-  align-items: center;
-  background-color: ${colors.light.AliceBlue};
-  height: 40px;
-  padding: ${spacingPx.xs};
-  margin: ${spacingPx.xs} 0;
-  border-radius: 0 ${spacingPx.xs} ${spacingPx.xs} 0;
+const ValidateBlockWrapper = styled(View)`
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  background-color: ${colors.light.PureWhite};
 `

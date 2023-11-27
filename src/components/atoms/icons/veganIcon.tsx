@@ -45,13 +45,13 @@ export const VeganIcon = ({ color, size }: IconProps) => (
       width="22.7"
       height="22.7"
       rx="11.35"
-      stroke="#848897"
+      stroke={color ? color : colors.light.PureWhite}
       strokeWidth="1.3"
     />
     <Defs>
-      <clipPath id="clip0_337_731">
+      <ClipPath id="clip0_337_731">
         <Rect width="12" height="12" fill="white" transform="translate(6 6)" />
-      </clipPath>
+      </ClipPath>
     </Defs>
   </Svg>
 )

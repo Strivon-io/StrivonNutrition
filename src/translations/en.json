@@ -69,6 +69,7 @@
   "glutenFree": "Gluten free",
   "vegan": "Vegan",
   "vegetarian": "Vegetarian",
-  "Pescatarian": "Pescatarian",
-  "generateRecipe": "Generate a recipe"
+  "pescatarian": "Pescatarian",
+  "generateRecipe": "Generate a recipe",
+  "addIngredientToTheRecipe": "Add ingredient to the recipe"
 }

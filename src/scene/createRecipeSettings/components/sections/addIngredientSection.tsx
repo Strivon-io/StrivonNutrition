@@ -9,6 +9,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import styled from 'styled-components'
 import { InputWithIcon } from '../molecules/inputWithIcon'
 import { PlusIcon } from '@components/atoms/icons/plusIcon'
+import { SectionHeader } from '@components/molecules/sectionHeader'
 
 interface Props {
   ingredients: string[]
@@ -19,6 +20,8 @@ interface Props {
   ) => void
   handleIngredientChange: (text: string, index: number) => void
   removeIngredient: (index: number) => void
+  onlyUseIngredients: boolean
+  setOnlyUseIngredients: Dispatch<SetStateAction<boolean>>
 }
 
 export const AddIngredientSection = ({
@@ -26,6 +29,8 @@ export const AddIngredientSection = ({
   handleNewIngredientSubmit,
   handleIngredientChange,
   removeIngredient,
+  onlyUseIngredients,
+  setOnlyUseIngredients,
 }: Props) => {
   const [newIngredient, setNewIngredient] = useState('')
   const scrollViewRef = useRef<ScrollView>(null)
@@ -37,24 +42,14 @@ export const AddIngredientSection = ({
 
   return (
     <View>
-      <MainText
-        style={{ marginBottom: spacing.xs }}
-        fontType="bold"
-        fontSize="l"
-        onSubmitEditing={() =>
-          handleNewIngredientSubmit(
-            newIngredient,
-            setNewIngredient,
-            scrollToBottom,
-          )
-        }
-      >
-        {t('ingredients')} :
-      </MainText>
+      <SectionHeader title={`${t('ingredient')}s`} />
       <CreateIngredientInputWrapper>
         <MainInput
-          placeholder={t('ingredients')}
-          style={{ width: '90%', marginRight: spacing.s }}
+          placeholder={t('addIngredientToTheRecipe')}
+          style={{
+            width: '80%',
+            marginRight: spacing.s,
+          }}
           value={newIngredient}
           onChangeText={(text) => {
             setNewIngredient(text)
@@ -91,11 +86,16 @@ export const AddIngredientSection = ({
           alignItems: 'center',
         }}
       >
-        <MainCheckbox isChecked={true} setIsChecked={() => {}} />
+        <MainCheckbox
+          isChecked={onlyUseIngredients}
+          setIsChecked={() => {
+            setOnlyUseIngredients(!onlyUseIngredients)
+          }}
+        />
         <MainText
           style={{ marginLeft: spacing.xs }}
           fontType="medium"
-          color={colors.Alizarin}
+          color={colors.darker.DarkestBlack}
           fontSize="s"
         >
           {t('onlyUseIngredientOfThisList')}
@@ -109,6 +109,7 @@ const CreateIngredientInputWrapper = styled(View)`
   flex-direction: row;
   align-items: center;
   width: 100%;
+  margin-top: ${spacingPx.s};
 `
 
 const IngredientListScrollView = styled(ScrollView)``

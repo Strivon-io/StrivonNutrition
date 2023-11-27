@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     width: '95%',
     position: 'absolute',
-    bottom: 20,
+    bottom: 0,
     borderCurve: 'continuous',
     alignSelf: 'center',
   },

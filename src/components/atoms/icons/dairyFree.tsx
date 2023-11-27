@@ -12,9 +12,9 @@ export const DairyFreeIcon = ({ color, size }: IconProps) => (
       />
     </G>
     <Defs>
-      <clipPath id="clip0_336_8">
+      <ClipPath id="clip0_336_8">
         <Rect width="24" height="24" fill="white" />
-      </clipPath>
+      </ClipPath>
     </Defs>
   </Svg>
 )

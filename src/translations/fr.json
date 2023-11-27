@@ -70,5 +70,6 @@
   "vegan": "Végan",
   "vegetarian": "Végétarien",
   "pescatarian": "Pescétarien",
-  "generateRecipe": "Générer une recette"
+  "generateRecipe": "Générer une recette",
+  "addIngredientToTheRecipe": "Ajouter un ingrédient à la recette"
 }

@@ -3,7 +3,7 @@ import { ClipPath, Defs, G, Path, Rect, Svg } from 'react-native-svg'
 import { colors } from '../../../constants/theme'
 import { IconProps } from './iconPropsType'
 
-export const VegetarianIcon = ({ color, size }: IconProps) => (
+export const PescetarianIcon = ({ color, size }: IconProps) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <G clipPath="url(#clip0_337_732)">
       <Path
