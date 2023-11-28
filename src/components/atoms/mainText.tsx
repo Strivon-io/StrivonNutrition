@@ -35,7 +35,6 @@ export const MainText = ({
       underline={underline}
       underlineColor={underlineColor}
       textAlign={textAlign}
-      onSubmitEditing={onSubmitEditing}
     >
       {children}
     </MainTextStyled>

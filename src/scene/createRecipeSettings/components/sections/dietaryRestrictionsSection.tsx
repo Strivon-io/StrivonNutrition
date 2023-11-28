@@ -55,7 +55,7 @@ export const DietaryRestrictionsSection = ({
           flexDirection: 'row',
           columnGap: spacing.xs,
           rowGap: spacing.xs,
-          marginTop: spacing.m,
+          marginTop: spacing.s,
           flexWrap: 'wrap',
         }}
       >

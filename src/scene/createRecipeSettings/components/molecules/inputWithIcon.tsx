@@ -1,5 +1,5 @@
 import { colors, iconSize, spacingPx } from '@constants/theme'
-import { DeleteIcon } from '@navigation/icons/deleteIcon'
+import { CrossIcon } from '@navigation/icons/crossIcon'
 import { TouchableOpacity, View } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import styled from 'styled-components'
@@ -25,7 +25,7 @@ export const InputWithIcon = ({
         onChangeText={(e) => handleIngredientChange(e, index)}
       />
       <IconInputWrapper onPress={() => removeIngredient(index)}>
-        <DeleteIcon size={iconSize.m} color={colors.Alizarin} />
+        <CrossIcon size={iconSize.m} color={colors.Alizarin} />
       </IconInputWrapper>
     </View>
   )

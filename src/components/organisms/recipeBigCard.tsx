@@ -166,14 +166,6 @@ const CardWrapper = styled(View)`
   height: 90%;
 `
 
-const DishImageWrapper = styled(View)`
-  flex: 1;
-  min-height: 140px;
-  width: auto;
-  border-radius: ${spacingPx.s} ${spacingPx.s} 0 0;
-  position: relative;
-`
-
 const DishImage = styled(Image)`
   flex: 1;
   width: 100%;

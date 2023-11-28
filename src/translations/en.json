@@ -71,5 +71,9 @@
   "vegetarian": "Vegetarian",
   "pescatarian": "Pescatarian",
   "generateRecipe": "Generate a recipe",
-  "addIngredientToTheRecipe": "Add ingredient to the recipe"
+  "addIngredientToTheRecipe": "Add ingredient to the recipe",
+  "protein": "Protein",
+  "carbohydrate": "Carbohydrate",
+  "calories": "Calories",
+  "programmeThisRecipe": "Programme this recipe"
 }

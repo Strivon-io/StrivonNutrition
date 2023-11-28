@@ -21,7 +21,7 @@ export const NumberOfCaloriesSection = ({ calories, setCalories }: Props) => {
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          marginTop: spacing.m,
+          marginTop: spacing.s,
         }}
       >
         <CustomInput

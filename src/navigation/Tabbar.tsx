@@ -13,7 +13,7 @@ import { isSmallScreen } from '@utils/deviceDetector'
 export const TabBar = ({ state, descriptors, navigation }) => {
   const icons = {
     Home: <HomeIcon size={iconSize.m} />,
-    Recipe: <RecipeIcon size={iconSize.m} />,
+    Recipes: <RecipeIcon size={iconSize.m} />,
     Schedule: <ScheduleIcon size={iconSize.m} />,
     Profile: <ProfileIcon size={iconSize.m} />,
   }
