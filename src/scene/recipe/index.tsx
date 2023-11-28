@@ -33,7 +33,7 @@ export const RecipeScreen = ({ route }) => {
   const { t } = useTranslation()
 
   const markdownContent = `
-  ## Ingrédients
+  ## **Ingrédients**
   
   - Blancs de poulet cuits et tranchés
   - Laitue romaine hachée
@@ -47,7 +47,7 @@ export const RecipeScreen = ({ route }) => {
   - Olives noires dénoyautées
   - Quelques feuilles de basilic frais
   
-  ## Vinaigrette
+  ## **Vinaigrette**
   
   - Huile d'olive extra vierge
   - Vinaigre balsamique
@@ -55,7 +55,7 @@ export const RecipeScreen = ({ route }) => {
   - Miel
   - Sel et poivre
   
-  ## Instructions
+  ## **Instructions**
   
   1. **Préparez la vinaigrette :** Dans un petit bol, mélangez l'huile d'olive, le vinaigre balsamique, la moutarde de Dijon, le miel, le sel et le poivre. Fouettez jusqu'à obtenir une consistance homogène.
   
@@ -99,7 +99,7 @@ export const RecipeScreen = ({ route }) => {
 
   return (
     <>
-      <Animated.ScrollView onScroll={scrollHandler} scrollEventThrottle={16}>
+      <Animated.ScrollView onScroll={scrollHandler} scrollEventThrottle={10}>
         <Animated.View style={ImageSection}>
           <IconInputWrapper onPress={handleBackPress}>
             <CrossIcon size={iconSize.m} color={colors.Alizarin} />

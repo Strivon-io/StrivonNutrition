@@ -6,6 +6,7 @@
     "@shopify/flash-list": "1.4.3",
     "@types/react-native-snap-carousel": "^3.8.8",
     "add": "^2.0.6",
+    "date-fns": "^2.30.0",
     "expo": "^49.0.3",
     "expo-font": "~11.4.0",
     "i18next": "^23.6.0",

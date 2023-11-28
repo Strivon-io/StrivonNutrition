@@ -75,5 +75,7 @@
   "protein": "Protein",
   "carbohydrate": "Carbohydrate",
   "calories": "Calories",
-  "programmeThisRecipe": "Programme this recipe"
+  "programmeThisRecipe": "Programme this recipe",
+  "Scheduling": "Scheduling",
+  "profile": "Profile"
 }
