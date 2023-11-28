@@ -36,6 +36,7 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated'
 import { CreateRecipeFirstStep } from './components/bottomSheetContent/createRecipeFirstStep'
+import { isBigScreen, isSmallScreen } from '@utils/deviceDetector'
 
 export const RecipesScreen = () => {
   const { t } = useTranslation()
@@ -64,6 +65,48 @@ export const RecipesScreen = () => {
       imagePath: require('@assets/recipeImages/exempleOfRecipe.png'),
       tags: ['snack'],
       uuid: '3',
+    },
+    {
+      title: 'Grilled Chicken and Vegetable Salad',
+      kcal: 240,
+      imagePath: require('@assets/recipeImages/exempleOfRecipe.png'),
+      tags: ['meal'],
+      uuid: '4',
+    },
+    {
+      title: 'Grilled Chicken and Vegetable Salad',
+      kcal: 240,
+      imagePath: require('@assets/recipeImages/exempleOfRecipe.png'),
+      tags: ['meal'],
+      uuid: '5',
+    },
+    {
+      title: 'Grilled Chicken and Vegetable Salad',
+      kcal: 240,
+      imagePath: require('@assets/recipeImages/exempleOfRecipe.png'),
+      tags: ['meal'],
+      uuid: '6',
+    },
+    {
+      title: 'Grilled Chicken and Vegetable Salad',
+      kcal: 240,
+      imagePath: require('@assets/recipeImages/exempleOfRecipe.png'),
+      tags: ['meal'],
+      uuid: '7',
+    },
+    {
+      title: 'Grilled Chicken and Vegetable Salad',
+      kcal: 240,
+      imagePath: require('@assets/recipeImages/exempleOfRecipe.png'),
+      tags: ['meal'],
+      uuid: '8',
+    },
+    {
+      title: 'Grilled Chicken and Vegetable Salad',
+      kcal: 240,
+      imagePath: require('@assets/recipeImages/exempleOfRecipe.png'),
+      tags: ['meal'],
+      uuid: '9',
     },
   ]
 
@@ -142,17 +185,25 @@ export const RecipesScreen = () => {
         </View>
         <FlashListWrapper>
           <FlashList
-            numColumns={2}
+            numColumns={isSmallScreen ? 1 : 2}
+            estimatedItemSize={175}
             data={search ? filteredData : DATA}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={(_, index) => index.toString()}
             renderItem={({ item }) => (
-              <MealSmallCard
-                title={item.title}
-                kcal={item.kcal}
-                imagePath={item.imagePath}
-                tags={item.tags}
-                recipeUuid={item.uuid}
-              />
+              <View
+                style={[
+                  { marginBottom: spacing.xs },
+                  isBigScreen ? { width: 185 } : {},
+                ]}
+              >
+                <MealSmallCard
+                  title={item.title}
+                  kcal={item.kcal}
+                  imagePath={item.imagePath}
+                  tags={item.tags}
+                  recipeUuid={item.uuid}
+                />
+              </View>
             )}
           />
         </FlashListWrapper>
@@ -181,6 +232,5 @@ export const RecipesScreen = () => {
 }
 
 const FlashListWrapper = styled(View)`
-  flex: 1;
   height: 100%;
 `

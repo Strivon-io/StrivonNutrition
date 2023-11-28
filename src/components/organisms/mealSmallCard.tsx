@@ -62,11 +62,10 @@ const TagList = styled(View)`
 
 const MealSmallCardStyled = styled(TouchableOpacity)`
   justify-content: space-between;
-  width: 95%;
+  width: 100%;
   min-height: 170px;
   background-color: ${colors.light.PureWhite};
   border-radius: ${spacingPx.xs};
-  margin: ${spacingPx.xs};
 `
 
 const TitleAndKcal = styled(View)`
