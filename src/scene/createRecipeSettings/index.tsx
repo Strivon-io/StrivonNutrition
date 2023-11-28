@@ -94,10 +94,3 @@ export const CreateRecipeSettingsScreen = () => {
     </AppLayout>
   )
 }
-
-const ValidateBlockWrapper = styled(View)`
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  background-color: transparent;
-`

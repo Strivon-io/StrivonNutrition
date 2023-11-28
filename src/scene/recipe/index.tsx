@@ -21,6 +21,13 @@ import MarkdownText from '@utils/markdownText'
 import Markdown from 'react-native-markdown-display'
 import { useNavigation } from '@react-navigation/native'
 import { BottomFixedButton } from '@components/organisms/bottomFixedButton'
+import Animated, {
+  Extrapolate,
+  interpolate,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated'
 
 export const RecipeScreen = ({ route }) => {
   const { t } = useTranslation()
@@ -68,10 +75,32 @@ export const RecipeScreen = ({ route }) => {
     navigation.goBack()
   }
 
+  const scrollA = useSharedValue(0)
+  const BANNER_H = 150
+
+  const scrollHandler = useAnimatedScrollHandler((event) => {
+    scrollA.value = event.contentOffset.y
+  })
+
+  const ImageSection = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateY: interpolate(
+            scrollA.value,
+            [-BANNER_H, 0, BANNER_H],
+            [-BANNER_H / 2, 0, BANNER_H * 0.75],
+            Extrapolate.CLAMP,
+          ),
+        },
+      ],
+    }
+  })
+
   return (
     <>
-      <ScrollView>
-        <View>
+      <Animated.ScrollView onScroll={scrollHandler} scrollEventThrottle={16}>
+        <Animated.View style={ImageSection}>
           <IconInputWrapper onPress={handleBackPress}>
             <CrossIcon size={iconSize.m} color={colors.Alizarin} />
           </IconInputWrapper>
@@ -80,7 +109,7 @@ export const RecipeScreen = ({ route }) => {
             resizeMode="cover"
           />
           <Overlay />
-        </View>
+        </Animated.View>
         <LayoutSideColumns style={{ marginBottom: spacing.l }}>
           <RecipeTitleAndInformations
             title={'Salade aux poulet et au multiple légumes'}
@@ -94,7 +123,7 @@ export const RecipeScreen = ({ route }) => {
             <Markdown style={markdownStyles}>{markdownContent}</Markdown>
           </IntrudctionWrapper>
         </LayoutSideColumns>
-      </ScrollView>
+      </Animated.ScrollView>
       <BottomFixedButton label={t('programmeThisRecipe')} onPress={() => {}} />
     </>
   )

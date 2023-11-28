@@ -57,4 +57,5 @@ const RecipeNameAndInformations = styled(View)`
   transform: translateY(-80px);
   border-radius: ${spacingPx.xs};
   padding: ${spacingPx.m};
+  z-index: 100;
 `
