@@ -109,7 +109,7 @@ const CreateIngredientInputWrapper = styled(View)`
   flex-direction: row;
   align-items: center;
   width: 100%;
-  margin-top: ${spacingPx.s};
+  margin-top: ${spacingPx.xs};
 `
 
 const IngredientListScrollView = styled(ScrollView)``

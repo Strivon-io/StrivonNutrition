@@ -35,20 +35,13 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated'
-import { MainButton } from '@components/molecules/mainButton'
-import { CameraIcon } from '@navigation/icons/cameraIcon'
-import { HomeIcon } from '@navigation/icons/homeIcon'
-import { EditIcon } from '@navigation/icons/editIcon'
 import { CreateRecipeFirstStep } from './components/bottomSheetContent/createRecipeFirstStep'
-import { MainInput } from '@components/molecules/mainInput'
 
 export const RecipesScreen = () => {
   const { t } = useTranslation()
   const [search, setSearch] = useState('')
   const [filteredData, setFilteredData] = useState([])
-
   const [modaleHeight, setModaleHeight] = useState(450)
-  const [calories, setCalories] = useState('')
 
   const DATA = [
     {
@@ -56,18 +49,21 @@ export const RecipesScreen = () => {
       kcal: 240,
       imagePath: require('@assets/recipeImages/exempleOfRecipe.png'),
       tags: ['meal'],
+      uuid: '1',
     },
     {
       title: 'Grilled Chicken and Vegetable Salad',
       kcal: 240,
       imagePath: require('@assets/recipeImages/exempleOfRecipe.png'),
       tags: ['breakfast', 'snack'],
+      uuid: '2',
     },
     {
       title: 'Grilled Chicken and Vegetable Salad',
       kcal: 240,
       imagePath: require('@assets/recipeImages/exempleOfRecipe.png'),
       tags: ['snack'],
+      uuid: '3',
     },
   ]
 
@@ -155,6 +151,7 @@ export const RecipesScreen = () => {
                 kcal={item.kcal}
                 imagePath={item.imagePath}
                 tags={item.tags}
+                recipeUuid={item.uuid}
               />
             )}
           />

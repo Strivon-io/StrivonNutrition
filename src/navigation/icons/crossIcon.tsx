@@ -2,7 +2,7 @@ import { IconProps } from '@components/atoms/icons/iconPropsType'
 import * as React from 'react'
 import Svg, { ClipPath, Defs, G, Path, Rect } from 'react-native-svg'
 
-export const DeleteIcon = ({ size, color }: IconProps) => (
+export const CrossIcon = ({ size, color }: IconProps) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <G clip-path="url(#clip0_323_9)">
       <Path

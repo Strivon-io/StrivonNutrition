@@ -71,5 +71,9 @@
   "vegetarian": "Végétarien",
   "pescatarian": "Pescétarien",
   "generateRecipe": "Générer une recette",
-  "addIngredientToTheRecipe": "Ajouter un ingrédient à la recette"
+  "addIngredientToTheRecipe": "Ajouter un ingrédient à la recette",
+  "protein": "Protéines",
+  "carbohydrate": "Glucides",
+  "calories": "Calories",
+  "programmeThisRecipe": "Programmer cette recette"
 }

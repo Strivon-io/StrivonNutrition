@@ -13,7 +13,8 @@ import { NeedsResultScreen } from '@scene/needsResult'
 import { RecipesResultScreen } from '@scene/recipesResult'
 import { TabBar } from './Tabbar'
 import { SigninScreen } from '@scene/signin'
-import { CreateRecipeSettings } from '@scene/createRecipeSettings'
+import { CreateRecipeSettingsScreen } from '@scene/createRecipeSettings'
+import { RecipeScreen } from '@scene/recipe'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -37,7 +38,7 @@ const AppTabbar = () => {
         }}
       />
       <Tab.Screen
-        name="Recipe"
+        name="Recipes"
         component={RecipesScreen}
         options={{ headerShown: false }}
       />
@@ -61,13 +62,19 @@ const NoTabStack = () => {
       screenOptions={{
         headerShown: false,
         gestureResponseDistance: 250,
-        cardStyle: { backgroundColor: colors.light.PureWhite },
       }}
     >
       <Stack.Screen
         name="CreateRecipeSettingsScreen"
         key="CreateRecipeSettingsScreen"
-        component={CreateRecipeSettings}
+        component={CreateRecipeSettingsScreen}
+        options={{ cardStyle: { backgroundColor: colors.light.PureWhite } }}
+      />
+      <Stack.Screen
+        name="RecipeScreen"
+        key="RecipeScreen"
+        options={{ cardStyle: { backgroundColor: colors.light.WhiteSmoke } }}
+        component={RecipeScreen}
       />
     </Stack.Group>
   )

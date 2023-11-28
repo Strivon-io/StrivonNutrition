@@ -1,8 +1,10 @@
 import { MainText } from '@components/atoms/mainText'
 import Tag from '@components/atoms/tag'
 import { boxShadow, colors, spacingPx } from '@constants/theme'
-import { Image, ImageSourcePropType } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
+import { Image, ImageSourcePropType, Touchable } from 'react-native'
 import { View } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import styled from 'styled-components'
 
 interface Props {
@@ -10,11 +12,24 @@ interface Props {
   kcal: number
   imagePath: ImageSourcePropType
   tags: ('breakfast' | 'meal' | 'snack')[]
+  recipeUuid: string
 }
 
-export const MealSmallCard = ({ title, kcal, imagePath, tags }: Props) => {
+export const MealSmallCard = ({
+  title,
+  kcal,
+  imagePath,
+  tags,
+  recipeUuid,
+}: Props) => {
+  const navigation = useNavigation()
+
+  const navigateToRecette = (recipeUuid: string) => {
+    navigation.navigate('RecipeScreen', { recipeUuid })
+  }
+
   return (
-    <MealSmallCardStyled>
+    <MealSmallCardStyled onPress={() => navigateToRecette(recipeUuid)}>
       <DishImage source={imagePath} resizeMode="cover" />
       <TitleAndKcal>
         <MainText
@@ -45,7 +60,7 @@ const TagList = styled(View)`
   row-gap: 4px;
 `
 
-const MealSmallCardStyled = styled(View)`
+const MealSmallCardStyled = styled(TouchableOpacity)`
   justify-content: space-between;
   width: 95%;
   min-height: 170px;
