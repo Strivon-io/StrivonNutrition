@@ -2,7 +2,27 @@ module.exports = function (api) {
   api.cache(true);
   return {
     presets: ["babel-preset-expo"],
-    presets: ["module:metro-react-native-babel-preset"],
-    plugins: ["react-native-reanimated/plugin"],
+    plugins: [
+      [
+        "module-resolver",
+        {
+          root: ["./"],
+          alias: {
+            "^~(.+)": "./app/\\1",
+          },
+          extensions: [
+            ".ios.js",
+            ".android.js",
+            ".js",
+            ".jsx",
+            ".json",
+            ".tsx",
+            ".ts",
+            ".native.js",
+          ],
+        },
+      ],
+      "react-native-reanimated/plugin",
+    ],
   };
 };

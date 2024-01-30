@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { AppState, Platform, View, Text } from "react-native";
 import { useFonts } from "expo-font";
 import Constants from "expo-constants";
@@ -6,9 +6,9 @@ import * as SplashScreen from "expo-splash-screen";
 import { enableScreens } from "react-native-screens";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-import "./src/translations/i18n.config";
+import "~translations/i18n.config";
 
-import { AppNavigator } from "./src/navigators/app-navigator";
+import { AppNavigator } from "~navigators/app-navigator";
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -19,10 +19,10 @@ export default function App() {
   const appState = useRef(AppState.currentState);
 
   let [fontsLoaded] = useFonts({
-    "avenir-regular": require("./src/assets/fonts/Avenir-Next-Regular.otf"),
-    "avenir-medium": require("./src/assets/fonts/Avenir-Next-Medium.ttf"),
-    "avenir-bold": require("./src/assets/fonts/Avenir-Next-Bold.otf"),
-    "avenir-bold-italic": require("./src/assets/fonts/Avenir-Next-Bold-Italic.ttf"),
+    "avenir-regular": require("./assets/fonts/Avenir-Next-Regular.otf"),
+    "avenir-medium": require("./assets/fonts/Avenir-Next-Medium.ttf"),
+    "avenir-bold": require("./assets/fonts/Avenir-Next-Bold.otf"),
+    "avenir-bold-italic": require("./assets/fonts/Avenir-Next-Bold-Italic.ttf"),
   });
 
   useEffect(() => {
