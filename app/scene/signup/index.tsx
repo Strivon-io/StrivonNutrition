@@ -1,14 +1,14 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import { View, TouchableOpacity, ScrollView } from "react-native";
+import { useState, FC } from "react";
+import { View } from "react-native";
 import { styled } from "styled-components";
-
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useTranslation } from "react-i18next";
-import { isSmallScreen } from "~utils/deviceDetector";
 
+import { NavigatorParamList } from "~navigators/app-navigator";
+import { isSmallScreen } from "~utils/deviceDetector";
 import { AppLayout } from "~components/layout/layout";
 import { SectionHeader } from "~components/molecules/sectionHeader";
 import { spacingPx } from "~constants/theme";
-
 import { MainText } from "~components/atoms/mainText";
 
 import { ValidateFormBlock } from "./components/validateFormBlock";
@@ -17,7 +17,11 @@ import { StepTwo } from "./components/stepTwo";
 
 import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
 
-export const SignupScreen = ({ navigation }) => {
+type SignUpScreenProps = NativeStackScreenProps<NavigatorParamList, "signUp">;
+
+export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
+  const { t } = useTranslation();
+
   const [signUpStep, setSignUpStep] = useState(0);
   const [isChecked, setIsChecked] = useState(false);
   const [gender, setGender] = useState<"female" | "male" | null>(null);
@@ -29,96 +33,46 @@ export const SignupScreen = ({ navigation }) => {
     isBeforeFinalStep && setSignUpStep(signUpStep + 1);
     !isBeforeFinalStep && navigation.navigate("needsResult");
   };
+
   const handleCheck = () => setIsChecked(!isChecked);
-  return (
-    <>
-      <AppLayout useSafeAreaView isHeaderLogo isBackArrow>
-        {isSmallScreen ? (
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <RenderedContent
-              signUpStep={signUpStep}
-              setSignUpStep={setSignUpStep}
-              gender={gender}
-              setGender={setGender}
-              goal={goal}
-              setGoal={setGoal}
-            />
-          </ScrollView>
-        ) : (
-          <RenderedContent
-            signUpStep={signUpStep}
-            setSignUpStep={setSignUpStep}
-            gender={gender}
-            setGender={setGender}
-            goal={goal}
-            setGoal={setGoal}
-          />
-        )}
-        <ValidateFormBlock
-          signUpStep={signUpStep}
-          handleValidate={handleValidate}
-          isChecked={isChecked}
-          handleCheck={handleCheck}
-        />
-      </AppLayout>
-    </>
-  );
-};
-
-interface Props {
-  signUpStep: number;
-  setSignUpStep: Dispatch<SetStateAction<number>>;
-  gender: string | null;
-  setGender: Dispatch<SetStateAction<string>>;
-  goal: string | null;
-  setGoal: Dispatch<SetStateAction<string>>;
-}
-
-const RenderedContent = ({
-  signUpStep,
-  setSignUpStep,
-  gender,
-  setGender,
-  goal,
-  setGoal,
-}: Props) => {
-  const { t } = useTranslation();
 
   const handleBackArrow = () => {
     setSignUpStep(signUpStep - 1);
   };
 
   return (
-    <Wrapper>
-      <LayoutSideColumns>
-        <SectionHeader
-          title={t("my-informations")}
-          sideElement={
-            <MainText fontType="bold-italic">{`(${
-              signUpStep + 1
-            }/2)`}</MainText>
-          }
-          handleBackArrow={handleBackArrow}
-          isBackArrow={signUpStep > 0}
-        />
-
-        {signUpStep === 0 && <StepOne />}
-        {signUpStep === 1 && (
-          <StepTwo
-            gender={gender}
-            setGender={setGender}
-            goal={goal}
-            setGoal={setGoal}
+    <AppLayout useSafeAreaView isHeaderLogo isBackArrow>
+      <Wrapper>
+        <LayoutSideColumns>
+          <SectionHeader
+            title={t("my-informations")}
+            sideElement={
+              <MainText fontType="bold-italic">{`(${
+                signUpStep + 1
+              }/2)`}</MainText>
+            }
+            handleBackArrow={handleBackArrow}
+            isBackArrow={signUpStep > 0}
           />
-        )}
-      </LayoutSideColumns>
-    </Wrapper>
+
+          {signUpStep === 0 && <StepOne />}
+          {signUpStep === 1 && (
+            <StepTwo
+              gender={gender}
+              setGender={setGender}
+              goal={goal}
+              setGoal={setGoal}
+            />
+          )}
+        </LayoutSideColumns>
+      </Wrapper>
+      <ValidateFormBlock
+        signUpStep={signUpStep}
+        handleValidate={handleValidate}
+        isChecked={isChecked}
+        handleCheck={handleCheck}
+      />
+    </AppLayout>
   );
 };
 
