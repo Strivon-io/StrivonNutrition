@@ -1,39 +1,35 @@
-import { Dispatch, SetStateAction, useState } from 'react'
-import { View, TouchableOpacity, ScrollView } from 'react-native'
-import { styled } from 'styled-components'
+import { Dispatch, SetStateAction, useState } from "react";
+import { View, TouchableOpacity, ScrollView } from "react-native";
+import { styled } from "styled-components";
 
-import { useTranslation } from 'react-i18next'
-import { isSmallScreen } from '@utils/deviceDetector'
+import { useTranslation } from "react-i18next";
+import { isSmallScreen } from "@utils/deviceDetector";
 
-import { AppLayout } from '@components/layout/layout'
-import { SectionHeader } from '@components/molecules/sectionHeader'
-import { colors, iconSize, spacing, spacingPx } from '@constants/theme'
-import { MainInput } from '@components/molecules/mainInput'
-import { MainText } from '@components/atoms/mainText'
-import { MainButton } from '@components/molecules/mainButton'
-import { MainCheckbox } from '@components/atoms/mainCheckbox'
-import { RightChevron } from '@components/atoms/icons/rightChevron'
-import { ValidateFormBlock } from './components/validateFormBlock'
-import { StepOne } from './components/stepOne'
-import { StepTwo } from './components/stepTwo'
-import { LeftArrow } from '@components/atoms/icons/leftArrow'
-import { LeftChevron } from '@components/atoms/icons/leftChevron'
-import { useNavigation } from '@react-navigation/native'
-import { LayoutSideColumns } from '@components/layout/layoutSideColumns'
+import { AppLayout } from "@components/layout/layout";
+import { SectionHeader } from "@components/molecules/sectionHeader";
+import { spacingPx } from "@constants/theme";
 
-export const SignupScreen = () => {
-  const [signUpStep, setSignUpStep] = useState(0)
-  const [isChecked, setIsChecked] = useState(false)
-  const [gender, setGender] = useState<'female' | 'male' | null>(null)
-  const [goal, setGoal] = useState<'gain' | 'lose' | null>(null)
-  const navigation = useNavigation()
+import { MainText } from "@components/atoms/mainText";
+
+import { ValidateFormBlock } from "./components/validateFormBlock";
+import { StepOne } from "./components/stepOne";
+import { StepTwo } from "./components/stepTwo";
+
+import { LayoutSideColumns } from "@components/layout/layoutSideColumns";
+
+export const SignupScreen = ({ navigation }) => {
+  const [signUpStep, setSignUpStep] = useState(0);
+  const [isChecked, setIsChecked] = useState(false);
+  const [gender, setGender] = useState<"female" | "male" | null>(null);
+  const [goal, setGoal] = useState<"gain" | "lose" | null>(null);
 
   const handleValidate = () => {
-    const isBeforeFinalStep = signUpStep <= 0
-    isBeforeFinalStep && setSignUpStep(signUpStep + 1)
-    !isBeforeFinalStep && navigation.navigate('NeedsResult')
-  }
-  const handleCheck = () => setIsChecked(!isChecked)
+    const isBeforeFinalStep = signUpStep <= 0;
+
+    isBeforeFinalStep && setSignUpStep(signUpStep + 1);
+    !isBeforeFinalStep && navigation.navigate("needsResult");
+  };
+  const handleCheck = () => setIsChecked(!isChecked);
   return (
     <>
       <AppLayout useSafeAreaView isHeaderLogo isBackArrow>
@@ -41,8 +37,8 @@ export const SignupScreen = () => {
           <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
-              alignItems: 'center',
-              justifyContent: 'center',
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             <RenderedContent
@@ -72,16 +68,16 @@ export const SignupScreen = () => {
         />
       </AppLayout>
     </>
-  )
-}
+  );
+};
 
 interface Props {
-  signUpStep: number
-  setSignUpStep: Dispatch<SetStateAction<number>>
-  gender: string | null
-  setGender: Dispatch<SetStateAction<string>>
-  goal: string | null
-  setGoal: Dispatch<SetStateAction<string>>
+  signUpStep: number;
+  setSignUpStep: Dispatch<SetStateAction<number>>;
+  gender: string | null;
+  setGender: Dispatch<SetStateAction<string>>;
+  goal: string | null;
+  setGoal: Dispatch<SetStateAction<string>>;
 }
 
 const RenderedContent = ({
@@ -92,17 +88,17 @@ const RenderedContent = ({
   goal,
   setGoal,
 }: Props) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   const handleBackArrow = () => {
-    setSignUpStep(signUpStep - 1)
-  }
+    setSignUpStep(signUpStep - 1);
+  };
 
   return (
     <Wrapper>
       <LayoutSideColumns>
         <SectionHeader
-          title={t('my-informations')}
+          title={t("my-informations")}
           sideElement={
             <MainText fontType="bold-italic">{`(${
               signUpStep + 1
@@ -123,11 +119,11 @@ const RenderedContent = ({
         )}
       </LayoutSideColumns>
     </Wrapper>
-  )
-}
+  );
+};
 
 const Wrapper = styled(View)`
   width: 100%;
   margin-top: ${isSmallScreen ? spacingPx.xs : spacingPx.m};
   position: relative;
-`
+`;

@@ -1,7 +1,7 @@
 {
   "sign-in": "Se connecter",
   "sign-up": "S'inscrire",
-  "log-in": "Se connecter",
+  "loggin": "Se connecter",
   "email-placeholder": "monsuperemail@gmail.com",
   "password": "Mot de passe",
   "forgot-password": "Mot de passe oublié ?",
@@ -14,7 +14,6 @@
   "name": "Prénom",
   "surname": "Nom",
   "email": "Email",
-  "next": "Suivant",
   "i-accept-the": "J'accepte les",
   "terms-of-use": "conditions d'utilisation",
   "my-size-(in-cm)": "Ma taille (en cm)",

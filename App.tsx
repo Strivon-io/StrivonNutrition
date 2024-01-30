@@ -1,11 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
-import { AppState } from "react-native";
+import { AppState, Platform, View, Text } from "react-native";
 import { useFonts } from "expo-font";
 import Constants from "expo-constants";
+import * as SplashScreen from "expo-splash-screen";
+import { enableScreens } from "react-native-screens";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import "./src/translations/i18n.config";
 
-import { MainNavigation } from "./src/navigation";
+import { AppNavigator } from "./src/navigators/app-navigator";
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [isAppReady, setIsAppReady] = useState(false);
@@ -20,6 +26,10 @@ export default function App() {
   });
 
   useEffect(() => {
+    if (Platform.OS === "ios") {
+      enableScreens(false);
+    }
+
     const subscription = AppState.addEventListener("change", (nextAppState) => {
       appState.current = nextAppState;
     });
@@ -39,5 +49,9 @@ export default function App() {
     return;
   }
 
-  return <MainNavigation />;
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <AppNavigator />
+    </GestureHandlerRootView>
+  );
 }

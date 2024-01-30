@@ -1,18 +1,18 @@
-import { MainText } from '@components/atoms/mainText'
-import Tag from '@components/atoms/tag'
-import { boxShadow, colors, spacingPx } from '@constants/theme'
-import { useNavigation } from '@react-navigation/native'
-import { Image, ImageSourcePropType, Touchable } from 'react-native'
-import { View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import styled from 'styled-components'
+import { MainText } from "@components/atoms/mainText";
+import Tag from "@components/atoms/tag";
+import { boxShadow, colors, spacingPx } from "@constants/theme";
+import { useNavigation } from "@react-navigation/native";
+import { Image, ImageSourcePropType, Touchable } from "react-native";
+import { View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import styled from "styled-components";
 
 interface Props {
-  title: string
-  kcal: number
-  imagePath: ImageSourcePropType
-  tags: ('breakfast' | 'meal' | 'snack')[]
-  recipeUuid: string
+  title: string;
+  kcal: number;
+  imagePath: ImageSourcePropType;
+  tags: ("breakfast" | "meal" | "snack")[];
+  recipeUuid: string;
 }
 
 export const MealSmallCard = ({
@@ -22,11 +22,11 @@ export const MealSmallCard = ({
   tags,
   recipeUuid,
 }: Props) => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const navigateToRecette = (recipeUuid: string) => {
-    navigation.navigate('RecipeScreen', { recipeUuid })
-  }
+    navigation.navigate("recipeScreen", { recipeUuid });
+  };
 
   return (
     <MealSmallCardStyled onPress={() => navigateToRecette(recipeUuid)}>
@@ -50,15 +50,15 @@ export const MealSmallCard = ({
         </TagList>
       </TitleAndKcal>
     </MealSmallCardStyled>
-  )
-}
+  );
+};
 
 const TagList = styled(View)`
   flex-wrap: wrap;
   flex-direction: row;
   column-gap: 4px;
   row-gap: 4px;
-`
+`;
 
 const MealSmallCardStyled = styled(TouchableOpacity)`
   justify-content: space-between;
@@ -66,15 +66,15 @@ const MealSmallCardStyled = styled(TouchableOpacity)`
   min-height: 170px;
   background-color: ${colors.light.PureWhite};
   border-radius: ${spacingPx.xs};
-`
+`;
 
 const TitleAndKcal = styled(View)`
   padding: ${spacingPx.xs};
   row-gap: ${spacingPx.xs};
-`
+`;
 
 const DishImage = styled(Image)`
   width: 100%;
   height: 100px;
   border-radius: ${spacingPx.xs} ${spacingPx.xs} 0 0;
-`
+`;

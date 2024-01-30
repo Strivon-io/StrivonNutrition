@@ -11,7 +11,7 @@ import { SignupScreen } from "../scene/signup";
 import { colors } from "../constants/theme";
 import { NeedsResultScreen } from "@scene/needsResult";
 import { RecipesResultScreen } from "@scene/recipesResult";
-import { TabBar } from "./Tabbar";
+import { TabBar } from "../navigators/Tabbar";
 import { SigninScreen } from "@scene/signin";
 import { CreateRecipeSettingsScreen } from "@scene/createRecipeSettings";
 import { RecipeScreen } from "@scene/recipe";
@@ -123,7 +123,7 @@ const UnauthenticatedApp = () => {
 };
 
 export const MainNavigation = () => {
-  const isLoggedIn = false;
+  const isLoggedIn = true;
   return (
     <NavigationContainer>
       <Stack.Navigator>

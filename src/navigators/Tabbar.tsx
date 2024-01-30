@@ -1,14 +1,14 @@
-import React from 'react'
-import { View, Text, TouchableOpacity, Platform } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
-import { colors, iconSize, spacing, spacingPx } from '@constants/theme'
-import { HomeIcon } from './icons/homeIcon'
-import { RecipeIcon } from './icons/recipeIcon'
-import { ScheduleIcon } from './icons/scheduleIcon'
-import { ProfileIcon } from './icons/profileIcon'
-import { MainText } from '@components/atoms/mainText'
-import { styled } from 'styled-components'
-import { isSmallScreen } from '@utils/deviceDetector'
+import React from "react";
+import { View, Text, TouchableOpacity, Platform } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { colors, iconSize, spacing, spacingPx } from "@constants/theme";
+import { HomeIcon } from "../navigation/icons/homeIcon";
+import { RecipeIcon } from "../navigation/icons/recipeIcon";
+import { ScheduleIcon } from "../navigation/icons/scheduleIcon";
+import { ProfileIcon } from "../navigation/icons/profileIcon";
+import { MainText } from "@components/atoms/mainText";
+import { styled } from "styled-components";
+import { isSmallScreen } from "@utils/deviceDetector";
 
 export const TabBar = ({ state, descriptors, navigation }) => {
   const icons = {
@@ -16,63 +16,63 @@ export const TabBar = ({ state, descriptors, navigation }) => {
     Recipes: <RecipeIcon size={iconSize.m} />,
     Schedule: <ScheduleIcon size={iconSize.m} />,
     Profile: <ProfileIcon size={iconSize.m} />,
-  }
+  };
 
   const tabBarHeight = Platform.select({
     ios: isSmallScreen ? 70 : 100,
     android: 100,
-  })
+  });
 
   return (
     <View
       style={{
-        flexDirection: 'row',
+        flexDirection: "row",
         height: tabBarHeight,
         backgroundColor: colors.light.PureWhite,
         ...boxShadow,
       }}
     >
       {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key]
+        const { options } = descriptors[route.key];
         const label =
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
             : options.title !== undefined
             ? options.title
-            : route.name
+            : route.name;
 
-        const isFocused = state.index === index
+        const isFocused = state.index === index;
 
         const onPress = () => {
           const event = navigation.emit({
-            type: 'tabPress',
+            type: "tabPress",
             target: route.key,
-          })
+          });
 
           if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name)
+            navigation.navigate(route.name);
           }
-        }
+        };
 
         const onLongPress = () => {
           navigation.emit({
-            type: 'tabLongPress',
+            type: "tabLongPress",
             target: route.key,
-          })
-        }
+          });
+        };
 
         const iconColor = isFocused
           ? colors.medium.StormyCloud
-          : colors.medium.LinkWater
+          : colors.medium.LinkWater;
 
         const iconSecondColor = isFocused
           ? colors.Alizarin
-          : colors.medium.LinkWater
+          : colors.medium.LinkWater;
 
         const icon = React.cloneElement(icons[route.name], {
           color: iconColor,
           secondColor: iconSecondColor,
-        })
+        });
 
         return (
           <TabbarWrapper
@@ -94,20 +94,20 @@ export const TabBar = ({ state, descriptors, navigation }) => {
               {label}
             </MainText>
           </TabbarWrapper>
-        )
+        );
       })}
     </View>
-  )
-}
+  );
+};
 
 const TabbarWrapper = styled(TouchableOpacity)`
   flex: 1;
   align-items: center;
   padding-top: ${spacingPx.s};
-`
+`;
 
 const boxShadow = {
-  shadowColor: '#000',
+  shadowColor: "#000",
   shadowOffset: {
     width: 0,
     height: 2,
@@ -115,4 +115,4 @@ const boxShadow = {
   shadowOpacity: 0.25,
   shadowRadius: 3.84,
   elevation: 5,
-}
+};
