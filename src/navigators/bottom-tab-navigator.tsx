@@ -29,7 +29,7 @@ type Route = RouteProp<Record<string, object | undefined>, string>;
 const getTabBarVisibility = (route: Route) => {
   const routeName = getFocusedRouteNameFromRoute(route);
 
-  const hideOnScreens = ["itsTenBut", "ownCards"];
+  const hideOnScreens = ["createRecipeSettings", "recipe"];
 
   const notHidding = hideOnScreens.indexOf(routeName || "") <= -1;
   return notHidding ? "flex" : "none";
