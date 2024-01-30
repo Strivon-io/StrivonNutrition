@@ -1,62 +1,62 @@
-import { DairyFreeIcon } from '@components/atoms/icons/dairyFree'
-import { GlutenFreeIcon } from '@components/atoms/icons/glutenFreeIcon'
-import { PescetarianIcon } from '@components/atoms/icons/pescetarianIcon'
-import { VeganIcon } from '@components/atoms/icons/veganIcon'
-import { VegetarianIcon } from '@components/atoms/icons/vegetarianIcon'
-import { MainCheckbox } from '@components/atoms/mainCheckbox'
-import { MainText } from '@components/atoms/mainText'
-import { SectionHeader } from '@components/molecules/sectionHeader'
-import { colors, iconSize, spacing } from '@constants/theme'
-import React, { Dispatch, ReactNode } from 'react'
-import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { DairyFreeIcon } from "@assets/icons/dairyFree";
+import { GlutenFreeIcon } from "@assets/icons/glutenFreeIcon";
+import { PescetarianIcon } from "@assets/icons/pescetarianIcon";
+import { VeganIcon } from "@assets/icons/veganIcon";
+import { VegetarianIcon } from "@assets/icons/vegetarianIcon";
+import { MainCheckbox } from "@components/atoms/mainCheckbox";
+import { MainText } from "@components/atoms/mainText";
+import { SectionHeader } from "@components/molecules/sectionHeader";
+import { colors, iconSize, spacing } from "@constants/theme";
+import React, { Dispatch, ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface Props {
-  dietaryRestrictions: string[]
-  setDietaryRestrictions: (dietaryRestrictions: string[]) => void
+  dietaryRestrictions: string[];
+  setDietaryRestrictions: (dietaryRestrictions: string[]) => void;
 }
 
 const dietaryRestrictionsData = [
   {
-    label: 'dairyFree',
+    label: "dairyFree",
     icon: <DairyFreeIcon color={colors.Alizarin} size={iconSize.m} />,
   },
   {
-    label: 'glutenFree',
+    label: "glutenFree",
     icon: <GlutenFreeIcon color={colors.Alizarin} size={iconSize.m} />,
   },
   {
-    label: 'vegan',
+    label: "vegan",
     icon: <VeganIcon color={colors.Alizarin} size={iconSize.m} />,
   },
   {
-    label: 'vegetarian',
+    label: "vegetarian",
     icon: <VegetarianIcon color={colors.Alizarin} size={iconSize.m} />,
   },
   {
-    label: 'pescatarian',
+    label: "pescatarian",
     icon: (
       <PescetarianIcon color={colors.medium.StormyCloud} size={iconSize.m} />
     ),
   },
-]
+];
 
 export const DietaryRestrictionsSection = ({
   dietaryRestrictions,
   setDietaryRestrictions,
 }: Props) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   return (
     <View>
-      <SectionHeader title={t('dietaryRestrictions')} />
+      <SectionHeader title={t("dietaryRestrictions")} />
       <View
         style={{
-          flexDirection: 'row',
+          flexDirection: "row",
           columnGap: spacing.xs,
           rowGap: spacing.xs,
           marginTop: spacing.s,
-          flexWrap: 'wrap',
+          flexWrap: "wrap",
         }}
       >
         {dietaryRestrictionsData.map((restriction, index) => (
@@ -76,16 +76,16 @@ export const DietaryRestrictionsSection = ({
         ))}
       </View>
     </View>
-  )
-}
+  );
+};
 type SelectorProps = {
-  label: string
-  icon: React.ReactNode
-  isSelected: boolean
-  setDietaryRestrictions: Dispatch<React.SetStateAction<string[]>>
-  dietaryRestrictions: string[]
-  iconColor: string
-}
+  label: string;
+  icon: React.ReactNode;
+  isSelected: boolean;
+  setDietaryRestrictions: Dispatch<React.SetStateAction<string[]>>;
+  dietaryRestrictions: string[];
+  iconColor: string;
+};
 
 const DietaryRestrictionSelector = ({
   label,
@@ -95,26 +95,26 @@ const DietaryRestrictionSelector = ({
   dietaryRestrictions,
   iconColor,
 }: SelectorProps) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   const handleClick = () => {
-    const isLabelInArray = dietaryRestrictions.includes(label)
+    const isLabelInArray = dietaryRestrictions.includes(label);
 
     if (isLabelInArray) {
       setDietaryRestrictions((prev: string[]) =>
-        prev.filter((restriction) => restriction !== label),
-      )
+        prev.filter((restriction) => restriction !== label)
+      );
     } else {
-      setDietaryRestrictions((prev: string[]) => [...prev, label])
+      setDietaryRestrictions((prev: string[]) => [...prev, label]);
     }
-  }
+  };
 
   return (
     <TouchableOpacity
       onPress={handleClick}
       style={{
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: "row",
+        alignItems: "center",
         borderWidth: 1,
         padding: spacing.xs,
         borderRadius: spacing.xs,
@@ -134,5 +134,5 @@ const DietaryRestrictionSelector = ({
         {t(label)}
       </MainText>
     </TouchableOpacity>
-  )
-}
+  );
+};

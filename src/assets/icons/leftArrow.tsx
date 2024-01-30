@@ -1,7 +1,7 @@
-import * as React from 'react'
-import { Path, Svg } from 'react-native-svg'
-import { colors } from '../../../constants/theme'
-import { IconProps } from './iconPropsType'
+import * as React from "react";
+import { Path, Svg } from "react-native-svg";
+import { colors } from "../../constants/theme";
+import { IconProps } from "./iconPropsType";
 
 export const LeftArrow = ({ color, size }: IconProps) => (
   <Svg
@@ -24,4 +24,4 @@ export const LeftArrow = ({ color, size }: IconProps) => (
       strokeLinecap="round"
     />
   </Svg>
-)
+);

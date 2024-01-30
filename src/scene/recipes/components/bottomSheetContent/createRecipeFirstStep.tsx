@@ -6,8 +6,8 @@ import {
   spacing,
   spacingPx,
 } from "@constants/theme";
-import { CameraIcon } from "@navigation/icons/cameraIcon";
-import { EditIcon } from "@navigation/icons/editIcon";
+import { CameraIcon } from "@assets/icons/cameraIcon";
+import { EditIcon } from "@assets/icons/editIcon";
 import { useNavigation } from "@react-navigation/native";
 import { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";

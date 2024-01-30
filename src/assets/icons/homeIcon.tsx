@@ -1,7 +1,7 @@
-import { IconProps } from '@components/atoms/icons/iconPropsType'
-import { colors } from '@constants/theme'
-import * as React from 'react'
-import Svg, { Path } from 'react-native-svg'
+import { IconProps } from "@assets/icons/iconPropsType";
+import { colors } from "@constants/theme";
+import * as React from "react";
+import Svg, { Path } from "react-native-svg";
 
 export const HomeIcon = ({ size, color, secondColor }: IconProps) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
@@ -18,4 +18,4 @@ export const HomeIcon = ({ size, color, secondColor }: IconProps) => (
       strokeLinecap="round"
     />
   </Svg>
-)
+);

@@ -1,7 +1,7 @@
-import * as React from 'react'
-import { Defs, G, Path, Rect, Svg } from 'react-native-svg'
-import { colors } from '../../../constants/theme'
-import { IconProps } from './iconPropsType'
+import * as React from "react";
+import { G, Path, Svg } from "react-native-svg";
+import { colors } from "../../constants/theme";
+import { IconProps } from "./iconPropsType";
 
 export const LoopIcon = ({ color, size }: IconProps) => (
   <Svg height={size} width={size} viewBox="0 0 16 16" fill="none">
@@ -12,4 +12,4 @@ export const LoopIcon = ({ color, size }: IconProps) => (
       />
     </G>
   </Svg>
-)
+);

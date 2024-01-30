@@ -1,7 +1,7 @@
-import { IconProps } from '@components/atoms/icons/iconPropsType'
-import { colors } from '@constants/theme'
-import * as React from 'react'
-import Svg, { Circle, Ellipse, Path } from 'react-native-svg'
+import { IconProps } from "@assets/icons/iconPropsType";
+import { colors } from "@constants/theme";
+import * as React from "react";
+import Svg, { Circle, Ellipse, Path } from "react-native-svg";
 
 export const ScheduleIcon = ({ size, color, secondColor }: IconProps) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
@@ -35,4 +35,4 @@ export const ScheduleIcon = ({ size, color, secondColor }: IconProps) => (
     <Ellipse cx="15.8769" cy="12.9692" rx="0.83077" ry="0.83077" fill={color} />
     <Ellipse cx="15.8769" cy="17.2616" rx="0.83077" ry="0.83077" fill={color} />
   </Svg>
-)
+);

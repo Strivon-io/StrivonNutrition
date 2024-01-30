@@ -1,4 +1,4 @@
-import { RightChevron } from "@components/atoms/icons/rightChevron";
+import { RightChevron } from "@assets/icons/rightChevron";
 import { MainCheckbox } from "@components/atoms/mainCheckbox";
 import { MainText } from "@components/atoms/mainText";
 import { LayoutSideColumns } from "@components/layout/layoutSideColumns";

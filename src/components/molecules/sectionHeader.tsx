@@ -1,17 +1,17 @@
-import { styled } from 'styled-components'
-import { MainText } from '../atoms/mainText'
-import { View } from 'react-native'
-import { ReactNode } from 'react'
-import { LeftArrow } from '@components/atoms/icons/leftArrow'
-import { colors, iconSize, spacing } from '@constants/theme'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import { LeftChevron } from '@components/atoms/icons/leftChevron'
+import { styled } from "styled-components";
+import { MainText } from "../atoms/mainText";
+import { View } from "react-native";
+import { ReactNode } from "react";
+import { LeftArrow } from "@assets/icons/leftArrow";
+import { colors, iconSize, spacing } from "@constants/theme";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { LeftChevron } from "@assets/icons/leftChevron";
 
 interface Props {
-  title: string
-  sideElement?: ReactNode
-  isBackArrow?: boolean
-  handleBackArrow?: () => void
+  title: string;
+  sideElement?: ReactNode;
+  isBackArrow?: boolean;
+  handleBackArrow?: () => void;
 }
 
 export const SectionHeader = ({
@@ -22,7 +22,7 @@ export const SectionHeader = ({
 }: Props) => {
   return (
     <SectionHeaderStyled>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
         {isBackArrow && (
           <TouchableOpacity onPress={handleBackArrow}>
             <LeftChevron size={iconSize.m} color={colors.darker.DarkestBlack} />
@@ -38,11 +38,11 @@ export const SectionHeader = ({
       </View>
       {sideElement}
     </SectionHeaderStyled>
-  )
-}
+  );
+};
 
 const SectionHeaderStyled = styled(View)`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-`
+`;

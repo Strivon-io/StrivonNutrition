@@ -1,11 +1,18 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  getFocusedRouteNameFromRoute,
+  RouteProp,
+} from "@react-navigation/native";
 
 import { HomeScreen } from "@scene/home";
 import { ScheduleScreen } from "@scene/schedule";
 import { ProfileScreen } from "@scene/profile";
-import { colors } from "@constants/theme";
+import { HomeIcon } from "../assets/icons/homeIcon";
+import { RecipeIcon } from "../assets/icons/recipeIcon";
+import { ScheduleIcon } from "../assets/icons/scheduleIcon";
+import { ProfileIcon } from "../assets/icons/profileIcon";
+import { colors, iconSize } from "@constants/theme";
 
-import { TabBar } from "./Tabbar";
 import { RecipesNavigator } from "./recipes-navigator";
 
 export type BottomTabParamList = {
@@ -17,10 +24,21 @@ export type BottomTabParamList = {
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
+type Route = RouteProp<Record<string, object | undefined>, string>;
+
+const getTabBarVisibility = (route: Route) => {
+  const routeName = getFocusedRouteNameFromRoute(route);
+
+  const hideOnScreens = ["itsTenBut", "ownCards"];
+
+  const notHidding = hideOnScreens.indexOf(routeName || "") <= -1;
+  return notHidding ? "flex" : "none";
+};
+
 export const BottomTabNavigator = () => {
   return (
     <BottomTab.Navigator
-      tabBar={(props) => <TabBar {...props} />}
+      initialRouteName="home"
       sceneContainerStyle={{ backgroundColor: colors.light.WhiteSmoke }}
       screenOptions={{
         headerShown: false,
@@ -31,24 +49,78 @@ export const BottomTabNavigator = () => {
       <BottomTab.Screen
         name="home"
         component={HomeScreen}
-        options={{
-          headerShown: false,
-        }}
+        options={({ route }) => ({
+          tabBarLabel: "Home",
+          tabBarStyle: {
+            display: getTabBarVisibility(route),
+          },
+          tabBarIcon: ({ focused }) => (
+            <HomeIcon
+              size={iconSize.m}
+              color={
+                focused ? colors.medium.StormyCloud : colors.medium.LinkWater
+              }
+              secondColor={focused ? colors.Alizarin : colors.medium.LinkWater}
+            />
+          ),
+        })}
       />
       <BottomTab.Screen
         name="recipesNavigator"
         component={RecipesNavigator}
-        options={{ headerShown: false }}
+        options={({ route }) => ({
+          tabBarLabel: "Recipes",
+          tabBarStyle: {
+            display: getTabBarVisibility(route),
+          },
+          tabBarIcon: ({ focused }) => (
+            <RecipeIcon
+              size={iconSize.m}
+              color={
+                focused ? colors.medium.StormyCloud : colors.medium.LinkWater
+              }
+              secondColor={focused ? colors.Alizarin : colors.medium.LinkWater}
+            />
+          ),
+        })}
       />
       <BottomTab.Screen
         name="schedule"
         component={ScheduleScreen}
-        options={{ headerShown: false }}
+        options={({ route }) => ({
+          tabBarLabel: "Schedule",
+          tabBarStyle: {
+            display: getTabBarVisibility(route),
+          },
+          tabBarIcon: ({ focused }) => (
+            <ScheduleIcon
+              size={iconSize.m}
+              color={
+                focused ? colors.medium.StormyCloud : colors.medium.LinkWater
+              }
+              secondColor={focused ? colors.Alizarin : colors.medium.LinkWater}
+            />
+          ),
+        })}
       />
       <BottomTab.Screen
         name="profile"
         component={ProfileScreen}
-        options={{ headerShown: false }}
+        options={({ route }) => ({
+          tabBarLabel: "Profile",
+          tabBarStyle: {
+            display: getTabBarVisibility(route),
+          },
+          tabBarIcon: ({ focused }) => (
+            <ProfileIcon
+              size={iconSize.m}
+              color={
+                focused ? colors.medium.StormyCloud : colors.medium.LinkWater
+              }
+              secondColor={focused ? colors.Alizarin : colors.medium.LinkWater}
+            />
+          ),
+        })}
       />
     </BottomTab.Navigator>
   );

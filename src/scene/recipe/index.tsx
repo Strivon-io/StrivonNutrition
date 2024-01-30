@@ -1,36 +1,36 @@
-import { MainText } from '@components/atoms/mainText'
+import { MainText } from "@components/atoms/mainText";
 import {
   boxShadow,
   colors,
   iconSize,
   spacing,
   spacingPx,
-} from '@constants/theme'
-import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { View, Text, Image, TouchableOpacity } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
-import styled from 'styled-components'
-import { RecipeTitleAndInformations } from './components/organisms/recipeTitleAndInformations'
-import { LayoutSideColumns } from '@components/layout/layoutSideColumns'
-import { MainButton } from '@components/molecules/mainButton'
-import { isSmallScreen } from '@utils/deviceDetector'
-import { LeftArrow } from '@components/atoms/icons/leftArrow'
-import { CrossIcon } from '@navigation/icons/crossIcon'
-import MarkdownText from '@utils/markdownText'
-import Markdown from 'react-native-markdown-display'
-import { useNavigation } from '@react-navigation/native'
-import { BottomFixedButton } from '@components/organisms/bottomFixedButton'
+} from "@constants/theme";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { View, Text, Image, TouchableOpacity } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import styled from "styled-components";
+import { RecipeTitleAndInformations } from "./components/organisms/recipeTitleAndInformations";
+import { LayoutSideColumns } from "@components/layout/layoutSideColumns";
+import { MainButton } from "@components/molecules/mainButton";
+import { isSmallScreen } from "@utils/deviceDetector";
+import { LeftArrow } from "@assets/icons/leftArrow";
+import { CrossIcon } from "@assets/icons/crossIcon";
+import MarkdownText from "@utils/markdownText";
+import Markdown from "react-native-markdown-display";
+import { useNavigation } from "@react-navigation/native";
+import { BottomFixedButton } from "@components/organisms/bottomFixedButton";
 import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
-} from 'react-native-reanimated'
+} from "react-native-reanimated";
 
 export const RecipeScreen = ({ route }) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   const markdownContent = `
   ## **Ingrédients**
@@ -68,19 +68,19 @@ export const RecipeScreen = ({ route }) => {
   5. **Servez :** Garnissez de feuilles de basilic frais avant de servir.
   
   Bon appétit !  
-    `
+    `;
 
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const handleBackPress = () => {
-    navigation.goBack()
-  }
+    navigation.goBack();
+  };
 
-  const scrollA = useSharedValue(0)
-  const BANNER_H = 150
+  const scrollA = useSharedValue(0);
+  const BANNER_H = 150;
 
   const scrollHandler = useAnimatedScrollHandler((event) => {
-    scrollA.value = event.contentOffset.y
-  })
+    scrollA.value = event.contentOffset.y;
+  });
 
   const ImageSection = useAnimatedStyle(() => {
     return {
@@ -90,12 +90,12 @@ export const RecipeScreen = ({ route }) => {
             scrollA.value,
             [-BANNER_H, 0, BANNER_H],
             [-BANNER_H / 2, 0, BANNER_H * 0.75],
-            Extrapolate.CLAMP,
+            Extrapolate.CLAMP
           ),
         },
       ],
-    }
-  })
+    };
+  });
 
   return (
     <>
@@ -105,14 +105,14 @@ export const RecipeScreen = ({ route }) => {
             <CrossIcon size={iconSize.m} color={colors.Alizarin} />
           </IconInputWrapper>
           <DishImage
-            source={require('@assets/recipeImages/exempleOfRecipe.png')}
+            source={require("@assets/recipeImages/exempleOfRecipe.png")}
             resizeMode="cover"
           />
           <Overlay />
         </Animated.View>
         <LayoutSideColumns style={{ marginBottom: spacing.l }}>
           <RecipeTitleAndInformations
-            title={'Salade aux poulet et au multiple légumes'}
+            title={"Salade aux poulet et au multiple légumes"}
             informations={{
               protein: 12,
               carbohydrate: 12,
@@ -124,10 +124,10 @@ export const RecipeScreen = ({ route }) => {
           </IntrudctionWrapper>
         </LayoutSideColumns>
       </Animated.ScrollView>
-      <BottomFixedButton label={t('programmeThisRecipe')} onPress={() => {}} />
+      <BottomFixedButton label={t("programmeThisRecipe")} onPress={() => {}} />
     </>
-  )
-}
+  );
+};
 
 const IntrudctionWrapper = styled(View)`
   ${boxShadow}
@@ -138,12 +138,12 @@ const IntrudctionWrapper = styled(View)`
   background-color: ${colors.light.PureWhite};
   border-radius: ${spacingPx.xs};
   padding: ${spacingPx.m};
-`
+`;
 
 const DishImage = styled(Image)`
   width: 100%;
   height: 300px;
-`
+`;
 
 const Overlay = styled(View)`
   position: absolute;
@@ -152,7 +152,7 @@ const Overlay = styled(View)`
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
-`
+`;
 
 const IconInputWrapper = styled(TouchableOpacity)`
   position: absolute;
@@ -162,7 +162,7 @@ const IconInputWrapper = styled(TouchableOpacity)`
   border-radius: ${spacingPx.xl};
   border-width: 1px;
   border-color: ${colors.Alizarin};
-`
+`;
 
 const markdownStyles = {
   heading1: {
@@ -176,4 +176,4 @@ const markdownStyles = {
   text: {
     lineHeight: 20,
   },
-}
+};

@@ -1,7 +1,7 @@
-import * as React from 'react'
-import { ClipPath, Defs, G, Path, Rect, Svg } from 'react-native-svg'
-import { colors } from '../../../constants/theme'
-import { IconProps } from './iconPropsType'
+import * as React from "react";
+import { ClipPath, Defs, G, Path, Rect, Svg } from "react-native-svg";
+import { colors } from "../../constants/theme";
+import { IconProps } from "./iconPropsType";
 
 export const VeganIcon = ({ color, size }: IconProps) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
@@ -54,4 +54,4 @@ export const VeganIcon = ({ color, size }: IconProps) => (
       </ClipPath>
     </Defs>
   </Svg>
-)
+);

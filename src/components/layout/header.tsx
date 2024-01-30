@@ -1,19 +1,19 @@
-import { View } from 'react-native'
-import { HeaderLogo } from './atoms/headerLogo'
-import { styled } from 'styled-components'
-import { LeftChevron } from '../atoms/icons/leftChevron'
-import { colors, spacing } from '@constants/theme'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import { useNavigation } from '@react-navigation/native'
-import { LayoutSideColumns } from './layoutSideColumns'
-import { LeftArrow } from '@components/atoms/icons/leftArrow'
-import { MainText } from '@components/atoms/mainText'
+import { View } from "react-native";
+import { HeaderLogo } from "./atoms/headerLogo";
+import { styled } from "styled-components";
+import { LeftChevron } from "../../assets/icons/leftChevron";
+import { colors, spacing } from "@constants/theme";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
+import { LayoutSideColumns } from "./layoutSideColumns";
+import { LeftArrow } from "@assets/icons/leftArrow";
+import { MainText } from "@components/atoms/mainText";
 
 interface Props {
-  isLogo?: boolean
-  isBackArrow?: boolean
-  isSeperatorLine?: boolean
-  pageTitle?: string
+  isLogo?: boolean;
+  isBackArrow?: boolean;
+  isSeperatorLine?: boolean;
+  pageTitle?: string;
 }
 
 export const AppHeader = ({
@@ -22,10 +22,10 @@ export const AppHeader = ({
   isSeperatorLine,
   pageTitle,
 }: Props) => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const handleBackPress = () => {
-    navigation.goBack()
-  }
+    navigation.goBack();
+  };
   return (
     <View
       style={{
@@ -39,10 +39,10 @@ export const AppHeader = ({
         <Wrapper>
           <View
             style={{
-              position: 'absolute',
+              position: "absolute",
               left: 0,
-              flexDirection: 'row',
-              alignItems: 'center',
+              flexDirection: "row",
+              alignItems: "center",
             }}
           >
             {isBackArrow && (
@@ -65,12 +65,12 @@ export const AppHeader = ({
         </Wrapper>
       </LayoutSideColumns>
     </View>
-  )
-}
+  );
+};
 
 const Wrapper = styled(View)`
   flex-direction: row;
   align-items: center;
   justify-content: center;
   width: 100%;
-`
+`;

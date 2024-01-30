@@ -1,14 +1,14 @@
-import { colors, iconSize, spacingPx } from '@constants/theme'
-import { CrossIcon } from '@navigation/icons/crossIcon'
-import { TouchableOpacity, View } from 'react-native'
-import { TextInput } from 'react-native-gesture-handler'
-import styled from 'styled-components'
+import { colors, iconSize, spacingPx } from "@constants/theme";
+import { CrossIcon } from "@assets/icons/crossIcon";
+import { TouchableOpacity, View } from "react-native";
+import { TextInput } from "react-native-gesture-handler";
+import styled from "styled-components";
 
 interface Props {
-  ingredient: string
-  index: number
-  handleIngredientChange: (text: string, index: number) => void
-  removeIngredient: (index: number) => void
+  ingredient: string;
+  index: number;
+  handleIngredientChange: (text: string, index: number) => void;
+  removeIngredient: (index: number) => void;
 }
 
 export const InputWithIcon = ({
@@ -18,7 +18,7 @@ export const InputWithIcon = ({
   removeIngredient,
 }: Props) => {
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+    <View style={{ flexDirection: "row", alignItems: "center" }}>
       <StyledInput
         key={index.toString()}
         value={ingredient}
@@ -28,8 +28,8 @@ export const InputWithIcon = ({
         <CrossIcon size={iconSize.m} color={colors.Alizarin} />
       </IconInputWrapper>
     </View>
-  )
-}
+  );
+};
 
 const StyledInput = styled(TextInput)<{ textColor: string; fontType: string }>`
   padding-left: ${spacingPx.s};
@@ -42,10 +42,10 @@ const StyledInput = styled(TextInput)<{ textColor: string; fontType: string }>`
           props.fontType.substring(0, 1).toUpperCase() +
           props.fontType.substring(1)
         }`
-      : 'AvenirNext-Medium'};
+      : "AvenirNext-Medium"};
   color: ${(props) =>
     props.textColor ? props.textColor : colors.darker.DarkestBlack};
-`
+`;
 
 const IconInputWrapper = styled(TouchableOpacity)`
   flex-direction: row;
@@ -55,4 +55,4 @@ const IconInputWrapper = styled(TouchableOpacity)`
   padding: ${spacingPx.xs};
   margin: ${spacingPx.xs} 0;
   border-radius: 0 ${spacingPx.xs} ${spacingPx.xs} 0;
-`
+`;
