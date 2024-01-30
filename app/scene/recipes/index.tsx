@@ -1,32 +1,7 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
-import {
-  View,
-  TouchableOpacity,
-  TextInput,
-  useWindowDimensions,
-} from "react-native"; // Import TextInput
-import { PlusIcon } from "~assets/icons/plusIcon";
-import { MainText } from "~components/atoms/mainText";
-import { AppLayout } from "~components/layout/layout";
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
-import { PageTitle } from "~components/molecules/pageTitle";
-import { MealSmallCard } from "~components/organisms/mealSmallCard";
-import {
-  boxShadow,
-  colors,
-  iconSize,
-  spacing,
-  spacingPx,
-} from "~constants/theme";
+import { useCallback, useMemo, useRef, useState, FC } from "react";
+import { View, TouchableOpacity, useWindowDimensions } from "react-native";
 import { useTranslation } from "react-i18next";
 import { FlashList } from "@shopify/flash-list";
-import { SearchBar } from "~components/molecules/searchBar";
-import styled from "styled-components";
-import { ScrollView } from "react-native-gesture-handler";
-import {
-  MainBottomSheet,
-  bottomSheetRef,
-} from "~components/molecules/BottomSheet";
 import Animated, {
   Extrapolate,
   interpolate,
@@ -35,10 +10,32 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import { CreateRecipeFirstStep } from "./components/bottomSheetContent/createRecipeFirstStep";
+import styled from "styled-components";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
+import { RecipesNavigatorParamList } from "~navigators/recipes-navigator";
+import { PlusIcon } from "~assets/icons/plusIcon";
+import { MainText } from "~components/atoms/mainText";
+import { AppLayout } from "~components/layout/layout";
+import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
+import { PageTitle } from "~components/molecules/pageTitle";
+import { MealSmallCard } from "~components/organisms/mealSmallCard";
+import { colors, iconSize, spacing } from "~constants/theme";
+import { SearchBar } from "~components/molecules/searchBar";
+import {
+  MainBottomSheet,
+  bottomSheetRef,
+} from "~components/molecules/BottomSheet";
 import { isBigScreen, isSmallScreen } from "~utils/deviceDetector";
 
-export const RecipesScreen = () => {
+import { CreateRecipeFirstStep } from "./components/bottomSheetContent/createRecipeFirstStep";
+
+type RecipesScreenProps = NativeStackScreenProps<
+  RecipesNavigatorParamList,
+  "recipes"
+>;
+
+export const RecipesScreen: FC<RecipesScreenProps> = () => {
   const { t } = useTranslation();
   const [search, setSearch] = useState("");
   const [filteredData, setFilteredData] = useState([]);

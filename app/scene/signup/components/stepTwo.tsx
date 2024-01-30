@@ -1,13 +1,12 @@
+import { Dispatch, SetStateAction, FC } from "react";
+import { useTranslation } from "react-i18next";
+import { View } from "react-native";
+import { styled } from "styled-components";
+
 import { MainText } from "~components/atoms/mainText";
 import { MainButton } from "~components/molecules/mainButton";
 import { MainInput } from "~components/molecules/mainInput";
 import { colors, spacing, spacingPx } from "~constants/theme";
-import { isSmallScreen } from "~utils/deviceDetector";
-import { ScrollSafeZone } from "~utils/scrollSafeZone";
-import { Dispatch, SetStateAction } from "react";
-import { useTranslation } from "react-i18next";
-import { ScrollView, View } from "react-native";
-import { styled } from "styled-components";
 
 interface Props {
   gender: string | null;
@@ -16,8 +15,9 @@ interface Props {
   setGoal: Dispatch<SetStateAction<string>>;
 }
 
-export const StepTwo = ({ gender, setGender, goal, setGoal }: Props) => {
+export const StepTwo: FC<Props> = ({ gender, setGender, goal, setGoal }) => {
   const { t } = useTranslation();
+
   return (
     <View style={{ marginTop: spacing.m, marginBottom: spacing.s }}>
       <MainInput

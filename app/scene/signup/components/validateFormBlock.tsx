@@ -1,3 +1,8 @@
+import { FC } from "react";
+import { useTranslation } from "react-i18next";
+import { TouchableOpacity, View } from "react-native";
+import { styled } from "styled-components";
+
 import { RightChevron } from "~assets/icons/rightChevron";
 import { MainCheckbox } from "~components/atoms/mainCheckbox";
 import { MainText } from "~components/atoms/mainText";
@@ -11,10 +16,6 @@ import {
   spacingPx,
 } from "~constants/theme";
 import { isSmallScreen } from "~utils/deviceDetector";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { TouchableOpacity, View } from "react-native";
-import { styled } from "styled-components";
 
 interface Props {
   signUpStep: number;
@@ -23,12 +24,12 @@ interface Props {
   handleCheck: () => void;
 }
 
-export const ValidateFormBlock = ({
+export const ValidateFormBlock: FC<Props> = ({
   signUpStep,
   isChecked,
   handleCheck,
   handleValidate,
-}: Props) => {
+}) => {
   const { t } = useTranslation();
 
   return (

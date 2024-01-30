@@ -1,10 +1,6 @@
-import { AppLayout } from "~components/layout/layout";
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
-import { colors, spacingPx } from "~constants/theme";
+import { FC } from "react";
 import { View, Image } from "react-native";
 import { styled } from "styled-components";
-import { HomeWelcomeSection } from "./components/sections/welcomeSection";
-import { DailyMealsSection } from "./components/sections/dailyMealsSection";
 import Animated, {
   Extrapolate,
   interpolate,
@@ -12,10 +8,21 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
+import { BottomTabParamList } from "~navigators/bottom-tab-navigator";
+import { AppLayout } from "~components/layout/layout";
+import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
+import { colors, spacingPx } from "~constants/theme";
+
+import { HomeWelcomeSection } from "./components/sections/welcomeSection";
+import { DailyMealsSection } from "./components/sections/dailyMealsSection";
 import { GroceryListSection } from "./components/sections/groceryListSection";
 import { PlannifiedMealDays } from "./components/sections/plannifiedMealDays";
 
-export const HomeScreen = () => {
+type HomeScreenProps = NativeStackScreenProps<BottomTabParamList, "home">;
+
+export const HomeScreen: FC<HomeScreenProps> = () => {
   const scrollA = useSharedValue(0);
   const BANNER_H = 350;
 

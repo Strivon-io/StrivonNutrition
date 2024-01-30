@@ -1,11 +1,14 @@
 import { View } from "react-native";
+import { useTranslation } from "react-i18next";
+import { FC } from "react";
+
 import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
 import { MainText } from "~components/atoms/mainText";
 import { spacing } from "~constants/theme";
-import { useTranslation } from "react-i18next";
 
-export const HomeWelcomeSection = () => {
+export const HomeWelcomeSection: FC = () => {
   const { t } = useTranslation();
+
   return (
     <View style={[{ marginBottom: spacing.m }]}>
       <LayoutSideColumns>

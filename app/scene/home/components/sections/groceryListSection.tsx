@@ -1,14 +1,15 @@
-import React, { useState } from "react";
-import { MainCheckbox } from "~components/atoms/mainCheckbox";
-import { MainText } from "~components/atoms/mainText";
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
-import { SectionTitle } from "~components/organisms/sectionTitle";
-import { colors, spacing, spacingPx } from "~constants/theme";
+import { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, TouchableOpacity } from "react-native";
 import styled from "styled-components";
 
-export const GroceryListSection = () => {
+import { MainCheckbox } from "~components/atoms/mainCheckbox";
+import { MainText } from "~components/atoms/mainText";
+import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
+import { SectionTitle } from "~components/organisms/sectionTitle";
+import { spacing, spacingPx } from "~constants/theme";
+
+export const GroceryListSection: FC = () => {
   const { t } = useTranslation();
 
   const initialGroceryList = [
@@ -19,7 +20,7 @@ export const GroceryListSection = () => {
 
   const [groceryList, setGroceryList] = useState(initialGroceryList);
 
-  const toggleCheckbox = (itemId) => {
+  const toggleCheckbox = (itemId: number) => {
     const updatedList = groceryList.map((item) =>
       item.id === itemId ? { ...item, isChecked: !item.isChecked } : item
     );
@@ -31,7 +32,10 @@ export const GroceryListSection = () => {
       <LayoutSideColumns>
         <SectionTitle title={t("yourGroceryList")} />
         {groceryList.map((item) => (
-          <TouchableOpacity onPress={() => toggleCheckbox(item.id)}>
+          <TouchableOpacity
+            onPress={() => toggleCheckbox(item.id)}
+            key={item.id}
+          >
             <ElementWrapper key={item.id}>
               <MainCheckbox
                 isChecked={item.isChecked}

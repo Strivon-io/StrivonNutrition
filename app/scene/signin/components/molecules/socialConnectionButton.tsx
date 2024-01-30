@@ -1,22 +1,23 @@
-import React, { ReactNode } from "react";
+import { ReactNode, FC } from "react";
 import { TouchableOpacity, ViewStyle } from "react-native";
-import { MainText } from "~components/atoms/mainText";
-import { colors, spacing, spacingPx } from "~constants/theme";
 import { styled } from "styled-components";
 
-interface SocialNetworkConnectionButtonProps {
-  onPress: () => void;
+import { MainText } from "~components/atoms/mainText";
+import { colors, spacing, spacingPx } from "~constants/theme";
+
+interface Props {
   icon: ReactNode;
   text: string;
   style?: ViewStyle;
+  onPress: () => void;
 }
 
-export const SocialNetworkConnectionButton = ({
+export const SocialNetworkConnectionButton: FC<Props> = ({
   onPress,
   icon,
   text,
   style,
-}: SocialNetworkConnectionButtonProps) => {
+}) => {
   return (
     <ButtonStyled onPress={onPress} style={style}>
       {icon}

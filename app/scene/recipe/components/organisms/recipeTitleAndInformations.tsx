@@ -1,8 +1,10 @@
-import { MainText } from "~components/atoms/mainText";
-import { boxShadow, colors, spacingPx } from "~constants/theme";
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import styled from "styled-components";
+
+import { MainText } from "~components/atoms/mainText";
+import { boxShadow, colors, spacingPx } from "~constants/theme";
 
 interface Props {
   title: string;
@@ -13,8 +15,9 @@ interface Props {
   };
 }
 
-export const RecipeTitleAndInformations = ({ title, informations }: Props) => {
+export const RecipeTitleAndInformations: FC<Props> = ({ title }) => {
   const { t } = useTranslation();
+
   return (
     <RecipeNameAndInformations>
       <MainText fontType="bold-italic" fontSize="m" textAlign="center">

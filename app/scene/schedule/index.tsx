@@ -1,16 +1,19 @@
-import React from "react";
+import { Fragment, FC } from "react";
+import { useTranslation } from "react-i18next";
+import { View } from "react-native";
+import { format } from "date-fns";
+import styled from "styled-components";
+import { ScrollView } from "react-native-gesture-handler";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
 import { AppLayout } from "~components/layout/layout";
 import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
 import { PageTitle } from "~components/molecules/pageTitle";
 import { SectionTitle } from "~components/organisms/sectionTitle";
-import { useTranslation } from "react-i18next";
-import { View, Text } from "react-native";
-import { format } from "date-fns";
 import { CapitalizedFirstLetter } from "~utils/functions";
 import { MealSmallCard } from "~components/organisms/mealSmallCard";
-import { ScrollView } from "react-native-gesture-handler";
 import { spacing, spacingPx } from "~constants/theme";
-import styled from "styled-components";
+import { BottomTabParamList } from "~navigators/bottom-tab-navigator";
 
 const ProgrammedRecipes = [
   {
@@ -71,7 +74,12 @@ const ProgrammedRecipes = [
   },
 ];
 
-export const ScheduleScreen = () => {
+type RecipesScreenProps = NativeStackScreenProps<
+  BottomTabParamList,
+  "schedule"
+>;
+
+export const ScheduleScreen: FC<RecipesScreenProps> = () => {
   const { t } = useTranslation();
 
   const recipesByDate = ProgrammedRecipes.reduce((acc, recipe) => {
@@ -104,7 +112,7 @@ export const ScheduleScreen = () => {
             )}`;
 
             return (
-              <React.Fragment key={date}>
+              <Fragment key={date}>
                 <SectionTitle
                   title={finalFormattedDate}
                   fontType="bold-italic"
@@ -124,7 +132,7 @@ export const ScheduleScreen = () => {
                     </View>
                   ))}
                 </MealSmallCardList>
-              </React.Fragment>
+              </Fragment>
             );
           })}
         </LayoutSideColumns>

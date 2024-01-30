@@ -1,11 +1,11 @@
+import styled from "styled-components";
+import { useNavigation } from "@react-navigation/native";
+import { Image, ImageSourcePropType, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+
 import { MainText } from "~components/atoms/mainText";
 import Tag from "~components/atoms/tag";
-import { boxShadow, colors, spacingPx } from "~constants/theme";
-import { useNavigation } from "@react-navigation/native";
-import { Image, ImageSourcePropType, Touchable } from "react-native";
-import { View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import styled from "styled-components";
+import { colors, spacingPx } from "~constants/theme";
 
 interface Props {
   title: string;

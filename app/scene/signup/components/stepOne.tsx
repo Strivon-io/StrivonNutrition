@@ -1,9 +1,11 @@
-import { MainInput } from "~components/molecules/mainInput";
-import { spacing } from "~constants/theme";
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 
-export const StepOne = () => {
+import { MainInput } from "~components/molecules/mainInput";
+import { spacing } from "~constants/theme";
+
+export const StepOne: FC = () => {
   const { t } = useTranslation();
   return (
     <View style={{ marginTop: spacing.m, marginBottom: spacing.s }}>

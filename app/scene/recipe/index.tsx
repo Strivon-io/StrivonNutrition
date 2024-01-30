@@ -1,26 +1,6 @@
-import { MainText } from "~components/atoms/mainText";
-import {
-  boxShadow,
-  colors,
-  iconSize,
-  spacing,
-  spacingPx,
-} from "~constants/theme";
-import React from "react";
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import styled from "styled-components";
-import { RecipeTitleAndInformations } from "./components/organisms/recipeTitleAndInformations";
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
-import { MainButton } from "~components/molecules/mainButton";
-import { isSmallScreen } from "~utils/deviceDetector";
-import { LeftArrow } from "~assets/icons/leftArrow";
-import { CrossIcon } from "~assets/icons/crossIcon";
-import MarkdownText from "~utils/markdownText";
-import Markdown from "react-native-markdown-display";
-import { useNavigation } from "@react-navigation/native";
-import { BottomFixedButton } from "~components/organisms/bottomFixedButton";
+import { View, Image, TouchableOpacity } from "react-native";
 import Animated, {
   Extrapolate,
   interpolate,
@@ -28,8 +8,30 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
+import Markdown from "react-native-markdown-display";
+import styled from "styled-components";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-export const RecipeScreen = ({ route }) => {
+import {
+  boxShadow,
+  colors,
+  iconSize,
+  spacing,
+  spacingPx,
+} from "~constants/theme";
+import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
+import { CrossIcon } from "~assets/icons/crossIcon";
+import { BottomFixedButton } from "~components/organisms/bottomFixedButton";
+
+import { RecipeTitleAndInformations } from "./components/organisms/recipeTitleAndInformations";
+import { RecipesNavigatorParamList } from "~navigators/recipes-navigator";
+
+type RecipeScreenProps = NativeStackScreenProps<
+  RecipesNavigatorParamList,
+  "recipe"
+>;
+
+export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
   const { t } = useTranslation();
 
   const markdownContent = `
@@ -70,7 +72,6 @@ export const RecipeScreen = ({ route }) => {
   Bon appétit !  
     `;
 
-  const navigation = useNavigation();
   const handleBackPress = () => {
     navigation.goBack();
   };

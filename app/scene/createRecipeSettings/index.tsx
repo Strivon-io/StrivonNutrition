@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { boxShadow, spacing } from "~constants/theme";
+import { useState, FC } from "react";
+import { spacing } from "~constants/theme";
 import { View, ScrollView } from "react-native";
-import styled from "styled-components";
 import { useTranslation } from "react-i18next";
-import { MainButton } from "~components/molecules/mainButton";
+
 import { AppLayout } from "~components/layout/layout";
 import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
-import { AddIngredientSection } from "./components/sections/addIngredientSection";
-import { DietaryRestrictionsSection } from "./components/sections/dietaryRestrictionsSection";
-import { NumberOfCaloriesSection } from "./components/sections/numberOfCaloriesSection";
 import { isSmallScreen } from "~utils/deviceDetector";
 import { BottomFixedButton } from "~components/organisms/bottomFixedButton";
 
-export const CreateRecipeSettingsScreen = () => {
+import { AddIngredientSection } from "./components/sections/addIngredientSection";
+import { DietaryRestrictionsSection } from "./components/sections/dietaryRestrictionsSection";
+import { NumberOfCaloriesSection } from "./components/sections/numberOfCaloriesSection";
+
+export const CreateRecipeSettingsScreen: FC = () => {
   const [ingredients, setIngredients] = useState([]);
   const [onlyUseIngredients, setOnlyUseIngredients] = useState(false);
   const [calories, setCalories] = useState("");

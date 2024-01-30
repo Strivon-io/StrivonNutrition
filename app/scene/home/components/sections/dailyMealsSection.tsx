@@ -1,13 +1,13 @@
-import React from "react";
-import { View, Text, Image, Dimensions } from "react-native";
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
+import { FC, useRef, useState } from "react";
+import { View, Dimensions } from "react-native";
+import { Carousel } from "react-native-snap-carousel";
+import { useTranslation } from "react-i18next";
 import { styled } from "styled-components";
+
+import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
 import { MainText } from "~components/atoms/mainText";
 import { colors, spacing, spacingPx } from "~constants/theme";
 import { MealCarouselCard } from "~components/organisms/mealCarouselCard";
-import { Carousel } from "react-native-snap-carousel";
-import { useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { SectionTitle } from "~components/organisms/sectionTitle";
 
 export const DailyMealsSection = () => {
@@ -22,30 +22,11 @@ export const DailyMealsSection = () => {
 
   const { t } = useTranslation();
 
-  const renderRecipeCard = () => {
-    return (
-      <MealCarouselCard
-      // title={item.title}
-      // kcal={item.kcal}
-      // recipe={item.recipe}
-      // index={index}
-      />
-    );
+  const renderRecipeCard: FC = () => {
+    return <MealCarouselCard />;
   };
 
   const { width: viewportWidth } = Dimensions.get("window");
-
-  const onPressNext = () => {
-    if (carouselRef) {
-      carouselRef?.current?.snapToItem(activeSlide + 1, true);
-    }
-  };
-
-  const onPressPrevious = () => {
-    if (carouselRef) {
-      carouselRef?.current?.snapToItem(activeSlide - 1, true);
-    }
-  };
 
   const mealLabels = [t("morning"), t("lunch"), t("dinner"), t("snack")];
 
@@ -79,7 +60,10 @@ export const DailyMealsSection = () => {
   );
 };
 
-const MealLabels = ({ activeSlide, mealLabels }) => {
+const MealLabels: FC<{ activeSlide: number; mealLabels: string[] }> = ({
+  activeSlide,
+  mealLabels,
+}) => {
   return (
     <LayoutSideColumns>
       <MealLabelsContainer>

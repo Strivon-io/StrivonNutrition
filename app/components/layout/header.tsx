@@ -1,13 +1,15 @@
+import { FC } from "react";
 import { View } from "react-native";
-import { HeaderLogo } from "./atoms/headerLogo";
 import { styled } from "styled-components";
-import { LeftChevron } from "../../assets/icons/leftChevron";
-import { colors, spacing } from "~constants/theme";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
-import { LayoutSideColumns } from "./layoutSideColumns";
-import { LeftArrow } from "~assets/icons/leftArrow";
+import { TouchableOpacity } from "react-native-gesture-handler";
+
+import { colors, spacing } from "~constants/theme";
 import { MainText } from "~components/atoms/mainText";
+import { LeftArrow } from "~assets/icons/leftArrow";
+
+import { HeaderLogo } from "./atoms/headerLogo";
+import { LayoutSideColumns } from "./layoutSideColumns";
 
 interface Props {
   isLogo?: boolean;
@@ -16,7 +18,7 @@ interface Props {
   pageTitle?: string;
 }
 
-export const AppHeader = ({
+export const AppHeader: FC<Props> = ({
   isLogo,
   isBackArrow,
   isSeperatorLine,

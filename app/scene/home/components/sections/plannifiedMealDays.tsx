@@ -1,14 +1,15 @@
-import React from "react";
-import { Calendar } from "react-native-calendars";
-import styled from "styled-components/native";
-import { useTranslation } from "react-i18next";
-import { SectionTitle } from "~components/organisms/sectionTitle";
-import { colors, iconSize, spacing, spacingPx } from "~constants/theme";
-import { LeftChevron } from "~assets/icons/leftChevron";
-import { RightChevron } from "~assets/icons/rightChevron";
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
+import { FC } from "react";
 import { View } from "react-native";
 import { MainText } from "~components/atoms/mainText";
+import styled from "styled-components/native";
+import { Calendar } from "react-native-calendars";
+import { useTranslation } from "react-i18next";
+
+import { colors, iconSize, spacing, spacingPx } from "~constants/theme";
+import { SectionTitle } from "~components/organisms/sectionTitle";
+import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
+import { LeftChevron } from "~assets/icons/leftChevron";
+import { RightChevron } from "~assets/icons/rightChevron";
 
 const boxShadow = {
   shadowColor: "#3A296A",
@@ -25,7 +26,7 @@ const CalendarCard = styled.View`
   border-radius: ${spacingPx.m};
 `;
 
-export const PlannifiedMealDays = () => {
+export const PlannifiedMealDays: FC = () => {
   const { t } = useTranslation();
 
   const monthNames = [
@@ -115,7 +116,7 @@ export const PlannifiedMealDays = () => {
               )
             }
             markedDates={markedDates}
-            onDayPress={(day) => {}}
+            onDayPress={() => {}}
           />
         </CalendarCard>
       </LayoutSideColumns>

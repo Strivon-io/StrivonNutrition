@@ -1,21 +1,21 @@
+import { useTranslation } from "react-i18next";
+import { View, TouchableOpacity } from "react-native";
+import { styled } from "styled-components";
+
 import { MainText } from "~components/atoms/mainText";
 import { AppLayout } from "~components/layout/layout";
 import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
 import { MainButton } from "~components/molecules/mainButton";
 import { boxShadow, colors, spacing, spacingPx } from "~constants/theme";
-import { useNavigation } from "@react-navigation/native";
 import { isSmallScreen } from "~utils/deviceDetector";
-import { useTranslation } from "react-i18next";
-import { View, Text, TouchableOpacity, Button } from "react-native";
-import { styled } from "styled-components";
 
-export const NeedsResultScreen = () => {
+export const NeedsResultScreen = ({ navigation }) => {
   const { t } = useTranslation();
-  const navigation = useNavigation();
 
   const handleViewRecipes = () => {
     navigation.navigate("recipesResult");
   };
+
   return (
     <LayoutSideColumns>
       <AppLayout useSafeAreaView isHeaderLogo>

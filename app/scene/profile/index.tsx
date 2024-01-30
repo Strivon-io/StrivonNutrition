@@ -1,12 +1,17 @@
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { FC } from "react";
+import { useTranslation } from "react-i18next";
+
 import { AppLayout } from "~components/layout/layout";
 import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
 import { PageTitle } from "~components/molecules/pageTitle";
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { View, Text } from "react-native";
+import { BottomTabParamList } from "~navigators/bottom-tab-navigator";
 
-export const ProfileScreen = () => {
+type ProfileScreenProps = NativeStackScreenProps<BottomTabParamList, "profile">;
+
+export const ProfileScreen: FC<ProfileScreenProps> = () => {
   const { t } = useTranslation();
+
   return (
     <AppLayout useSafeAreaView>
       <LayoutSideColumns>

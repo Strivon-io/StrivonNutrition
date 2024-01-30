@@ -1,3 +1,10 @@
+import { FC } from "react";
+import styled from "styled-components";
+import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
+import { View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+
 import { MainText } from "~components/atoms/mainText";
 import {
   boxShadow,
@@ -8,14 +15,8 @@ import {
 } from "~constants/theme";
 import { CameraIcon } from "~assets/icons/cameraIcon";
 import { EditIcon } from "~assets/icons/editIcon";
-import { useNavigation } from "@react-navigation/native";
-import { Dispatch, SetStateAction } from "react";
-import { useTranslation } from "react-i18next";
-import { View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import styled from "styled-components";
 
-export const CreateRecipeFirstStep = ({}) => {
+export const CreateRecipeFirstStep: FC = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
   return (
@@ -69,9 +70,4 @@ const CardWrapper = styled(View)`
   height: 150px;
   margin: ${spacingPx.xs};
   padding: ${spacingPx.xs};
-`;
-
-const FlashListWrapper = styled(View)`
-  flex: 1;
-  height: 100%;
 `;

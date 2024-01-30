@@ -1,18 +1,26 @@
+import { useRef, useState, FC } from "react";
+import { useTranslation } from "react-i18next";
+import { styled } from "styled-components";
+import { View, Dimensions } from "react-native";
+import Carousel, { Pagination } from "react-native-snap-carousel";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
 import { MainText } from "~components/atoms/mainText";
 import { AppLayout } from "~components/layout/layout";
 import { MainButton } from "~components/molecules/mainButton";
 import { RecipeBigCard } from "~components/organisms/recipeBigCard";
-import { boxShadow, colors, spacing, spacingPx } from "~constants/theme";
+import { colors, spacing, spacingPx } from "~constants/theme";
 import { isSmallScreen } from "~utils/deviceDetector";
-import React, { useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { styled } from "styled-components";
-import { View, Image, Text, Dimensions } from "react-native";
 import { BottomCarousel } from "~components/molecules/bottomCarousel";
-import Carousel, { Pagination } from "react-native-snap-carousel";
 import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
+import { NavigatorParamList } from "~navigators/app-navigator";
 
-export const RecipesResultScreen = () => {
+type RecipesResultScreenProps = NativeStackScreenProps<
+  NavigatorParamList,
+  "recipesResult"
+>;
+
+export const RecipesResultScreen: FC<RecipesResultScreenProps> = () => {
   const { t } = useTranslation();
   const handleGoToApp = () => {};
   const [activeSlide, setActiveSlide] = useState(0);
