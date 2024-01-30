@@ -3,10 +3,10 @@ import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as SplashScreen from "expo-splash-screen";
 
-import { SigninScreen } from "~scene/signin";
-import { SignupScreen } from "~scene/signup";
-import { NeedsResultScreen } from "~scene/needsResult";
-import { RecipesResultScreen } from "~scene/recipesResult";
+import { SigninScreen } from "~screens/signin";
+import { SignupScreen } from "~screens/signup";
+import { NeedsResultScreen } from "~screens/needsResult";
+import { RecipesResultScreen } from "~screens/recipesResult";
 
 import { BottomTabNavigator } from "./bottom-tab-navigator";
 

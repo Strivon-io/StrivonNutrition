@@ -1,8 +1,8 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { RecipesScreen } from "~scene/recipes";
-import { CreateRecipeSettingsScreen } from "~scene/createRecipeSettings";
-import { RecipeScreen } from "~scene/recipe";
+import { RecipesScreen } from "~screens/recipes";
+import { CreateRecipeSettingsScreen } from "~screens/createRecipeSettings";
+import { RecipeScreen } from "~screens/recipe";
 
 export type RecipesNavigatorParamList = {
   recipes: undefined;

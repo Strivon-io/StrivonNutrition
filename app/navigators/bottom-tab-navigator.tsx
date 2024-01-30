@@ -4,9 +4,9 @@ import {
   RouteProp,
 } from "@react-navigation/native";
 
-import { HomeScreen } from "~scene/home";
-import { ScheduleScreen } from "~scene/schedule";
-import { ProfileScreen } from "~scene/profile";
+import { HomeScreen } from "~screens/home";
+import { ScheduleScreen } from "~screens/schedule";
+import { ProfileScreen } from "~screens/profile";
 import { HomeIcon } from "../assets/icons/homeIcon";
 import { RecipeIcon } from "../assets/icons/recipeIcon";
 import { ScheduleIcon } from "../assets/icons/scheduleIcon";
