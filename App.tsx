@@ -1,46 +1,43 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { View, Text, useWindowDimensions } from 'react-native'
-import styled, { ThemeProvider } from 'styled-components/native'
-import { useTranslation } from 'react-i18next'
-import './src/translations/i18n.config'
-import { MainNavigation } from './src/navigation'
-import * as Font from 'expo-font'
-import { ActionTray, ActionTrayRef } from '@components/molecules/BottomSheet'
-import {
-  Extrapolate,
-  interpolate,
-  useAnimatedStyle,
-  useDerivedValue,
-  useSharedValue,
-  withSpring,
-} from 'react-native-reanimated'
+import React, { useEffect, useState, useRef } from "react";
+import { AppState } from "react-native";
+import { useFonts } from "expo-font";
+import Constants from "expo-constants";
 
-const Container = styled.View`
-  flex: 1;
-  margin-top: 20px;
-  background-color: white;
-`
+import "./src/translations/i18n.config";
 
-const Title = styled.Text`
-  font-size: 24px;
-  color: #333;
-`
+import { MainNavigation } from "./src/navigation";
 
-const MainContainer = styled.View`
-  background-color: 'white';
-`
+export default function App() {
+  const [isAppReady, setIsAppReady] = useState(false);
 
-const loadCustomFonts = async () => {
-  await Font.loadAsync({
-    'avenir-regular': require('./src/assets/fonts/Avenir-Next-Regular.otf'),
-    'avenir-medium': require('./src/assets/fonts/Avenir-Next-Medium.ttf'),
-    'avenir-bold': require('./src/assets/fonts/Avenir-Next-Bold.otf'),
-    'avenir-bold-italic': require('./src/assets/fonts/Avenir-Next-Bold-Italic.ttf'),
-  })
+  const appState = useRef(AppState.currentState);
+
+  let [fontsLoaded] = useFonts({
+    "avenir-regular": require("./src/assets/fonts/Avenir-Next-Regular.otf"),
+    "avenir-medium": require("./src/assets/fonts/Avenir-Next-Medium.ttf"),
+    "avenir-bold": require("./src/assets/fonts/Avenir-Next-Bold.otf"),
+    "avenir-bold-italic": require("./src/assets/fonts/Avenir-Next-Bold-Italic.ttf"),
+  });
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener("change", (nextAppState) => {
+      appState.current = nextAppState;
+    });
+
+    (async () => {
+      console.log(`App version ${Constants.expoConfig.version} is mounted.`);
+
+      setIsAppReady(true);
+    })();
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+
+  if (!isAppReady || !fontsLoaded) {
+    return;
+  }
+
+  return <MainNavigation />;
 }
-
-const App = () => {
-  return <MainNavigation />
-}
-
-export default App

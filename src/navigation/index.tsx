@@ -1,23 +1,23 @@
 // Navigation.js
-import React from 'react'
-import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { HomeScreen } from '../scene/home'
-import { RecipesScreen } from '../scene/recipes'
-import { ScheduleScreen } from '../scene/schedule'
-import { ProfileScreen } from '../scene/profile'
-import { SignupScreen } from '../scene/signup'
-import { colors } from '../constants/theme'
-import { NeedsResultScreen } from '@scene/needsResult'
-import { RecipesResultScreen } from '@scene/recipesResult'
-import { TabBar } from './Tabbar'
-import { SigninScreen } from '@scene/signin'
-import { CreateRecipeSettingsScreen } from '@scene/createRecipeSettings'
-import { RecipeScreen } from '@scene/recipe'
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { HomeScreen } from "../scene/home";
+import { RecipesScreen } from "../scene/recipes";
+import { ScheduleScreen } from "../scene/schedule";
+import { ProfileScreen } from "../scene/profile";
+import { SignupScreen } from "../scene/signup";
+import { colors } from "../constants/theme";
+import { NeedsResultScreen } from "@scene/needsResult";
+import { RecipesResultScreen } from "@scene/recipesResult";
+import { TabBar } from "./Tabbar";
+import { SigninScreen } from "@scene/signin";
+import { CreateRecipeSettingsScreen } from "@scene/createRecipeSettings";
+import { RecipeScreen } from "@scene/recipe";
 
-const Stack = createStackNavigator()
-const Tab = createBottomTabNavigator()
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 const AppTabbar = () => {
   return (
@@ -27,7 +27,7 @@ const AppTabbar = () => {
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: colors.Alizarin,
-        tabBarIconStyle: { fontFamily: 'AvenirNext-Medium' },
+        tabBarIconStyle: { fontFamily: "AvenirNext-Medium" },
       }}
     >
       <Tab.Screen
@@ -53,8 +53,8 @@ const AppTabbar = () => {
         options={{ headerShown: false }}
       />
     </Tab.Navigator>
-  )
-}
+  );
+};
 
 const NoTabStack = () => {
   return (
@@ -77,8 +77,8 @@ const NoTabStack = () => {
         component={RecipeScreen}
       />
     </Stack.Group>
-  )
-}
+  );
+};
 
 const AppStack = () => {
   return (
@@ -88,8 +88,8 @@ const AppStack = () => {
         {NoTabStack()}
       </Stack.Group>
     </Stack.Navigator>
-  )
-}
+  );
+};
 
 const UnauthenticatedApp = () => {
   return (
@@ -119,11 +119,11 @@ const UnauthenticatedApp = () => {
         component={RecipesResultScreen}
       />
     </Stack.Navigator>
-  )
-}
+  );
+};
 
 export const MainNavigation = () => {
-  const isLoggedIn = true
+  const isLoggedIn = false;
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -142,5 +142,5 @@ export const MainNavigation = () => {
         )}
       </Stack.Navigator>
     </NavigationContainer>
-  )
-}
+  );
+};
