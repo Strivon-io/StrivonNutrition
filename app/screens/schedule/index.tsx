@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { ScrollView } from "react-native-gesture-handler";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-import { AppLayout } from "~components/layout/layout";
+import { Layout } from "~components/layout/layout";
 import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
 import { PageTitle } from "~components/molecules/pageTitle";
 import { SectionTitle } from "~components/organisms/sectionTitle";
@@ -94,7 +94,7 @@ export const ScheduleScreen: FC<RecipesScreenProps> = () => {
   const uniqueDates = Object.keys(recipesByDate);
 
   return (
-    <AppLayout useSafeAreaView>
+    <Layout useSafeAreaView>
       <ScrollView>
         <LayoutSideColumns style={{ marginBottom: spacing.m }}>
           <PageTitle title={t("Scheduling")} />
@@ -137,7 +137,7 @@ export const ScheduleScreen: FC<RecipesScreenProps> = () => {
           })}
         </LayoutSideColumns>
       </ScrollView>
-    </AppLayout>
+    </Layout>
   );
 };
 

@@ -6,7 +6,7 @@ import Carousel, { Pagination } from "react-native-snap-carousel";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { MainText } from "~components/atoms/mainText";
-import { AppLayout } from "~components/layout/layout";
+import { Layout } from "~components/layout/layout";
 import { MainButton } from "~components/molecules/mainButton";
 import { RecipeBigCard } from "~components/organisms/recipeBigCard";
 import { colors, spacing, spacingPx } from "~constants/theme";
@@ -83,7 +83,7 @@ export const RecipesResultScreen: FC<RecipesResultScreenProps> = () => {
   };
 
   return (
-    <AppLayout useSafeAreaView isHeaderLogo>
+    <Layout useSafeAreaView isHeaderLogo>
       <MainText
         fontType="bold"
         fontSize="l"
@@ -121,7 +121,7 @@ export const RecipesResultScreen: FC<RecipesResultScreenProps> = () => {
           <MainButton label={t("viewMyFirstRecipes")} onPress={handleGoToApp} />
         </LayoutSideColumns>
       </ButtonWrapper>
-    </AppLayout>
+    </Layout>
   );
 };
 

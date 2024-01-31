@@ -3,7 +3,7 @@ import { spacing } from "~constants/theme";
 import { View, ScrollView } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { AppLayout } from "~components/layout/layout";
+import { Layout } from "~components/layout/layout";
 import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
 import { isSmallScreen } from "~utils/deviceDetector";
 import { BottomFixedButton } from "~components/organisms/bottomFixedButton";
@@ -58,7 +58,7 @@ export const CreateRecipeSettingsScreen: FC = () => {
   };
 
   return (
-    <AppLayout
+    <Layout
       pageTitle={t("generateRecipe")}
       isBackArrow
       isHeader
@@ -91,6 +91,6 @@ export const CreateRecipeSettingsScreen: FC = () => {
         </LayoutSideColumns>
       </ScrollView>
       <BottomFixedButton label={t("generate")} onPress={() => {}} />
-    </AppLayout>
+    </Layout>
   );
 };

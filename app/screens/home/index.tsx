@@ -11,7 +11,7 @@ import Animated, {
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { BottomTabParamList } from "~navigators/bottom-tab-navigator";
-import { AppLayout } from "~components/layout/layout";
+import { Layout } from "~components/layout/layout";
 import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
 import { colors, spacingPx } from "~constants/theme";
 
@@ -52,7 +52,7 @@ export const HomeScreen: FC<HomeScreenProps> = () => {
   });
 
   return (
-    <AppLayout useSafeAreaView>
+    <Layout useSafeAreaView>
       <View>
         <LayoutSideColumns>
           <StrivonLogo
@@ -71,7 +71,7 @@ export const HomeScreen: FC<HomeScreenProps> = () => {
           <PlannifiedMealDays />
         </HomeCardSection>
       </Animated.ScrollView>
-    </AppLayout>
+    </Layout>
   );
 };
 

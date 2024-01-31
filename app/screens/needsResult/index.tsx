@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from "react-native";
 import { styled } from "styled-components";
 
 import { MainText } from "~components/atoms/mainText";
-import { AppLayout } from "~components/layout/layout";
+import { Layout } from "~components/layout/layout";
 import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
 import { MainButton } from "~components/molecules/mainButton";
 import { boxShadow, colors, spacing, spacingPx } from "~constants/theme";
@@ -18,7 +18,7 @@ export const NeedsResultScreen = ({ navigation }) => {
 
   return (
     <LayoutSideColumns>
-      <AppLayout useSafeAreaView isHeaderLogo>
+      <Layout useSafeAreaView isHeaderLogo>
         <Wrapper>
           <MainText fontType="medium" fontSize="l">
             {t("youNeed")}
@@ -51,7 +51,7 @@ export const NeedsResultScreen = ({ navigation }) => {
             onPress={handleViewRecipes}
           />
         </ButtonWrapper>
-      </AppLayout>
+      </Layout>
     </LayoutSideColumns>
   );
 };

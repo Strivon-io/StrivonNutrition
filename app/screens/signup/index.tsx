@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 
 import { NavigatorParamList } from "~navigators/app-navigator";
 import { isSmallScreen } from "~utils/deviceDetector";
-import { AppLayout } from "~components/layout/layout";
+import { Layout } from "~components/layout/layout";
 import { SectionHeader } from "~components/molecules/sectionHeader";
 import { spacingPx } from "~constants/theme";
 import { MainText } from "~components/atoms/mainText";
@@ -41,7 +41,7 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
   };
 
   return (
-    <AppLayout useSafeAreaView isHeaderLogo isBackArrow>
+    <Layout useSafeAreaView isHeaderLogo isBackArrow>
       <Wrapper>
         <LayoutSideColumns>
           <SectionHeader
@@ -72,7 +72,7 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
         isChecked={isChecked}
         handleCheck={handleCheck}
       />
-    </AppLayout>
+    </Layout>
   );
 };
 

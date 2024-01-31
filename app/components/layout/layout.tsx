@@ -13,8 +13,9 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { StatusBar, StatusBarStyle } from "expo-status-bar";
 
-import { colors } from "~constants/theme";
+import { colors, ColorsKey, flattenedColors } from "~constants/theme";
 import { AppHeader } from "./header";
+import { withColor } from "~components/communStyles/withColor";
 
 interface Props {
   children: React.ReactNode;
@@ -24,7 +25,7 @@ interface Props {
   isSeperatorLine?: boolean;
   statusStyle?: StatusBarStyle;
   pageTitle?: string;
-  bg?: string;
+  bg?: ColorsKey;
   noPadding?: boolean;
   scrollView?: boolean;
   bounces?: boolean;
@@ -35,7 +36,7 @@ interface Props {
   };
 }
 
-export const AppLayout: FC<Props> = ({
+export const Layout: FC<Props> = ({
   isHeaderLogo,
   isBackArrow,
   children,
@@ -77,21 +78,31 @@ export const AppLayout: FC<Props> = ({
         )
       }
     >
-      {isHeader && (
+      {/* {isHeader && (
         <AppHeader
           isSeperatorLine={isSeperatorLine}
           isLogo={isHeaderLogo}
           isBackArrow={isBackArrow}
           pageTitle={pageTitle}
         />
-      )}
+      )} */}
 
       {children}
     </ScrollView>
   );
 
   const content = (
-    <View style={[!noPadding && styles.padding, { flex: 1 }]}>{children}</View>
+    <View style={[!noPadding && styles.padding, { flex: 1 }]}>
+      {/* {isHeader && (
+        <AppHeader
+          isSeperatorLine={isSeperatorLine}
+          isLogo={isHeaderLogo}
+          isBackArrow={isBackArrow}
+          pageTitle={pageTitle}
+        />
+      )} */}
+      {children}
+    </View>
   );
 
   return (
@@ -108,7 +119,7 @@ const getDynamicStyles = (height: number, top: number, bg?: string) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: bg ?? colors.light.PureWhite,
+      backgroundColor: flattenedColors[bg] ?? colors.light.PureWhite,
     },
     scrollViewHeight: {
       minHeight: height,

@@ -16,7 +16,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RecipesNavigatorParamList } from "~navigators/recipes-navigator";
 import { PlusIcon } from "~assets/icons/plusIcon";
 import { MainText } from "~components/atoms/mainText";
-import { AppLayout } from "~components/layout/layout";
+import { Layout } from "~components/layout/layout";
 import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
 import { PageTitle } from "~components/molecules/pageTitle";
 import { MealSmallCard } from "~components/organisms/mealSmallCard";
@@ -154,7 +154,7 @@ export const RecipesScreen: FC<RecipesScreenProps> = () => {
   }, [step]);
 
   return (
-    <AppLayout useSafeAreaView>
+    <Layout useSafeAreaView>
       <LayoutSideColumns style={{ flex: 1 }}>
         <PageTitle
           title={t("recipes")}
@@ -224,7 +224,7 @@ export const RecipesScreen: FC<RecipesScreenProps> = () => {
           {step === 0 && <CreateRecipeFirstStep />}
         </Animated.View>
       </MainBottomSheet>
-    </AppLayout>
+    </Layout>
   );
 };
 

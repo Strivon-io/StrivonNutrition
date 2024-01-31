@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { AppState, Platform, View, Text } from "react-native";
+import { AppState, Platform } from "react-native";
 import { useFonts } from "expo-font";
 import Constants from "expo-constants";
 import * as SplashScreen from "expo-splash-screen";
@@ -19,10 +19,10 @@ export default function App() {
   const appState = useRef(AppState.currentState);
 
   let [fontsLoaded] = useFonts({
-    "avenir-regular": require("./assets/fonts/Avenir-Next-Regular.otf"),
-    "avenir-medium": require("./assets/fonts/Avenir-Next-Medium.ttf"),
-    "avenir-bold": require("./assets/fonts/Avenir-Next-Bold.otf"),
-    "avenir-bold-italic": require("./assets/fonts/Avenir-Next-Bold-Italic.ttf"),
+    "Avenir-Regular": require("./assets/fonts/Avenir-Next-Regular.otf"),
+    "Avenir-Medium": require("./assets/fonts/Avenir-Next-Medium.ttf"),
+    "Avenir-Bold": require("./assets/fonts/Avenir-Next-Bold.otf"),
+    "Avenir-Bold-Italic": require("./assets/fonts/Avenir-Next-Bold-Italic.ttf"),
   });
 
   useEffect(() => {
