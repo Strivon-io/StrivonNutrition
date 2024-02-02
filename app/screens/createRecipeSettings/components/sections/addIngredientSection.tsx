@@ -1,4 +1,4 @@
-import { MainCheckbox } from "~components/atoms/mainCheckbox";
+import { Checkbox } from "~components/atoms/checkbox";
 import { MainText } from "~components/atoms/mainText";
 import { MainInput } from "~components/molecules/mainInput";
 import { colors, iconSize, spacing, spacingPx } from "~constants/theme";
@@ -86,7 +86,7 @@ export const AddIngredientSection = ({
           alignItems: "center",
         }}
       >
-        <MainCheckbox
+        <Checkbox
           isChecked={onlyUseIngredients}
           setIsChecked={() => {
             setOnlyUseIngredients(!onlyUseIngredients);

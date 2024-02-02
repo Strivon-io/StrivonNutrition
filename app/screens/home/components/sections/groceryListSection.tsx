@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { View, TouchableOpacity } from "react-native";
 import styled from "styled-components";
 
-import { MainCheckbox } from "~components/atoms/mainCheckbox";
+import { Checkbox } from "~components/atoms/checkbox";
 import { MainText } from "~components/atoms/mainText";
 import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
 import { SectionTitle } from "~components/organisms/sectionTitle";
@@ -37,7 +37,7 @@ export const GroceryListSection: FC = () => {
             key={item.id}
           >
             <ElementWrapper key={item.id}>
-              <MainCheckbox
+              <Checkbox
                 isChecked={item.isChecked}
                 setIsChecked={() => toggleCheckbox(item.id)}
               />

@@ -54,7 +54,7 @@ interface NavigationProps
 
 export const AppNavigator = (props: NavigationProps) => {
   const [initialRoute, setInitialRoute] =
-    useState<keyof NavigatorParamList>("signIn");
+    useState<keyof NavigatorParamList>("bottomTab");
 
   const [isLoading, setIsLoading] = useState(false);
 

@@ -1,21 +1,12 @@
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { TouchableOpacity, View } from "react-native";
-import { styled } from "styled-components";
+import { Pressable, View, StyleSheet } from "react-native";
 
 import { RightChevron } from "~assets/icons/rightChevron";
-import { MainCheckbox } from "~components/atoms/mainCheckbox";
-import { MainText } from "~components/atoms/mainText";
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
+import { Checkbox } from "~components/atoms/checkbox";
+import { Text } from "~components/atoms/text";
 import { MainButton } from "~components/molecules/mainButton";
-import {
-  boxShadow,
-  colors,
-  iconSize,
-  spacing,
-  spacingPx,
-} from "~constants/theme";
-import { isSmallScreen } from "~utils/deviceDetector";
+import { boxShadow, colors, iconSize, spacing } from "~constants/theme";
 
 interface Props {
   signUpStep: number;
@@ -33,50 +24,44 @@ export const ValidateFormBlock: FC<Props> = ({
   const { t } = useTranslation();
 
   return (
-    <ValidateFormBlockWrapper>
-      <LayoutSideColumns>
-        <View
-          style={{
-            marginBottom: isSmallScreen ? spacing.m : spacing.l,
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <View style={{ marginRight: spacing.xs }}>
-              <MainCheckbox isChecked={isChecked} setIsChecked={handleCheck} />
-            </View>
-            <TouchableOpacity onPress={handleCheck}>
-              <MainText>{t("i-accept-the")}</MainText>
-            </TouchableOpacity>
-            <MainText color={colors.Alizarin} underline>
-              {" "}
-              {t("terms-of-use")}
-            </MainText>
-          </View>
-          <View style={{ marginTop: spacing.m }}>
-            <MainButton
-              style={boxShadow}
-              label={
-                signUpStep === 0 ? t("next") : t("calculate-my-calories-need")
-              }
-              onPress={handleValidate}
-              icon={signUpStep === 0 && <RightChevron size={iconSize.s} />}
-            />
-          </View>
+    <View style={styles.validateFormBlockWrapper}>
+      <View style={styles.termOfUseContainer}>
+        <View>
+          <Checkbox isChecked={isChecked} setIsChecked={handleCheck} />
         </View>
-      </LayoutSideColumns>
-    </ValidateFormBlockWrapper>
+        <View style={styles.termOfUseText}>
+          <Pressable onPress={handleCheck}>
+            <Text>{t("i-accept-the")}</Text>
+          </Pressable>
+          <Text color="Alizarin" textDecorationLine="underline">
+            {" "}
+            {t("terms-of-use")}
+          </Text>
+        </View>
+      </View>
+      <View style={{ marginTop: spacing.m }}>
+        <MainButton
+          style={boxShadow}
+          label={signUpStep === 1 ? t("next") : t("calculate-my-calories-need")}
+          onPress={handleValidate}
+          icon={signUpStep === 1 && <RightChevron size={iconSize.s} />}
+        />
+      </View>
+    </View>
   );
 };
 
-const ValidateFormBlockWrapper = styled(View)`
-  position: absolute;
-  padding-top: ${spacingPx.m};
-  width: 100%;
-  bottom: 0;
-  background-color: ${colors.light.PureWhite};
-`;
+const styles = StyleSheet.create({
+  validateFormBlockWrapper: {
+    width: "100%",
+    backgroundColor: colors.light.PureWhite,
+  },
+  termOfUseContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.xs,
+  },
+  termOfUseText: {
+    flexDirection: "row",
+  },
+});

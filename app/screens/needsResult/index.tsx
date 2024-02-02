@@ -1,15 +1,23 @@
+import { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { View, TouchableOpacity } from "react-native";
-import { styled } from "styled-components";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
+import { NavigatorParamList } from "~navigators/app-navigator";
 import { MainText } from "~components/atoms/mainText";
+import { Text } from "~components/atoms/text";
 import { Layout } from "~components/layout/layout";
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
 import { MainButton } from "~components/molecules/mainButton";
-import { boxShadow, colors, spacing, spacingPx } from "~constants/theme";
-import { isSmallScreen } from "~utils/deviceDetector";
+import { boxShadow, colors, spacing } from "~constants/theme";
 
-export const NeedsResultScreen = ({ navigation }) => {
+type NeedResultScreenProps = NativeStackScreenProps<
+  NavigatorParamList,
+  "needsResult"
+>;
+
+export const NeedsResultScreen: FC<NeedResultScreenProps> = ({
+  navigation,
+}) => {
   const { t } = useTranslation();
 
   const handleViewRecipes = () => {
@@ -17,55 +25,45 @@ export const NeedsResultScreen = ({ navigation }) => {
   };
 
   return (
-    <LayoutSideColumns>
-      <Layout useSafeAreaView isHeaderLogo>
-        <Wrapper>
-          <MainText fontType="medium" fontSize="l">
-            {t("youNeed")}
-          </MainText>
-          <MainText
-            fontType="bold-italic"
-            fontSize="xxl"
-            color={colors.Alizarin}
-          >
-            2700Kcal
-          </MainText>
-          <MainText
-            style={{ width: 300 }}
-            fontType="medium"
-            fontSize="l"
+    <Layout isHeaderLogo>
+      <View style={styles.wrapper}>
+        <Text fontFamily="Avenir-Medium" fontSize="l" textAlign="center">
+          {t("youNeed")}
+        </Text>
+        <Text
+          fontFamily="Avenir-Bold-Italic"
+          fontSize="xxl"
+          color="Alizarin"
+          textAlign="center"
+        >
+          2700Kcal
+        </Text>
+        <Text fontFamily="Avenir-Medium" fontSize="l" textAlign="center">
+          {t("perDayToMaintainYourCurrentWeight")}
+        </Text>
+        <TouchableOpacity style={{ marginTop: spacing.xs }}>
+          <Text
+            fontFamily="Avenir-Medium"
+            color="Alizarin"
+            textDecorationLine="underline"
             textAlign="center"
           >
-            {t("perDayToMaintainYourCurrentWeight")}
-          </MainText>
-          <TouchableOpacity style={{ marginTop: spacing.xs }}>
-            <MainText fontType="medium" color={colors.Alizarin} underline>
-              {t("howItWorks")}
-            </MainText>
-          </TouchableOpacity>
-        </Wrapper>
-        <ButtonWrapper>
-          <MainButton
-            style={boxShadow}
-            label={t("viewMyFirstRecipes")}
-            onPress={handleViewRecipes}
-          />
-        </ButtonWrapper>
-      </Layout>
-    </LayoutSideColumns>
+            {t("howItWorks")}
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      <MainButton
+        style={boxShadow}
+        label={t("viewMyFirstRecipes")}
+        onPress={handleViewRecipes}
+      />
+    </Layout>
   );
 };
 
-const Wrapper = styled(View)`
-  justify-content: center;
-  align-items: center;
-  height: 70%;
-`;
-
-const ButtonWrapper = styled(View)`
-  position: absolute;
-  padding-top: ${spacingPx.m};
-  width: 100%;
-  bottom: ${isSmallScreen ? spacingPx.m : spacingPx.l};
-  background-color: ${colors.light.PureWhite};
-`;
+const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+  },
+});

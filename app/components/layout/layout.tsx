@@ -25,7 +25,7 @@ interface Props {
   isSeperatorLine?: boolean;
   statusStyle?: StatusBarStyle;
   pageTitle?: string;
-  bg?: ColorsKey;
+  bg?: string;
   noPadding?: boolean;
   scrollView?: boolean;
   bounces?: boolean;
@@ -78,14 +78,14 @@ export const Layout: FC<Props> = ({
         )
       }
     >
-      {/* {isHeader && (
+      {isHeader && (
         <AppHeader
           isSeperatorLine={isSeperatorLine}
           isLogo={isHeaderLogo}
           isBackArrow={isBackArrow}
           pageTitle={pageTitle}
         />
-      )} */}
+      )}
 
       {children}
     </ScrollView>
@@ -93,14 +93,14 @@ export const Layout: FC<Props> = ({
 
   const content = (
     <View style={[!noPadding && styles.padding, { flex: 1 }]}>
-      {/* {isHeader && (
+      {isHeader && (
         <AppHeader
           isSeperatorLine={isSeperatorLine}
           isLogo={isHeaderLogo}
           isBackArrow={isBackArrow}
           pageTitle={pageTitle}
         />
-      )} */}
+      )}
       {children}
     </View>
   );
@@ -109,7 +109,7 @@ export const Layout: FC<Props> = ({
     <SafeAreaView
       style={[styles.container, withoutSafeArea && styles.withoutSafeArea]}
     >
-      <StatusBar style={statusStyle || "light"} />
+      <StatusBar style={statusStyle || "dark"} />
       {scrollView ? scrollContent : content}
     </SafeAreaView>
   );
@@ -119,7 +119,7 @@ const getDynamicStyles = (height: number, top: number, bg?: string) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: flattenedColors[bg] ?? colors.light.PureWhite,
+      backgroundColor: bg ?? colors.light.PureWhite,
     },
     scrollViewHeight: {
       minHeight: height,
@@ -131,7 +131,7 @@ const getDynamicStyles = (height: number, top: number, bg?: string) =>
       marginTop: -top,
     },
     padding: {
-      paddingHorizontal: 16,
+      paddingHorizontal: 20,
       paddingVertical: 20,
     },
   });

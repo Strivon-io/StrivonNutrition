@@ -1,18 +1,15 @@
 import { useRef, useState, FC } from "react";
 import { useTranslation } from "react-i18next";
-import { styled } from "styled-components";
-import { View, Dimensions } from "react-native";
+import { View, Dimensions, StyleSheet } from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-import { MainText } from "~components/atoms/mainText";
+import { Text } from "~components/atoms/text";
 import { Layout } from "~components/layout/layout";
 import { MainButton } from "~components/molecules/mainButton";
 import { RecipeBigCard } from "~components/organisms/recipeBigCard";
-import { colors, spacing, spacingPx } from "~constants/theme";
-import { isSmallScreen } from "~utils/deviceDetector";
+import { colors, spacing } from "~constants/theme";
 import { BottomCarousel } from "~components/molecules/bottomCarousel";
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
 import { NavigatorParamList } from "~navigators/app-navigator";
 
 type RecipesResultScreenProps = NativeStackScreenProps<
@@ -83,21 +80,17 @@ export const RecipesResultScreen: FC<RecipesResultScreenProps> = () => {
   };
 
   return (
-    <Layout useSafeAreaView isHeaderLogo>
-      <MainText
-        fontType="bold"
+    <Layout isHeaderLogo noPadding>
+      <Text
+        fontFamily="Avenir-Bold"
         fontSize="l"
-        style={{
-          alignSelf: "center",
-          marginTop: spacing.xs,
-          marginBottom: spacing.m,
-        }}
+        mt={spacing.xs}
+        mb={spacing.m}
+        textAlign="center"
       >
         {t("yourFirst3Recipes")}
-      </MainText>
-      <View style={{ height: "65%" }}>
-        {/* react-native-snap-carousel is using the 4.0.0-beta.6 that fix PropTypes error. 
-        It may exists props that are still in the doc but not really working or the opposite. */}
+      </Text>
+      <View style={{ flex: 1 }}>
         <Carousel
           data={recipesData}
           renderItem={renderRecipeCard}
@@ -116,20 +109,15 @@ export const RecipesResultScreen: FC<RecipesResultScreenProps> = () => {
         />
       </View>
 
-      <ButtonWrapper>
-        <LayoutSideColumns>
-          <MainButton label={t("viewMyFirstRecipes")} onPress={handleGoToApp} />
-        </LayoutSideColumns>
-      </ButtonWrapper>
+      <View style={styles.buttonWrapper}>
+        <MainButton label={t("viewMyFirstRecipes")} onPress={handleGoToApp} />
+      </View>
     </Layout>
   );
 };
 
-const ButtonWrapper = styled(View)`
-  position: absolute;
-  align-self: center;
-  width: 100%;
-  padding-top: ${spacingPx.m};
-  bottom: ${isSmallScreen ? spacingPx.m : spacingPx.l};
-  background-color: ${colors.light.PureWhite};
-`;
+const styles = StyleSheet.create({
+  buttonWrapper: {
+    paddingHorizontal: spacing.l,
+  },
+});

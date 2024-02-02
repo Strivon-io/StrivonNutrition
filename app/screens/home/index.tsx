@@ -52,16 +52,18 @@ export const HomeScreen: FC<HomeScreenProps> = () => {
   });
 
   return (
-    <Layout useSafeAreaView>
-      <View>
-        <LayoutSideColumns>
-          <StrivonLogo
-            source={require("~assets/brand/Strivon.png")}
-            resizeMode="contain"
-          />
-        </LayoutSideColumns>
+    <Layout noPadding bg="#F8F8F8">
+      <View style={{ paddingHorizontal: 20 }}>
+        <StrivonLogo
+          source={require("~assets/brand/Strivon.png")}
+          resizeMode="contain"
+        />
       </View>
-      <Animated.ScrollView onScroll={scrollHandler} scrollEventThrottle={16}>
+      <Animated.ScrollView
+        onScroll={scrollHandler}
+        scrollEventThrottle={16}
+        showsVerticalScrollIndicator={false}
+      >
         <Animated.View style={HomeWelcomeSectionStyle}>
           <HomeWelcomeSection />
         </Animated.View>
@@ -79,14 +81,7 @@ const StrivonLogo = styled(Image)`
   width: 100px;
 `;
 
-const boxShadow = {
-  shadowColor: "#3A296A",
-  shadowOpacity: 0.1,
-  shadowRadius: 10,
-};
-
 const HomeCardSection = styled(View)`
-  /* ${boxShadow} */
   background-color: ${colors.light.PureWhite};
   border-radius: ${spacingPx.m};
   height: 100%;

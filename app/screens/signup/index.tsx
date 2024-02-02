@@ -1,37 +1,33 @@
 import { useState, FC } from "react";
-import { View } from "react-native";
-import { styled } from "styled-components";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useTranslation } from "react-i18next";
+import { View } from "react-native";
 
 import { NavigatorParamList } from "~navigators/app-navigator";
-import { isSmallScreen } from "~utils/deviceDetector";
 import { Layout } from "~components/layout/layout";
 import { SectionHeader } from "~components/molecules/sectionHeader";
-import { spacingPx } from "~constants/theme";
-import { MainText } from "~components/atoms/mainText";
+import { Text } from "~components/atoms/text";
 
 import { ValidateFormBlock } from "./components/validateFormBlock";
 import { StepOne } from "./components/stepOne";
 import { StepTwo } from "./components/stepTwo";
-
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
 
 type SignUpScreenProps = NativeStackScreenProps<NavigatorParamList, "signUp">;
 
 export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
   const { t } = useTranslation();
 
-  const [signUpStep, setSignUpStep] = useState(0);
+  const [signUpStep, setSignUpStep] = useState(1);
   const [isChecked, setIsChecked] = useState(false);
   const [gender, setGender] = useState<"female" | "male" | null>(null);
   const [goal, setGoal] = useState<"gain" | "lose" | null>(null);
 
   const handleValidate = () => {
-    const isBeforeFinalStep = signUpStep <= 0;
-
-    isBeforeFinalStep && setSignUpStep(signUpStep + 1);
-    !isBeforeFinalStep && navigation.navigate("needsResult");
+    if (signUpStep === 2) {
+      navigation.navigate("needsResult");
+    } else {
+      setSignUpStep(signUpStep + 1);
+    }
   };
 
   const handleCheck = () => setIsChecked(!isChecked);
@@ -41,31 +37,28 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
   };
 
   return (
-    <Layout useSafeAreaView isHeaderLogo isBackArrow>
-      <Wrapper>
-        <LayoutSideColumns>
-          <SectionHeader
-            title={t("my-informations")}
-            sideElement={
-              <MainText fontType="bold-italic">{`(${
-                signUpStep + 1
-              }/2)`}</MainText>
-            }
-            handleBackArrow={handleBackArrow}
-            isBackArrow={signUpStep > 0}
-          />
+    <Layout isHeaderLogo isBackArrow>
+      <SectionHeader
+        title={t("my-informations")}
+        sideElement={
+          <Text fontFamily="Avenir-Bold-Italic">{`(${signUpStep}/2)`}</Text>
+        }
+        handleBackArrow={handleBackArrow}
+        isBackArrow={signUpStep > 1}
+      />
+      <View style={{ flex: 1 }}>
+        {signUpStep === 1 && <StepOne />}
 
-          {signUpStep === 0 && <StepOne />}
-          {signUpStep === 1 && (
-            <StepTwo
-              gender={gender}
-              setGender={setGender}
-              goal={goal}
-              setGoal={setGoal}
-            />
-          )}
-        </LayoutSideColumns>
-      </Wrapper>
+        {signUpStep === 2 && (
+          <StepTwo
+            gender={gender}
+            setGender={setGender}
+            goal={goal}
+            setGoal={setGoal}
+          />
+        )}
+      </View>
+
       <ValidateFormBlock
         signUpStep={signUpStep}
         handleValidate={handleValidate}
@@ -75,9 +68,3 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
     </Layout>
   );
 };
-
-const Wrapper = styled(View)`
-  width: 100%;
-  margin-top: ${isSmallScreen ? spacingPx.xs : spacingPx.m};
-  position: relative;
-`;

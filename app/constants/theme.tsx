@@ -40,7 +40,7 @@ type DirectColorKeys = {
 }[ColorGroups];
 
 // Le type ColorsKey inclut les clés de couleur directes et les combinaisons valides spécifiques à chaque groupe de couleurs
-type ColorsKey = DirectColorKeys | SpecificGroupColorKeys;
+export type ColorsKey = DirectColorKeys | SpecificGroupColorKeys;
 
 const flattenColorPalette = (
   colors: Record<string, ColorValues> | undefined
@@ -61,8 +61,6 @@ const flattenColorPalette = (
 };
 
 export const flattenedColors = flattenColorPalette(colors);
-
-// export type ColorsKey = keyof typeof flattenedColors;
 
 export type FontFamily =
   | "Avenir-Regular"

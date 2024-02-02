@@ -5,7 +5,6 @@ import { boxShadow, colors, spacing } from "~constants/theme";
 import { useTranslation } from "react-i18next";
 
 import { NavigatorParamList } from "~navigators/app-navigator";
-import { MainText } from "~components/atoms/mainText";
 import { Text } from "~components/atoms/text";
 import { Input } from "~components/molecules/input";
 import { MainButton } from "~components/molecules/mainButton";
@@ -93,7 +92,11 @@ export const SigninScreen: FC<SignInScreenProps> = ({ navigation }) => {
       >
         <View style={styles.separator} />
         <View style={styles.or}>
-          <Text color="Alizarin" fontSize="l" fontFamily="Avenir-Medium">
+          <Text
+            color="darker.DarkestBlack"
+            fontSize="l"
+            fontFamily="Avenir-Medium"
+          >
             {t("or")}
           </Text>
         </View>
