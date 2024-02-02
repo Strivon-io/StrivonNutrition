@@ -1,24 +1,24 @@
-import { FC } from "react";
-import { TextInput, View, StyleSheet } from "react-native";
+import { FC } from 'react'
+import { TextInput, View, StyleSheet } from 'react-native'
 
-import { colors, spacing } from "~constants/theme";
-import { Text } from "~components/atoms/text";
+import { colors, spacing } from '~constants/theme'
+import { Text } from '~components/atoms/text'
 
 interface InputProps {
-  value: string;
-  placeholder?: string;
-  label?: string;
-  secureTextEntry?: boolean;
+  value: string
+  placeholder?: string
+  label?: string
+  secureTextEntry?: boolean
   keyboardType?:
-    | "default"
-    | "number-pad"
-    | "decimal-pad"
-    | "numeric"
-    | "email-address"
-    | "phone-pad"
-    | "visible-password";
-  placeholderTextColor?: string;
-  onChange: (text: string) => void;
+    | 'default'
+    | 'number-pad'
+    | 'decimal-pad'
+    | 'numeric'
+    | 'email-address'
+    | 'phone-pad'
+    | 'visible-password'
+  placeholderTextColor?: string
+  onChange: (text: string) => void
 }
 
 export const Input: FC<InputProps> = ({
@@ -46,16 +46,16 @@ export const Input: FC<InputProps> = ({
         value={value}
       />
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   input: {
-    width: "100%",
+    width: '100%',
     padding: spacing.s,
     marginVertical: spacing.xs,
     backgroundColor: colors.light.AliceBlue,
     borderRadius: spacing.xs,
-    fontFamily: "AvenirNext-Medium",
+    fontFamily: 'AvenirNext-Medium',
   },
-});
+})
