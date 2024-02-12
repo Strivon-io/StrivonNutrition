@@ -8,19 +8,22 @@ import styled from "styled-components";
 interface Props {
   title: string;
   leftChild?: JSX.Element;
-  fontType?: FontFamily;
+  fontFamily?: FontFamily;
   fontSize?: "xs" | "s" | "m" | "l" | "xl";
 }
 
 export const SectionTitle: FC<Props> = ({
   title,
   leftChild,
-  fontType,
+  fontFamily,
   fontSize,
 }) => {
   return (
     <HeaderTitle>
-      <Text fontFamily={fontType ?? "Avenir-Medium"} fontSize={fontSize ?? "l"}>
+      <Text
+        fontFamily={fontFamily ?? "Avenir-Medium"}
+        fontSize={fontSize ?? "l"}
+      >
         {title}
       </Text>
 

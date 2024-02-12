@@ -108,7 +108,7 @@ export const ScheduleScreen: FC<RecipesScreenProps> = ({ navigation }) => {
         <Fragment key={date}>
           <SectionTitle
             title={formatRecipeDate(date)}
-            fontType="bold-italic"
+            fontFamily="Avenir-Bold-Italic"
             fontSize="xl"
           />
           <MealSmallCardList>

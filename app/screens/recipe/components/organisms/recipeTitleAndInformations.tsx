@@ -1,10 +1,10 @@
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import styled from "styled-components";
 
 import { Text } from "~components/atoms/text";
-import { boxShadow, colors, spacingPx } from "~constants/theme";
+import { boxShadow, colors, spacingPx, spacing } from "~constants/theme";
 
 interface Props {
   title: string;
@@ -19,7 +19,7 @@ export const RecipeTitleAndInformations: FC<Props> = ({ title }) => {
   const { t } = useTranslation();
 
   return (
-    <RecipeNameAndInformations>
+    <View style={styles.recipeNameAndInformations}>
       <Text fontFamily="Avenir-Bold-Italic" fontSize="m" textAlign="center">
         {title}
       </Text>
@@ -28,7 +28,7 @@ export const RecipeTitleAndInformations: FC<Props> = ({ title }) => {
         <InformationBlock title={t("calories")} value={"540"} />
         <InformationBlock title={t("carbohydrate")} value={"19g"} />
       </InformationsWrapper>
-    </RecipeNameAndInformations>
+    </View>
   );
 };
 
@@ -51,15 +51,17 @@ const InformationsWrapper = styled(View)`
   margin-top: ${spacingPx.s};
 `;
 
-const RecipeNameAndInformations = styled(View)`
-  ${boxShadow}
-  width: 100%;
-  background-color: ${colors.light.PureWhite};
-  height: 150px;
-  align-self: center;
-  transform: translateY(-80px);
-  border-radius: ${spacingPx.xs};
-  padding: ${spacingPx.l};
-  z-index: 100;
-  justify-content: center;
-`;
+const styles = StyleSheet.create({
+  recipeNameAndInformations: {
+    ...boxShadow,
+    width: "100%",
+    backgroundColor: colors.light.PureWhite, // Assurez-vous que cette couleur est définie quelque part
+    height: 150,
+    alignSelf: "center",
+    transform: [{ translateY: -80 }], // Ajustement pour React Native
+    borderRadius: spacing.xs, // Assurez-vous que cette valeur est définie quelque part
+    padding: spacing.l, // Assurez-vous que cette valeur est définie quelque part
+    zIndex: 100,
+    justifyContent: "center",
+  },
+});
