@@ -76,5 +76,7 @@
   "calories": "Calories",
   "programmeThisRecipe": "Programmer cette recette",
   "Scheduling": "Programmation",
-  "profile": "Profil"
+  "profile": "Profil",
+  "weightEvolution": "Evolution du poids",
+  "updateWeight": "Mettre à jour le poids"
 }
