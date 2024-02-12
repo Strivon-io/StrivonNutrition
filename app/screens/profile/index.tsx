@@ -1,25 +1,18 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FC } from "react";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useTranslation } from "react-i18next";
 import { Dimensions, Image, StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { LineChart } from "react-native-chart-kit";
+
 import { ParamsIcon } from "~assets/icons/paramsIcon";
 import { Text } from "~components/atoms/text";
-
 import { Layout } from "~components/layout/layout";
 import { PageTitle } from "~components/molecules/pageTitle";
 import { SectionTitle } from "~components/organisms/sectionTitle";
 import { colors, spacing } from "~constants/theme";
 import { BottomTabParamList } from "~navigators/bottom-tab-navigator";
 
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
-} from "react-native-chart-kit";
 import { MainButton } from "~components/molecules/mainButton";
 
 type ProfileScreenProps = NativeStackScreenProps<BottomTabParamList, "profile">;
@@ -90,7 +83,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = () => {
       <>
         <PageTitle
           title={t("profile")}
-          leftChild={
+          rightChild={
             <TouchableOpacity>
               <ParamsIcon color={colors.Alizarin} />
             </TouchableOpacity>
@@ -103,11 +96,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = () => {
           />
           <View style={styles.userNameAndAge}>
             <Text fontSize="l" fontFamily="Avenir-Bold">
-              Hugues,
-            </Text>
-            <Text fontSize="l" fontFamily="Avenir-Bold">
-              {" "}
-              23
+              Hugues, 23
             </Text>
           </View>
         </View>
