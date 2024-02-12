@@ -4,7 +4,6 @@ import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { NavigatorParamList } from "~navigators/app-navigator";
-import { MainText } from "~components/atoms/mainText";
 import { Text } from "~components/atoms/text";
 import { Layout } from "~components/layout/layout";
 import { MainButton } from "~components/molecules/mainButton";

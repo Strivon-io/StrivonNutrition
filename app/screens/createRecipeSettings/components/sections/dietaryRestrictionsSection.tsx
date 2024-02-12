@@ -1,15 +1,16 @@
+import { Dispatch, FC, cloneElement } from "react";
+import { useTranslation } from "react-i18next";
+import { View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+
 import { DairyFreeIcon } from "~assets/icons/dairyFree";
 import { GlutenFreeIcon } from "~assets/icons/glutenFreeIcon";
 import { PescetarianIcon } from "~assets/icons/pescetarianIcon";
 import { VeganIcon } from "~assets/icons/veganIcon";
 import { VegetarianIcon } from "~assets/icons/vegetarianIcon";
-import { MainText } from "~components/atoms/mainText";
+import { Text } from "~components/atoms/text";
 import { SectionHeader } from "~components/molecules/sectionHeader";
 import { colors, iconSize, spacing } from "~constants/theme";
-import React, { Dispatch } from "react";
-import { useTranslation } from "react-i18next";
-import { View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 interface Props {
   dietaryRestrictions: string[];
@@ -41,10 +42,10 @@ const dietaryRestrictionsData = [
   },
 ];
 
-export const DietaryRestrictionsSection = ({
+export const DietaryRestrictionsSection: FC<Props> = ({
   dietaryRestrictions,
   setDietaryRestrictions,
-}: Props) => {
+}) => {
   const { t } = useTranslation();
   return (
     <View>
@@ -79,21 +80,21 @@ export const DietaryRestrictionsSection = ({
 };
 type SelectorProps = {
   label: string;
-  icon: React.ReactNode;
+  icon: JSX.Element;
   isSelected: boolean;
   setDietaryRestrictions: Dispatch<React.SetStateAction<string[]>>;
   dietaryRestrictions: string[];
   iconColor: string;
 };
 
-const DietaryRestrictionSelector = ({
+const DietaryRestrictionSelector: FC<SelectorProps> = ({
   label,
   icon,
   isSelected,
   setDietaryRestrictions,
   dietaryRestrictions,
   iconColor,
-}: SelectorProps) => {
+}) => {
   const { t } = useTranslation();
 
   const handleClick = () => {
@@ -120,18 +121,18 @@ const DietaryRestrictionSelector = ({
         borderColor: isSelected ? colors.Alizarin : colors.medium.StormyCloud,
       }}
     >
-      {React.cloneElement(icon as React.ReactElement, {
+      {cloneElement(icon as React.ReactElement, {
         color: iconColor,
         size: iconSize.m,
       })}
-      <MainText
-        style={{ marginLeft: spacing.xs }}
-        fontType="medium"
+      <Text
+        ml={spacing.xs}
+        fontFamily="Avenir-Medium"
         fontSize="m"
-        color={isSelected ? colors.Alizarin : colors.medium.StormyCloud}
+        color={isSelected ? "Alizarin" : "medium.StormyCloud"}
       >
         {t(label)}
-      </MainText>
+      </Text>
     </TouchableOpacity>
   );
 };

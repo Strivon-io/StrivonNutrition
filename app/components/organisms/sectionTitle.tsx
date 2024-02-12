@@ -1,31 +1,28 @@
-import { MainText } from "~components/atoms/mainText";
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
-import { colors, fontSize, spacingPx } from "~constants/theme";
-import { ReactNode } from "react";
+import { FC } from "react";
+
+import { Text } from "~components/atoms/text";
+import { FontFamily, spacingPx } from "~constants/theme";
 import { View } from "react-native";
 import styled from "styled-components";
 
 interface Props {
   title: string;
-  leftChild?: ReactNode;
-  fontType?: "regular" | "medium" | "bold" | "bold-italic";
+  leftChild?: JSX.Element;
+  fontType?: FontFamily;
   fontSize?: "xs" | "s" | "m" | "l" | "xl";
 }
 
-export const SectionTitle = ({
+export const SectionTitle: FC<Props> = ({
   title,
   leftChild,
   fontType,
   fontSize,
-}: Props) => {
+}) => {
   return (
     <HeaderTitle>
-      <MainText
-        fontType={fontType ? fontType : "medium"}
-        fontSize={fontSize ? fontSize : "l"}
-      >
+      <Text fontFamily={fontType ?? "Avenir-Medium"} fontSize={fontSize ?? "l"}>
         {title}
-      </MainText>
+      </Text>
 
       {leftChild}
     </HeaderTitle>

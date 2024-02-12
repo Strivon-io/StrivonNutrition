@@ -1,13 +1,14 @@
-import React, { ReactNode } from "react";
+import { FC } from "react";
 import { TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 import styled, { css } from "styled-components/native";
+
 import { colors, spacing, spacingPx } from "~constants/theme";
-import { MainText } from "~components/atoms/mainText";
+import { Text } from "~components/atoms/text";
 import { isSmallScreen } from "~utils/deviceDetector";
 
 interface Props extends TouchableOpacityProps {
   label: string;
-  icon?: ReactNode;
+  icon?: JSX.Element;
   isHighlighted?: boolean;
   onPress: () => void;
   style?: {};
@@ -34,31 +35,26 @@ const ButtonContainer = styled(TouchableOpacity)<{ isHighlighted?: boolean }>`
   border-color: ${colors.Alizarin};
 `;
 
-const ButtonText = styled(MainText)<{ isHighlighted?: boolean }>`
-  color: ${(props) =>
-    props.isHighlighted ? colors.Alizarin : colors.light.PureWhite};
-`;
-
-export const MainButton = ({
+export const MainButton: FC<Props> = ({
   onPress,
   label,
   icon,
   isHighlighted,
   style,
-}: Props) => {
+}) => {
   return (
     <ButtonContainer
       style={style}
       onPress={onPress}
       isHighlighted={isHighlighted}
     >
-      <ButtonText
-        fontType="medium"
+      <Text
+        fontFamily="Avenir-Medium"
         fontSize={isSmallScreen ? "s" : "m"}
-        isHighlighted={isHighlighted}
+        color={isHighlighted ? "Alizarin" : "light.PureWhite"}
       >
         {label}
-      </ButtonText>
+      </Text>
       <View style={{ marginLeft: spacing.xs }}>{icon}</View>
     </ButtonContainer>
   );

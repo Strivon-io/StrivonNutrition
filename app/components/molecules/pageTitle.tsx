@@ -1,22 +1,21 @@
-import { MainText } from "~components/atoms/mainText";
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
-import { ReactNode } from "react";
+import { FC } from "react";
 import { View } from "react-native";
 import styled from "styled-components";
 
-export const PageTitle = ({
-  title,
-  rightChild,
-}: {
+import { Text } from "~components/atoms/text";
+
+interface Props {
   title: string;
-  rightChild?: ReactNode;
-}) => {
+  rightChild?: JSX.Element;
+}
+
+export const PageTitle: FC<Props> = ({ title, rightChild }) => {
   return (
     <View style={{ width: "100%" }}>
       <PageTitleWrapper>
-        <MainText fontType="bold-italic" fontSize="xxl">
+        <Text fontFamily="Avenir-Bold-Italic" fontSize="xxl">
           {title}
-        </MainText>
+        </Text>
         {rightChild && rightChild}
       </PageTitleWrapper>
     </View>

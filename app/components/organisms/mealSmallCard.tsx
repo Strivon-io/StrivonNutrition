@@ -4,7 +4,7 @@ import { Image, ImageSourcePropType, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { ParamListBase } from "@react-navigation/native";
 
-import { MainText } from "~components/atoms/mainText";
+import { Text } from "~components/atoms/text";
 import Tag from "~components/atoms/tag";
 import { colors, spacingPx } from "~constants/theme";
 
@@ -33,17 +33,17 @@ export const MealSmallCard = ({
     <MealSmallCardStyled onPress={() => navigateToRecipe(recipeUuid)}>
       <DishImage source={imagePath} resizeMode="cover" />
       <TitleAndKcal>
-        <MainText
-          fontType="medium"
+        <Text
+          fontFamily="Avenir-Medium"
           fontSize="m"
-          color={colors.darker.DarkestBlack}
+          color="darker.DarkestBlack"
         >
           {title}
-        </MainText>
+        </Text>
 
-        <MainText fontType="bold" fontSize="m" color={colors.Alizarin}>
+        <Text fontFamily="Avenir-Bold" fontSize="m" color="Alizarin">
           {kcal}Kcal
-        </MainText>
+        </Text>
         <TagList>
           {tags.map((tag, index) => (
             <Tag key={index.toString()} label={tag} />

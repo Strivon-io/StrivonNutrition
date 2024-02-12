@@ -1,10 +1,11 @@
-import { View, Text, Image } from "react-native";
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
+import { FC } from "react";
+import { View, Image } from "react-native";
 import { styled } from "styled-components";
-import { MainText } from "~components/atoms/mainText";
-import { colors, spacing, spacingPx } from "~constants/theme";
 
-export const MealCarouselCard = () => {
+import { Text } from "~components/atoms/text";
+import { spacingPx } from "~constants/theme";
+
+export const MealCarouselCard: FC = () => {
   return (
     <View style={{ height: 100 }}>
       <DishImage
@@ -13,12 +14,12 @@ export const MealCarouselCard = () => {
       />
       <ImageOverlay />
       <TitleAndKcal>
-        <MainText fontType="bold" fontSize="m" color={colors.light.PureWhite}>
+        <Text fontFamily="Avenir-Bold" fontSize="m" color="light.PureWhite">
           Grilled Chicken and Vegetable Salad
-        </MainText>
-        <MainText fontType="bold" fontSize="m" color={colors.Alizarin}>
+        </Text>
+        <Text fontFamily="Avenir-Bold" fontSize="m" color="Alizarin">
           240Kcal
-        </MainText>
+        </Text>
       </TitleAndKcal>
     </View>
   );

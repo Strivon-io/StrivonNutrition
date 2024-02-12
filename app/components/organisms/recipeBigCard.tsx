@@ -1,18 +1,18 @@
-import React from "react";
-import { View, Image, Text, Platform } from "react-native";
-import styled from "styled-components/native";
-import { boxShadow, colors, spacing, spacingPx } from "~constants/theme";
-import { MainText } from "~components/atoms/mainText";
-import { useTranslation } from "react-i18next";
+import { FC } from "react";
+import { View, Image } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { ScrollSafeZone } from "~utils/scrollSafeZone";
 import Animated, {
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
+import styled from "styled-components/native";
+import { useTranslation } from "react-i18next";
 
-export const RecipeBigCard = ({ title, kcal, recipe, index }) => {
+import { boxShadow, colors, spacing, spacingPx } from "~constants/theme";
+import { Text } from "~components/atoms/text";
+
+export const RecipeBigCard: FC = () => {
   const { t } = useTranslation();
 
   // TODO : Better create fake services that return fake datas
@@ -64,16 +64,12 @@ export const RecipeBigCard = ({ title, kcal, recipe, index }) => {
           />
           <ImageOverlay />
           <TitleAndKcal>
-            <MainText
-              fontType="bold"
-              fontSize="m"
-              color={colors.light.PureWhite}
-            >
+            <Text fontFamily="Avenir-Bold" fontSize="m" color="light.PureWhite">
               Grilled Chicken and Vegetable Salad
-            </MainText>
-            <MainText fontType="bold" fontSize="m" color={colors.Alizarin}>
+            </Text>
+            <Text fontFamily="Avenir-Bold" fontSize="m" color="Alizarin">
               240Kcal
-            </MainText>
+            </Text>
           </TitleAndKcal>
         </Animated.View>
         <Animated.ScrollView
@@ -87,32 +83,24 @@ export const RecipeBigCard = ({ title, kcal, recipe, index }) => {
           scrollEventThrottle={16}
         >
           <View style={{ marginBottom: spacing.l }}>
-            <MainText
-              style={{ marginBottom: spacing.xs }}
-              fontType="bold-italic"
-              fontSize="m"
-            >
+            <Text mb={spacing.xs} fontFamily="Avenir-Bold-Italic" fontSize="m">
               {t("ingredient")}
-            </MainText>
+            </Text>
             {ingredients.map((ingredient, index) => (
               <IngredientItem key={index}>
                 <BulletPoint>•</BulletPoint>
-                <MainText fontSize="m">{ingredient}</MainText>
+                <Text fontSize="m">{ingredient}</Text>
               </IngredientItem>
             ))}
-            <MainText
-              style={{ marginBottom: spacing.xs }}
-              fontType="bold-italic"
-              fontSize="m"
-            >
+            <Text mb={spacing.xs} fontFamily="Avenir-Bold-Italic" fontSize="m">
               {t("instructions")}
-            </MainText>
+            </Text>
             {instructions.map((instruction, index) => (
               <InstructionItem key={index}>
-                <MainText fontSize="m" style={{ marginRight: spacing.xs }}>
+                <Text fontSize="m" mb={spacing.xs}>
                   {index + 1}
-                </MainText>
-                <MainText fontSize="m">{instruction}</MainText>
+                </Text>
+                <Text fontSize="m">{instruction}</Text>
               </InstructionItem>
             ))}
           </View>

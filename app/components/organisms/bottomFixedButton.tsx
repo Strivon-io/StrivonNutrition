@@ -1,9 +1,8 @@
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
+import { View, StyleSheet } from "react-native";
+
 import { MainButton } from "~components/molecules/mainButton";
 import { boxShadow, spacing } from "~constants/theme";
 import { isSmallScreen } from "~utils/deviceDetector";
-import { View } from "react-native";
-import styled from "styled-components";
 
 interface Props {
   label: string;
@@ -12,25 +11,26 @@ interface Props {
 
 export const BottomFixedButton = ({ label, onPress }: Props) => {
   return (
-    <ValidateBlockWrapper>
-      <LayoutSideColumns>
-        <View
-          style={{
-            marginBottom: isSmallScreen ? spacing.s : spacing.l,
-          }}
-        >
-          <View style={{ marginTop: spacing.m }}>
-            <MainButton style={boxShadow} label={label} onPress={onPress} />
-          </View>
+    <View style={styles.wrapper}>
+      <View
+        style={{
+          marginBottom: isSmallScreen ? spacing.s : spacing.l,
+        }}
+      >
+        <View style={{ marginTop: spacing.m }}>
+          <MainButton style={boxShadow} label={label} onPress={onPress} />
         </View>
-      </LayoutSideColumns>
-    </ValidateBlockWrapper>
+      </View>
+    </View>
   );
 };
 
-const ValidateBlockWrapper = styled(View)`
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  background-color: transparent;
-`;
+const styles = StyleSheet.create({
+  wrapper: {
+    paddingHorizontal: 20,
+    position: "absolute",
+    width: "100%",
+    bottom: 0,
+    backgroundColor: "transparent",
+  },
+});

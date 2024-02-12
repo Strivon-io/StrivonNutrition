@@ -1,4 +1,4 @@
-import { useRef, useState, FC } from "react";
+import { useState, FC } from "react";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 import { FlashList } from "@shopify/flash-list";
@@ -6,9 +6,8 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { RecipesNavigatorParamList } from "~navigators/recipes-navigator";
 import { PlusIcon } from "~assets/icons/plusIcon";
-import { MainText } from "~components/atoms/mainText";
+import { Text } from "~components/atoms/text";
 import { Layout } from "~components/layout/layout";
-
 import { PageTitle } from "~components/molecules/pageTitle";
 import { MealSmallCard } from "~components/organisms/mealSmallCard";
 import { colors, iconSize, spacing } from "~constants/theme";
@@ -115,9 +114,9 @@ export const RecipesScreen: FC<RecipesScreenProps> = ({ navigation }) => {
               columnGap: 4,
             }}
           >
-            <MainText color={colors.Alizarin} fontType="bold-italic">
+            <Text color="Alizarin" fontFamily="Avenir-Bold-Italic">
               Ai
-            </MainText>
+            </Text>
             <PlusIcon size={iconSize.m} color={colors.Alizarin} />
           </TouchableOpacity>
         }

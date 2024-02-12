@@ -86,6 +86,7 @@ export const ScheduleScreen: FC<RecipesScreenProps> = ({ navigation }) => {
       acc[date].push(recipe);
       return acc;
     }, {});
+
   const recipesByDate = useMemo(
     () => groupRecipesByDate(ProgrammedRecipes),
     [ProgrammedRecipes]

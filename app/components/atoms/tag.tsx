@@ -1,7 +1,8 @@
 import { View } from "react-native";
 import styled from "styled-components/native";
 import { colors, spacingPx } from "~constants/theme";
-import { MainText } from "./mainText";
+
+import { Text } from "./text";
 
 interface Props {
   label: string;
@@ -24,9 +25,9 @@ const TagStyle = styled(View)<{ label: string }>`
 const Tag = ({ label }: Props) => {
   return (
     <TagStyle label={label}>
-      <MainText fontType="medium" fontSize="xs">
+      <Text fontFamily="Avenir-Medium" fontSize="xs">
         {label}
-      </MainText>
+      </Text>
     </TagStyle>
   );
 };

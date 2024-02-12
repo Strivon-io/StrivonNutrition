@@ -21,7 +21,7 @@ import { withColor } from "~components/communStyles/withColor";
 import { routeWithoutTabBar } from "~navigators/navigator-utils";
 
 interface Props {
-  children: React.ReactNode;
+  children: JSX.Element;
   isHeaderLogo?: boolean;
   isBackArrow?: boolean;
   isHeader?: boolean;

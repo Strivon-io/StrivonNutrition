@@ -4,7 +4,6 @@ import { View } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import { Layout } from "~components/layout/layout";
-
 import { AddIngredientSection } from "./components/sections/addIngredientSection";
 import { DietaryRestrictionsSection } from "./components/sections/dietaryRestrictionsSection";
 import { NumberOfCaloriesSection } from "./components/sections/numberOfCaloriesSection";
@@ -49,8 +48,8 @@ export const CreateRecipeSettingsScreen: FC = () => {
   };
 
   return (
-    <>
-      <Layout pageTitle={t("generateRecipe")} isBackArrow isHeader scrollView>
+    <Layout pageTitle={t("generateRecipe")} isBackArrow isHeader scrollView>
+      <>
         <View style={{ flex: 1 }}>
           <View style={{ marginBottom: spacing.l }}>
             <AddIngredientSection
@@ -77,7 +76,7 @@ export const CreateRecipeSettingsScreen: FC = () => {
         </View>
 
         <MainButton label={t("generate")} onPress={() => {}} />
-      </Layout>
-    </>
+      </>
+    </Layout>
   );
 };

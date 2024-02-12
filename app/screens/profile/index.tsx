@@ -3,7 +3,6 @@ import { FC } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Layout } from "~components/layout/layout";
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
 import { PageTitle } from "~components/molecules/pageTitle";
 import { BottomTabParamList } from "~navigators/bottom-tab-navigator";
 
@@ -13,10 +12,8 @@ export const ProfileScreen: FC<ProfileScreenProps> = () => {
   const { t } = useTranslation();
 
   return (
-    <Layout useSafeAreaView>
-      <LayoutSideColumns>
-        <PageTitle title={t("profile")} />
-      </LayoutSideColumns>
+    <Layout>
+      <PageTitle title={t("profile")} />
     </Layout>
   );
 };

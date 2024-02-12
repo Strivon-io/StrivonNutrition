@@ -4,7 +4,7 @@ import { TouchableOpacity, View } from "react-native";
 import styled from "styled-components";
 
 import { Checkbox } from "~components/atoms/checkbox";
-import { MainText } from "~components/atoms/mainText";
+import { Text } from "~components/atoms/text";
 import { MainInput } from "~components/molecules/mainInput";
 import { colors, iconSize, spacing, spacingPx } from "~constants/theme";
 import { PlusIcon } from "~assets/icons/plusIcon";
@@ -83,14 +83,14 @@ export const AddIngredientSection: FC<AddIngredientSectionProps> = ({
             setOnlyUseIngredients(!onlyUseIngredients);
           }}
         />
-        <MainText
-          style={{ marginLeft: spacing.xs }}
-          fontType="medium"
-          color={colors.darker.DarkestBlack}
+        <Text
+          ml={spacing.xs}
+          fontFamily="Avenir-Medium"
+          color="darker.DarkestBlack"
           fontSize="s"
         >
           {t("onlyUseIngredientOfThisList")}
-        </MainText>
+        </Text>
       </View>
     </View>
   );

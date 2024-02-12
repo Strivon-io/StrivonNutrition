@@ -1,25 +1,25 @@
+import { FC } from "react";
 import { styled } from "styled-components";
-import { MainText } from "../atoms/mainText";
 import { View } from "react-native";
-import { ReactNode } from "react";
-import { LeftArrow } from "~assets/icons/leftArrow";
+
 import { colors, iconSize, spacing } from "~constants/theme";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { LeftChevron } from "~assets/icons/leftChevron";
+import { Text } from "~components/atoms/text";
 
 interface Props {
   title: string;
-  sideElement?: ReactNode;
+  sideElement?: JSX.Element;
   isBackArrow?: boolean;
   handleBackArrow?: () => void;
 }
 
-export const SectionHeader = ({
+export const SectionHeader: FC<Props> = ({
   title,
   sideElement,
   isBackArrow,
   handleBackArrow,
-}: Props) => {
+}) => {
   return (
     <SectionHeaderStyled>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -28,13 +28,13 @@ export const SectionHeader = ({
             <LeftChevron size={iconSize.m} color={colors.darker.DarkestBlack} />
           </TouchableOpacity>
         )}
-        <MainText
-          style={{ marginLeft: isBackArrow ? spacing.s : 0 }}
+        <Text
+          ml={isBackArrow ? spacing.s : 0}
           fontSize="xl"
-          fontType="medium"
+          fontFamily="Avenir-Medium"
         >
           {title}
-        </MainText>
+        </Text>
       </View>
       {sideElement}
     </SectionHeaderStyled>

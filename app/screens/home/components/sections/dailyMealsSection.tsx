@@ -4,13 +4,12 @@ import { Carousel } from "react-native-snap-carousel";
 import { useTranslation } from "react-i18next";
 import { styled } from "styled-components";
 
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
-import { MainText } from "~components/atoms/mainText";
-import { colors, spacing, spacingPx } from "~constants/theme";
+import { Text } from "~components/atoms/text";
+import { spacing, spacingPx } from "~constants/theme";
 import { MealCarouselCard } from "~components/organisms/mealCarouselCard";
 import { SectionTitle } from "~components/organisms/sectionTitle";
 
-export const DailyMealsSection = () => {
+export const DailyMealsSection: FC = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const carouselRef = useRef(null);
   const mealsData = [
@@ -32,21 +31,21 @@ export const DailyMealsSection = () => {
 
   return (
     <View style={{ marginBottom: spacing.m }}>
-      <LayoutSideColumns>
-        <SectionTitle
-          title={t("yourDailyMeals")}
-          leftChild={
-            <MainText color={colors.Alizarin} fontType="bold" fontSize="m">
-              1459Kcal
-            </MainText>
-          }
-        />
-      </LayoutSideColumns>
+      <SectionTitle
+        title={t("yourDailyMeals")}
+        leftChild={
+          <Text color="Alizarin" fontFamily="Avenir-Bold" fontSize="m">
+            1459Kcal
+          </Text>
+        }
+      />
+
       <MealLabels activeSlide={activeSlide} mealLabels={mealLabels} />
+
       <Carousel
         data={mealsData}
         renderItem={renderRecipeCard}
-        sliderWidth={viewportWidth}
+        sliderWidth={viewportWidth - 40}
         onScrollIndexChanged={(index) => setActiveSlide(index)}
         itemWidth={viewportWidth - spacing.l}
         ref={carouselRef}
@@ -65,23 +64,17 @@ const MealLabels: FC<{ activeSlide: number; mealLabels: string[] }> = ({
   mealLabels,
 }) => {
   return (
-    <LayoutSideColumns>
-      <MealLabelsContainer>
-        {mealLabels.map((label, index) => (
-          <MainText
-            fontType="bold-italic"
-            color={
-              activeSlide === index
-                ? colors.Alizarin
-                : colors.darker.DarkestBlack
-            }
-            key={index}
-          >
-            {label}
-          </MainText>
-        ))}
-      </MealLabelsContainer>
-    </LayoutSideColumns>
+    <MealLabelsContainer>
+      {mealLabels.map((label, index) => (
+        <Text
+          fontFamily="Avenir-Bold-Italic"
+          color={activeSlide === index ? "Alizarin" : "darker.DarkestBlack"}
+          key={index}
+        >
+          {label}
+        </Text>
+      ))}
+    </MealLabelsContainer>
   );
 };
 

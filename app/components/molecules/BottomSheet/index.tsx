@@ -26,7 +26,7 @@ import { isSmallScreen } from "~utils/deviceDetector";
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 type bottomSheetProps = {
-  children?: React.ReactNode;
+  children?: JSX.Element;
   maxHeight?: number;
   style?: StyleProp<ViewStyle>;
   onClose?: () => void;

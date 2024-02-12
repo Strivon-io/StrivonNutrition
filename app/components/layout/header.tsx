@@ -5,7 +5,8 @@ import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { colors, spacing } from "~constants/theme";
-import { MainText } from "~components/atoms/mainText";
+import { Text } from "~components/atoms/text";
+
 import { LeftArrow } from "~assets/icons/leftArrow";
 
 import { HeaderLogo } from "./atoms/headerLogo";
@@ -51,13 +52,9 @@ export const AppHeader: FC<Props> = ({
             </TouchableOpacity>
           )}
           {pageTitle && (
-            <MainText
-              style={{ marginLeft: spacing.s }}
-              fontType="bold-italic"
-              fontSize="xl"
-            >
+            <Text ml={spacing.s} fontFamily="Avenir-Medium" fontSize="xl">
               {pageTitle}
-            </MainText>
+            </Text>
           )}
         </View>
 

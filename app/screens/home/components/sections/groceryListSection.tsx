@@ -4,8 +4,7 @@ import { View, TouchableOpacity } from "react-native";
 import styled from "styled-components";
 
 import { Checkbox } from "~components/atoms/checkbox";
-import { MainText } from "~components/atoms/mainText";
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
+import { Text } from "~components/atoms/text";
 import { SectionTitle } from "~components/organisms/sectionTitle";
 import { spacing, spacingPx } from "~constants/theme";
 
@@ -29,25 +28,20 @@ export const GroceryListSection: FC = () => {
 
   return (
     <View>
-      <LayoutSideColumns>
-        <SectionTitle title={t("yourGroceryList")} />
-        {groceryList.map((item) => (
-          <TouchableOpacity
-            onPress={() => toggleCheckbox(item.id)}
-            key={item.id}
-          >
-            <ElementWrapper key={item.id}>
-              <Checkbox
-                isChecked={item.isChecked}
-                setIsChecked={() => toggleCheckbox(item.id)}
-              />
-              <MainText fontSize="m" style={{ marginLeft: spacing.xs }}>
-                {item.item}
-              </MainText>
-            </ElementWrapper>
-          </TouchableOpacity>
-        ))}
-      </LayoutSideColumns>
+      <SectionTitle title={t("yourGroceryList")} />
+      {groceryList.map((item) => (
+        <TouchableOpacity onPress={() => toggleCheckbox(item.id)} key={item.id}>
+          <ElementWrapper key={item.id}>
+            <Checkbox
+              isChecked={item.isChecked}
+              setIsChecked={() => toggleCheckbox(item.id)}
+            />
+            <Text fontSize="m" ml={spacing.xs}>
+              {item.item}
+            </Text>
+          </ElementWrapper>
+        </TouchableOpacity>
+      ))}
     </View>
   );
 };

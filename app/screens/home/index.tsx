@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { View, Image } from "react-native";
+import { View, Image, StyleSheet } from "react-native";
 import { styled } from "styled-components";
 import Animated, {
   Extrapolate,
@@ -12,7 +12,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { BottomTabParamList } from "~navigators/bottom-tab-navigator";
 import { Layout } from "~components/layout/layout";
-import { colors, spacingPx } from "~constants/theme";
+import { colors, spacing } from "~constants/theme";
 
 import { HomeWelcomeSection } from "./components/sections/welcomeSection";
 import { DailyMealsSection } from "./components/sections/dailyMealsSection";
@@ -66,22 +66,24 @@ export const HomeScreen: FC<HomeScreenProps> = () => {
         <Animated.View style={HomeWelcomeSectionStyle}>
           <HomeWelcomeSection />
         </Animated.View>
-        <HomeCardSection>
+        <View style={styles.homeCardSection}>
           <DailyMealsSection />
           <GroceryListSection />
           <PlannifiedMealDays />
-        </HomeCardSection>
+        </View>
       </Animated.ScrollView>
     </Layout>
   );
 };
 
+const styles = StyleSheet.create({
+  homeCardSection: {
+    backgroundColor: colors.light.PureWhite,
+    borderRadius: spacing.m,
+    paddingHorizontal: 20,
+    height: "100%",
+  },
+});
 const StrivonLogo = styled(Image)`
   width: 100px;
-`;
-
-const HomeCardSection = styled(View)`
-  background-color: ${colors.light.PureWhite};
-  border-radius: ${spacingPx.m};
-  height: 100%;
 `;

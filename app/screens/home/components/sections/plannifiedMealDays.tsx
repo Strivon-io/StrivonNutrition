@@ -1,13 +1,12 @@
 import { FC } from "react";
 import { View } from "react-native";
-import { MainText } from "~components/atoms/mainText";
 import styled from "styled-components/native";
 import { Calendar } from "react-native-calendars";
 import { useTranslation } from "react-i18next";
 
+import { Text } from "~components/atoms/text";
 import { colors, iconSize, spacing, spacingPx } from "~constants/theme";
 import { SectionTitle } from "~components/organisms/sectionTitle";
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
 import { LeftChevron } from "~assets/icons/leftChevron";
 import { RightChevron } from "~assets/icons/rightChevron";
 
@@ -58,68 +57,65 @@ export const PlannifiedMealDays: FC = () => {
 
   return (
     <View style={{ paddingBottom: spacing.m }}>
-      <LayoutSideColumns>
-        <SectionTitle title={t("yourPlannifiedMealsDays")} />
-        <CalendarCard>
-          <Calendar
-            dayComponent={({ date, state }) => {
-              const isMarked = markedDates[date.dateString]?.marked;
-              return (
-                <View style={{ height: 50, alignItems: "center" }}>
-                  <MainText
-                    fontType="medium"
-                    fontSize="m"
+      <SectionTitle title={t("yourPlannifiedMealsDays")} />
+      <CalendarCard>
+        <Calendar
+          dayComponent={({ date, state }) => {
+            const isMarked = markedDates[date.dateString]?.marked;
+            return (
+              <View style={{ height: 50, alignItems: "center" }}>
+                <Text
+                  fontFamily="Avenir-Medium"
+                  fontSize="m"
+                  color={
+                    state === "disabled"
+                      ? "medium.LinkWater"
+                      : "darker.DarkestBlack"
+                  }
+                >
+                  {date.day}
+                </Text>
+                {isMarked && (
+                  <View
                     style={{
-                      color:
-                        state === "disabled"
-                          ? colors.medium.LinkWater
-                          : colors.darker.DarkestBlack,
+                      marginTop: spacing.xs,
+                      height: 5,
+                      width: 5,
+                      borderRadius: 5,
+                      backgroundColor: colors.Alizarin,
                     }}
-                  >
-                    {date.day}
-                  </MainText>
-                  {isMarked && (
-                    <View
-                      style={{
-                        marginTop: spacing.xs,
-                        height: 5,
-                        width: 5,
-                        borderRadius: 5,
-                        backgroundColor: colors.Alizarin,
-                      }}
-                    />
-                  )}
-                </View>
-              );
-            }}
-            renderHeader={(date) => {
-              const monthName = monthNames[date.getMonth()];
-              return (
-                <View>
-                  <MainText fontType="medium" fontSize="m">
-                    {monthName}
-                  </MainText>
-                </View>
-              );
-            }}
-            accessibilityLanguage="fr"
-            theme={{
-              todayTextColor: colors.Alizarin,
-              dayTextColor: colors.darker.DarkestBlack,
-            }}
-            style={{ borderRadius: spacing.s }}
-            renderArrow={(direction) =>
-              direction === "left" ? (
-                <LeftChevron size={iconSize.s} color={colors.Alizarin} />
-              ) : (
-                <RightChevron size={iconSize.s} color={colors.Alizarin} />
-              )
-            }
-            markedDates={markedDates}
-            onDayPress={() => {}}
-          />
-        </CalendarCard>
-      </LayoutSideColumns>
+                  />
+                )}
+              </View>
+            );
+          }}
+          renderHeader={(date) => {
+            const monthName = monthNames[date.getMonth()];
+            return (
+              <View>
+                <Text fontFamily="Avenir-Medium" fontSize="m">
+                  {monthName}
+                </Text>
+              </View>
+            );
+          }}
+          accessibilityLanguage="fr"
+          theme={{
+            todayTextColor: colors.Alizarin,
+            dayTextColor: colors.darker.DarkestBlack,
+          }}
+          style={{ borderRadius: spacing.s }}
+          renderArrow={(direction) =>
+            direction === "left" ? (
+              <LeftChevron size={iconSize.s} color={colors.Alizarin} />
+            ) : (
+              <RightChevron size={iconSize.s} color={colors.Alizarin} />
+            )
+          }
+          markedDates={markedDates}
+          onDayPress={() => {}}
+        />
+      </CalendarCard>
     </View>
   );
 };

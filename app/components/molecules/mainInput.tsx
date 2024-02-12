@@ -1,33 +1,20 @@
-import React from "react";
-import { TextInput, View } from "react-native";
-import { colors, spacing, spacingPx } from "../../constants/theme";
-import { styled } from "styled-components/native";
-import { MainText } from "../atoms/mainText";
-import { HomeIcon } from "~assets/icons/homeIcon";
+import { FC } from "react";
+import { TextInput, TextInputProps, View } from "react-native";
 import { css } from "styled-components";
+import { styled } from "styled-components/native";
 
-interface InputProps {
-  placeholder?: string;
+import { colors, spacingPx } from "~constants/theme";
+import { Text } from "~components/atoms/text";
+
+interface InputProps extends TextInputProps {
   label?: string;
-  secureTextEntry?: boolean;
-  onChangeText?: (text: string) => void;
-  keyboardType?:
-    | "default"
-    | "number-pad"
-    | "decimal-pad"
-    | "numeric"
-    | "email-address"
-    | "phone-pad"
-    | "visible-password";
-  value?: string;
   style?: {};
-  placeholderTextColor?: string;
   textColor?: string;
   fontType?: string;
-  leftIcon?: React.ReactNode;
+  leftIcon?: JSX.Element;
 }
 
-export const MainInput = ({
+export const MainInput: FC<InputProps> = ({
   label,
   placeholder,
   secureTextEntry,
@@ -37,13 +24,13 @@ export const MainInput = ({
   style = {},
   textColor,
   fontType,
-}: InputProps) => {
+}) => {
   return (
     <View style={style}>
       {label && (
-        <MainText fontType="medium" color={colors.Alizarin} fontSize="m">
+        <Text fontFamily="Avenir-Medium" color="Alizarin" fontSize="m">
           {label}
-        </MainText>
+        </Text>
       )}
       <Style
         placeholder={placeholder}

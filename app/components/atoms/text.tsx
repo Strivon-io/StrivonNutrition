@@ -17,7 +17,7 @@ import {
 } from "~constants/theme";
 
 interface TextProps extends TextPropsRN {
-  children: React.ReactNode;
+  children: JSX.Element | string;
   color?: ColorsKey;
   fontSize?: FontSizeKey;
   textDecorationLine?: "none" | "underline" | "line-through";

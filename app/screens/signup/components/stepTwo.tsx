@@ -3,10 +3,10 @@ import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { styled } from "styled-components";
 
-import { MainText } from "~components/atoms/mainText";
+import { Text } from "~components/atoms/text";
 import { MainButton } from "~components/molecules/mainButton";
 import { MainInput } from "~components/molecules/mainInput";
-import { colors, spacing, spacingPx } from "~constants/theme";
+import { spacing, spacingPx } from "~constants/theme";
 
 interface Props {
   gender: string | null;
@@ -38,9 +38,9 @@ export const StepTwo: FC<Props> = ({ gender, setGender, goal, setGoal }) => {
         keyboardType="default"
       />
       <View style={{ marginTop: spacing.s }}>
-        <MainText fontType="medium" color={colors.Alizarin}>
+        <Text fontFamily="Avenir-Medium" color="Alizarin">
           {`${t("i-am")} :`}
-        </MainText>
+        </Text>
         <ButtonWrapper>
           <View style={{ width: "49%" }}>
             <MainButton
@@ -59,9 +59,9 @@ export const StepTwo: FC<Props> = ({ gender, setGender, goal, setGoal }) => {
         </ButtonWrapper>
       </View>
       <View style={{ marginTop: spacing.s }}>
-        <MainText fontType="medium" color={colors.Alizarin}>
+        <Text fontFamily="Avenir-Medium" color="Alizarin">
           {`${t("my-goal")} :`}
-        </MainText>
+        </Text>
         <ButtonWrapper>
           <View style={{ width: "49%" }}>
             <MainButton

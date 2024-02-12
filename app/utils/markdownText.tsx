@@ -1,19 +1,23 @@
-import { MainText } from "~components/atoms/mainText";
-import React from "react";
 import Markdown from "react-native-markdown-display";
+import { FC } from "react";
 
-const MarkdownText = ({ children, ...props }) => {
+import { Text } from "~components/atoms/text";
+
+const MarkdownText: FC<{ children: JSX.Element }> = ({
+  children,
+  ...props
+}) => {
   const rules = {
-    text: ({ children }) => <MainText {...props}>{children}</MainText>,
+    text: ({ children }) => <Text {...props}>{children}</Text>,
     strong: ({ children }) => (
-      <MainText {...props} fontType="bold">
+      <Text {...props} fontFamily="Avenir-Bold">
         {children}
-      </MainText>
+      </Text>
     ),
     em: ({ children }) => (
-      <MainText {...props} fontType="bold-italic">
+      <Text {...props} fontFamily="Avenir-Bold-Italic">
         {children}
-      </MainText>
+      </Text>
     ),
   };
 

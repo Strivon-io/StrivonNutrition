@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import styled from "styled-components";
 
-import { MainText } from "~components/atoms/mainText";
+import { Text } from "~components/atoms/text";
 import { boxShadow, colors, spacingPx } from "~constants/theme";
 
 interface Props {
@@ -20,9 +20,9 @@ export const RecipeTitleAndInformations: FC<Props> = ({ title }) => {
 
   return (
     <RecipeNameAndInformations>
-      <MainText fontType="bold-italic" fontSize="m" textAlign="center">
+      <Text fontFamily="Avenir-Bold-Italic" fontSize="m" textAlign="center">
         {title}
-      </MainText>
+      </Text>
       <InformationsWrapper>
         <InformationBlock title={t("protein")} value={"19g"} />
         <InformationBlock title={t("calories")} value={"540"} />
@@ -35,12 +35,12 @@ export const RecipeTitleAndInformations: FC<Props> = ({ title }) => {
 const InformationBlock = ({ title, value }) => {
   return (
     <View style={{ flexDirection: "column", alignItems: "center" }}>
-      <MainText color={colors.Alizarin} fontType="bold-italic" fontSize="m">
+      <Text color="Alizarin" fontFamily="Avenir-Bold-Italic" fontSize="m">
         {title}
-      </MainText>
-      <MainText fontType="medium" fontSize="m">
+      </Text>
+      <Text fontFamily="Avenir-Medium" fontSize="m">
         {value}
-      </MainText>
+      </Text>
     </View>
   );
 };

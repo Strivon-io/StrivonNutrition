@@ -1,18 +1,22 @@
-import { MainText } from "~components/atoms/mainText";
-import { InputStyle, MainInput } from "~components/molecules/mainInput";
-import { SectionHeader } from "~components/molecules/sectionHeader";
-import { colors, spacing, spacingPx } from "~constants/theme";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, FC } from "react";
 import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import styled from "styled-components";
+
+import { Text } from "~components/atoms/text";
+import { InputStyle, MainInput } from "~components/molecules/mainInput";
+import { SectionHeader } from "~components/molecules/sectionHeader";
+import { colors, spacing, spacingPx } from "~constants/theme";
 
 interface Props {
   calories: string;
   setCalories: Dispatch<SetStateAction<string>>;
 }
 
-export const NumberOfCaloriesSection = ({ calories, setCalories }: Props) => {
+export const NumberOfCaloriesSection: FC<Props> = ({
+  calories,
+  setCalories,
+}) => {
   const { t } = useTranslation();
   return (
     <View>
@@ -38,9 +42,9 @@ export const NumberOfCaloriesSection = ({ calories, setCalories }: Props) => {
           fontType={"bold"}
         />
         <KcalWrapper>
-          <MainText fontType="medium" color={colors.Alizarin} fontSize="m">
+          <Text fontFamily="Avenir-Medium" color="Alizarin" fontSize="m">
             Kcal
-          </MainText>
+          </Text>
         </KcalWrapper>
       </View>
     </View>

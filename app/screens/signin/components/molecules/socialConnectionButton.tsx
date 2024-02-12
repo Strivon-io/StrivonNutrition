@@ -1,12 +1,12 @@
-import { ReactNode, FC } from "react";
+import { FC } from "react";
 import { TouchableOpacity, ViewStyle } from "react-native";
 import { styled } from "styled-components";
 
-import { MainText } from "~components/atoms/mainText";
+import { Text } from "~components/atoms/text";
 import { colors, spacing, spacingPx } from "~constants/theme";
 
 interface Props {
-  icon: ReactNode;
+  icon: JSX.Element;
   text: string;
   style?: ViewStyle;
   onPress: () => void;
@@ -21,14 +21,14 @@ export const SocialNetworkConnectionButton: FC<Props> = ({
   return (
     <ButtonStyled onPress={onPress} style={style}>
       {icon}
-      <MainText
-        color={colors.darker.DarkestBlack}
+      <Text
+        color="darker.DarkestBlack"
         fontSize="m"
-        fontType="medium"
-        style={{ marginLeft: spacing.l }}
+        fontFamily="Avenir-Medium"
+        ml={spacing.l}
       >
         {text}
-      </MainText>
+      </Text>
     </ButtonStyled>
   );
 };

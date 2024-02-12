@@ -1,16 +1,14 @@
-import React from "react";
-import { StyleSheet, View, Pressable } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { FC } from "react";
+import { View, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
-import { LeftArrow } from "~assets/icons/leftArrow";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { MainText } from "~components/atoms/mainText";
 import { useTranslation } from "react-i18next";
+
+import { Text } from "~components/atoms/text";
 import { LeftChevron } from "~assets/icons/leftChevron";
 import { colors, iconSize, spacing, spacingPx } from "~constants/theme";
 import { RightChevron } from "~assets/icons/rightChevron";
 
-export const BottomCarousel = ({
+export const BottomCarousel: FC<any> = ({
   getPagination,
   onPressRightArrow = () => null,
   onPressLeftArrow = () => null,
@@ -23,25 +21,17 @@ export const BottomCarousel = ({
       <TouchableOpacity onPress={onPressLeftArrow}>
         <LeftArrowContainer hasLeftArrow={hasLeftArrow}>
           <LeftChevron size={iconSize.s} color={colors.Alizarin} />
-          <MainText
-            style={{ marginLeft: spacing.s }}
-            fontType="medium"
-            color={colors.Alizarin}
-          >
+          <Text ml={spacing.s} fontFamily="Avenir-Medium" color="Alizarin">
             {t("previous")}
-          </MainText>
+          </Text>
         </LeftArrowContainer>
       </TouchableOpacity>
       <PaginationWrapper>{getPagination}</PaginationWrapper>
       <TouchableOpacity onPress={onPressRightArrow}>
         <RightArrowContainer hasRightArrow={hasRightArrow}>
-          <MainText
-            style={{ marginRight: spacing.s }}
-            fontType="medium"
-            color={colors.Alizarin}
-          >
+          <Text mr={spacing.s} fontFamily="Avenir-Medium" color="Alizarin">
             {t("next")}
-          </MainText>
+          </Text>
           <RightChevron size={iconSize.s} color={colors.Alizarin} />
         </RightArrowContainer>
       </TouchableOpacity>
