@@ -1,46 +1,57 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { View, Text, useWindowDimensions } from 'react-native'
-import styled, { ThemeProvider } from 'styled-components/native'
-import { useTranslation } from 'react-i18next'
-import './src/translations/i18n.config'
-import { MainNavigation } from './src/navigation'
-import * as Font from 'expo-font'
-import { ActionTray, ActionTrayRef } from '@components/molecules/BottomSheet'
-import {
-  Extrapolate,
-  interpolate,
-  useAnimatedStyle,
-  useDerivedValue,
-  useSharedValue,
-  withSpring,
-} from 'react-native-reanimated'
+import { useEffect, useState, useRef } from "react";
+import { AppState, Platform } from "react-native";
+import { useFonts } from "expo-font";
+import Constants from "expo-constants";
+import * as SplashScreen from "expo-splash-screen";
+import { enableScreens } from "react-native-screens";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-const Container = styled.View`
-  flex: 1;
-  margin-top: 20px;
-  background-color: white;
-`
+import "~translations/i18n.config";
 
-const Title = styled.Text`
-  font-size: 24px;
-  color: #333;
-`
+import { AppNavigator } from "~navigators/app-navigator";
 
-const MainContainer = styled.View`
-  background-color: 'white';
-`
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
 
-const loadCustomFonts = async () => {
-  await Font.loadAsync({
-    'avenir-regular': require('./src/assets/fonts/Avenir-Next-Regular.otf'),
-    'avenir-medium': require('./src/assets/fonts/Avenir-Next-Medium.ttf'),
-    'avenir-bold': require('./src/assets/fonts/Avenir-Next-Bold.otf'),
-    'avenir-bold-italic': require('./src/assets/fonts/Avenir-Next-Bold-Italic.ttf'),
-  })
+export default function App() {
+  const [isAppReady, setIsAppReady] = useState(false);
+
+  const appState = useRef(AppState.currentState);
+
+  let [fontsLoaded] = useFonts({
+    "Avenir-Regular": require("./assets/fonts/Avenir-Next-Regular.otf"),
+    "Avenir-Medium": require("./assets/fonts/Avenir-Next-Medium.ttf"),
+    "Avenir-Bold": require("./assets/fonts/Avenir-Next-Bold.otf"),
+    "Avenir-Bold-Italic": require("./assets/fonts/Avenir-Next-Bold-Italic.ttf"),
+  });
+
+  useEffect(() => {
+    if (Platform.OS === "ios") {
+      enableScreens(false);
+    }
+
+    const subscription = AppState.addEventListener("change", (nextAppState) => {
+      appState.current = nextAppState;
+    });
+
+    (async () => {
+      console.log(`App version ${Constants.expoConfig.version} is mounted.`);
+
+      setIsAppReady(true);
+    })();
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+
+  if (!isAppReady || !fontsLoaded) {
+    return;
+  }
+
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <AppNavigator />
+    </GestureHandlerRootView>
+  );
 }
-
-const App = () => {
-  return <MainNavigation />
-}
-
-export default App

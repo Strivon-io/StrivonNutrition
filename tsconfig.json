@@ -1,21 +1,15 @@
 {
+  "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "baseUrl": ".",
+    "jsx": "react-jsx",
+    /* Completeness */
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */,
+
+    /* Customization */
+    "allowJs": true,
     "paths": {
-      "@*": ["src/*"],
-      "@components/*": ["src/components/*"],
-      "@constants/*": ["src/constants/*"],
-      "@utils/*": ["src/utils/*"],
-      "@translations/*": ["src/translations/*"],
-      "@assets/*": ["src/assets/*"]
+      "~*": ["./app/*"]
     }
   },
-  "include": ["next-env.d.ts", "twin.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"],
-  "extends": "expo/tsconfig.base",
-  "expo": {
-    "experiments": {
-      "tsconfigPaths": true
-    }
-  }
+  "exclude": ["./babel.config.js"]
 }
