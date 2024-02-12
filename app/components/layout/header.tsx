@@ -9,7 +9,6 @@ import { MainText } from "~components/atoms/mainText";
 import { LeftArrow } from "~assets/icons/leftArrow";
 
 import { HeaderLogo } from "./atoms/headerLogo";
-import { LayoutSideColumns } from "./layoutSideColumns";
 
 interface Props {
   isLogo?: boolean;
@@ -37,35 +36,33 @@ export const AppHeader: FC<Props> = ({
         paddingTop: isLogo ? spacing.xs : spacing.m,
       }}
     >
-      <LayoutSideColumns>
-        <Wrapper>
-          <View
-            style={{
-              position: "absolute",
-              left: 0,
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            {isBackArrow && (
-              <TouchableOpacity onPress={handleBackPress}>
-                <LeftArrow color={colors.Alizarin} />
-              </TouchableOpacity>
-            )}
-            {pageTitle && (
-              <MainText
-                style={{ marginLeft: spacing.s }}
-                fontType="bold-italic"
-                fontSize="xl"
-              >
-                {pageTitle}
-              </MainText>
-            )}
-          </View>
+      <Wrapper>
+        <View
+          style={{
+            position: "absolute",
+            left: 0,
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          {isBackArrow && (
+            <TouchableOpacity onPress={handleBackPress}>
+              <LeftArrow color={colors.Alizarin} />
+            </TouchableOpacity>
+          )}
+          {pageTitle && (
+            <MainText
+              style={{ marginLeft: spacing.s }}
+              fontType="bold-italic"
+              fontSize="xl"
+            >
+              {pageTitle}
+            </MainText>
+          )}
+        </View>
 
-          {isLogo && <HeaderLogo />}
-        </Wrapper>
-      </LayoutSideColumns>
+        {isLogo && <HeaderLogo />}
+      </Wrapper>
     </View>
   );
 };

@@ -1,16 +1,14 @@
 import { useState, FC } from "react";
 import { spacing } from "~constants/theme";
-import { View, ScrollView } from "react-native";
+import { View } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import { Layout } from "~components/layout/layout";
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
-import { isSmallScreen } from "~utils/deviceDetector";
-import { BottomFixedButton } from "~components/organisms/bottomFixedButton";
 
 import { AddIngredientSection } from "./components/sections/addIngredientSection";
 import { DietaryRestrictionsSection } from "./components/sections/dietaryRestrictionsSection";
 import { NumberOfCaloriesSection } from "./components/sections/numberOfCaloriesSection";
+import { MainButton } from "~components/molecules/mainButton";
 
 export const CreateRecipeSettingsScreen: FC = () => {
   const [ingredients, setIngredients] = useState([]);
@@ -36,17 +34,10 @@ export const CreateRecipeSettingsScreen: FC = () => {
     setIngredients(updatedIngredients);
   };
 
-  const handleNewIngredientSubmit = (
-    newIngredient,
-    setNewIngredient,
-    scrollToBottom
-  ) => {
+  const handleNewIngredientSubmit = (newIngredient, setNewIngredient) => {
     if (newIngredient.trim() !== "") {
       addIngredient(newIngredient);
       setNewIngredient("");
-      setTimeout(() => {
-        scrollToBottom();
-      }, 100);
     } else {
       setIngredients((prevIngredients) => {
         const updatedIngredients = prevIngredients.filter(
@@ -58,15 +49,10 @@ export const CreateRecipeSettingsScreen: FC = () => {
   };
 
   return (
-    <Layout
-      pageTitle={t("generateRecipe")}
-      isBackArrow
-      isHeader
-      useSafeAreaView
-    >
-      <ScrollView>
-        <LayoutSideColumns style={{ height: "100%", marginTop: spacing.m }}>
-          <View style={{ marginBottom: isSmallScreen ? spacing.m : spacing.l }}>
+    <>
+      <Layout pageTitle={t("generateRecipe")} isBackArrow isHeader scrollView>
+        <View style={{ flex: 1 }}>
+          <View style={{ marginBottom: spacing.l }}>
             <AddIngredientSection
               ingredients={ingredients}
               handleNewIngredientSubmit={handleNewIngredientSubmit}
@@ -76,21 +62,22 @@ export const CreateRecipeSettingsScreen: FC = () => {
               setOnlyUseIngredients={setOnlyUseIngredients}
             />
           </View>
-          <View style={{ marginBottom: isSmallScreen ? spacing.m : spacing.l }}>
+          <View style={{ marginBottom: spacing.l }}>
             <DietaryRestrictionsSection
               dietaryRestrictions={dietaryRestrictions}
               setDietaryRestrictions={setDietaryRestrictions}
             />
           </View>
-          <View style={{ marginBottom: isSmallScreen ? spacing.m : spacing.l }}>
+          <View style={{ marginBottom: spacing.l }}>
             <NumberOfCaloriesSection
               calories={calories}
               setCalories={setCalories}
             />
           </View>
-        </LayoutSideColumns>
-      </ScrollView>
-      <BottomFixedButton label={t("generate")} onPress={() => {}} />
-    </Layout>
+        </View>
+
+        <MainButton label={t("generate")} onPress={() => {}} />
+      </Layout>
+    </>
   );
 };

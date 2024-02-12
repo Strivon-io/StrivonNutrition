@@ -1,18 +1,15 @@
-import { Fragment, FC } from "react";
+import { Fragment, FC, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
+import { View, Dimensions } from "react-native";
 import { format } from "date-fns";
 import styled from "styled-components";
-import { ScrollView } from "react-native-gesture-handler";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { Layout } from "~components/layout/layout";
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
 import { PageTitle } from "~components/molecules/pageTitle";
 import { SectionTitle } from "~components/organisms/sectionTitle";
-import { CapitalizedFirstLetter } from "~utils/functions";
+import { formatRecipeDate } from "~utils/date";
 import { MealSmallCard } from "~components/organisms/mealSmallCard";
-import { spacing, spacingPx } from "~constants/theme";
 import { BottomTabParamList } from "~navigators/bottom-tab-navigator";
 
 const ProgrammedRecipes = [
@@ -79,64 +76,60 @@ type RecipesScreenProps = NativeStackScreenProps<
   "schedule"
 >;
 
-export const ScheduleScreen: FC<RecipesScreenProps> = () => {
+export const ScheduleScreen: FC<RecipesScreenProps> = ({ navigation }) => {
   const { t } = useTranslation();
 
-  const recipesByDate = ProgrammedRecipes.reduce((acc, recipe) => {
-    const date = recipe.date;
-    if (!acc[date]) {
-      acc[date] = [];
-    }
-    acc[date].push(recipe);
-    return acc;
-  }, {});
+  const groupRecipesByDate = (recipes) =>
+    recipes.reduce((acc, recipe) => {
+      const date = recipe.date;
+      acc[date] = acc[date] || [];
+      acc[date].push(recipe);
+      return acc;
+    }, {});
+  const recipesByDate = useMemo(
+    () => groupRecipesByDate(ProgrammedRecipes),
+    [ProgrammedRecipes]
+  );
 
-  const uniqueDates = Object.keys(recipesByDate);
+  const uniqueDates = useMemo(
+    () => Object.keys(recipesByDate),
+    [recipesByDate]
+  );
+
+  const spacing = 8;
+  const screenWidth = Dimensions.get("window").width - 40;
+  const itemWidth = (screenWidth - 3 * spacing) / 2;
 
   return (
-    <Layout useSafeAreaView>
-      <ScrollView>
-        <LayoutSideColumns style={{ marginBottom: spacing.m }}>
-          <PageTitle title={t("Scheduling")} />
-          {uniqueDates.map((date) => {
-            const formattedDate = format(new Date(date), "EEEE dd MMMM yyyy", {
-              locale: require("date-fns/locale/fr"),
-            });
-
-            const capitalizedDay = CapitalizedFirstLetter(
-              formattedDate.split(" ")[0]
-            );
-
-            const finalFormattedDate = `${capitalizedDay}${formattedDate.slice(
-              formattedDate.indexOf(" ")
-            )}`;
-
-            return (
-              <Fragment key={date}>
-                <SectionTitle
-                  title={finalFormattedDate}
-                  fontType="bold-italic"
-                  fontSize="xl"
+    <Layout scrollView>
+      <PageTitle title={t("Scheduling")} />
+      {uniqueDates.map((date) => (
+        <Fragment key={date}>
+          <SectionTitle
+            title={formatRecipeDate(date)}
+            fontType="bold-italic"
+            fontSize="xl"
+          />
+          <MealSmallCardList>
+            {recipesByDate[date].map((item) => (
+              <View
+                style={{ width: itemWidth, margin: spacing / 2 }}
+                key={item.id}
+              >
+                <MealSmallCard
+                  key={item.id}
+                  title={item.recipe.title}
+                  kcal={item.recipe.kcal}
+                  imagePath={item.recipe.imagePath}
+                  tags={item.recipe.tags}
+                  recipeUuid={item.recipe.uuid}
+                  navigation={navigation}
                 />
-                <MealSmallCardList>
-                  {recipesByDate[date].map((item) => (
-                    <View style={{ width: "47%" }}>
-                      <MealSmallCard
-                        key={item.id}
-                        title={item.recipe.title}
-                        kcal={item.recipe.kcal}
-                        imagePath={item.recipe.imagePath}
-                        tags={item.recipe.tags}
-                        recipeUuid={item.recipe.uuid}
-                      />
-                    </View>
-                  ))}
-                </MealSmallCardList>
-              </Fragment>
-            );
-          })}
-        </LayoutSideColumns>
-      </ScrollView>
+              </View>
+            ))}
+          </MealSmallCardList>
+        </Fragment>
+      ))}
     </Layout>
   );
 };
@@ -144,6 +137,5 @@ export const ScheduleScreen: FC<RecipesScreenProps> = () => {
 const MealSmallCardList = styled(View)`
   flex-wrap: wrap;
   flex-direction: row;
-  column-gap: ${spacingPx.s};
-  row-gap: ${spacingPx.s};
+  justify-content: space-between;
 `;

@@ -1,44 +1,39 @@
+import { Dispatch, SetStateAction, useState, FC } from "react";
+import { useTranslation } from "react-i18next";
+import { TouchableOpacity, View } from "react-native";
+import styled from "styled-components";
+
 import { Checkbox } from "~components/atoms/checkbox";
 import { MainText } from "~components/atoms/mainText";
 import { MainInput } from "~components/molecules/mainInput";
 import { colors, iconSize, spacing, spacingPx } from "~constants/theme";
-import { Dispatch, SetStateAction, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { TouchableOpacity, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import styled from "styled-components";
-import { InputWithIcon } from "../molecules/inputWithIcon";
 import { PlusIcon } from "~assets/icons/plusIcon";
 import { SectionHeader } from "~components/molecules/sectionHeader";
 
-interface Props {
+import { InputWithIcon } from "../molecules/inputWithIcon";
+
+interface AddIngredientSectionProps {
   ingredients: string[];
+  onlyUseIngredients: boolean;
   handleNewIngredientSubmit: (
     newIngredient: string,
-    setNewIngredient: Dispatch<SetStateAction<string>>,
-    scrollToBottom: () => void
+    setNewIngredient: Dispatch<SetStateAction<string>>
   ) => void;
   handleIngredientChange: (text: string, index: number) => void;
   removeIngredient: (index: number) => void;
-  onlyUseIngredients: boolean;
   setOnlyUseIngredients: Dispatch<SetStateAction<boolean>>;
 }
 
-export const AddIngredientSection = ({
+export const AddIngredientSection: FC<AddIngredientSectionProps> = ({
   ingredients,
+  onlyUseIngredients,
   handleNewIngredientSubmit,
   handleIngredientChange,
   removeIngredient,
-  onlyUseIngredients,
   setOnlyUseIngredients,
-}: Props) => {
+}) => {
   const [newIngredient, setNewIngredient] = useState("");
-  const scrollViewRef = useRef<ScrollView>(null);
   const { t } = useTranslation();
-
-  const scrollToBottom = () => {
-    scrollViewRef.current.scrollToEnd({ animated: true });
-  };
 
   return (
     <View>
@@ -47,8 +42,7 @@ export const AddIngredientSection = ({
         <MainInput
           placeholder={t("addIngredientToTheRecipe")}
           style={{
-            width: "80%",
-            marginRight: spacing.s,
+            flex: 1,
           }}
           value={newIngredient}
           onChangeText={(text) => {
@@ -57,28 +51,25 @@ export const AddIngredientSection = ({
         />
         <TouchableOpacity
           onPress={() =>
-            handleNewIngredientSubmit(
-              newIngredient,
-              setNewIngredient,
-              scrollToBottom
-            )
+            handleNewIngredientSubmit(newIngredient, setNewIngredient)
           }
         >
           <PlusIcon size={iconSize.m} color={colors.Alizarin} />
         </TouchableOpacity>
       </CreateIngredientInputWrapper>
-      <IngredientListScrollView ref={scrollViewRef}>
-        <IngredientList>
-          {ingredients.map((ingredient, index) => (
-            <InputWithIcon
-              ingredient={ingredient}
-              index={index}
-              handleIngredientChange={handleIngredientChange}
-              removeIngredient={removeIngredient}
-            />
-          ))}
-        </IngredientList>
-      </IngredientListScrollView>
+
+      <IngredientList>
+        {ingredients.map((ingredient, index) => (
+          <InputWithIcon
+            key={index}
+            ingredient={ingredient}
+            index={index}
+            handleIngredientChange={handleIngredientChange}
+            removeIngredient={removeIngredient}
+          />
+        ))}
+      </IngredientList>
+
       <View
         style={{
           marginTop: spacing.xs,
@@ -110,9 +101,8 @@ const CreateIngredientInputWrapper = styled(View)`
   align-items: center;
   width: 100%;
   margin-top: ${spacingPx.xs};
+  gap: ${spacingPx.s};
 `;
-
-const IngredientListScrollView = styled(ScrollView)``;
 
 const IngredientList = styled(View)`
   flex-direction: row;

@@ -12,10 +12,13 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { StatusBar, StatusBarStyle } from "expo-status-bar";
+import { useNavigationState } from "@react-navigation/native";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 import { colors, ColorsKey, flattenedColors } from "~constants/theme";
 import { AppHeader } from "./header";
 import { withColor } from "~components/communStyles/withColor";
+import { routeWithoutTabBar } from "~navigators/navigator-utils";
 
 interface Props {
   children: React.ReactNode;
@@ -29,7 +32,8 @@ interface Props {
   noPadding?: boolean;
   scrollView?: boolean;
   bounces?: boolean;
-  withoutSafeArea?: boolean;
+  withoutTopSafeArea?: boolean;
+  withoutBottomSafeArea?: boolean;
   scrollViewOptions?: {
     refreshControlerProps?: RefreshControlProps;
     withTopSafeArea?: boolean;
@@ -47,18 +51,28 @@ export const Layout: FC<Props> = ({
   bounces,
   statusStyle,
   noPadding,
-  withoutSafeArea,
+  withoutTopSafeArea,
+  withoutBottomSafeArea,
   scrollView,
   scrollViewOptions,
 }) => {
   const screenHeight = Dimensions.get("window").height;
-  const { top } = useSafeAreaInsets();
+  const { top, bottom } = useSafeAreaInsets();
+  const route = useNavigationState((state) => state);
+
   const statusBarHeight =
     Platform.OS === "android" ? StatusBarRN.currentHeight || 0 : 0;
-  const height = screenHeight + statusBarHeight;
+
+  const tabBarHeight = route.routeNames.some((item) =>
+    routeWithoutTabBar.includes(item)
+  )
+    ? useBottomTabBarHeight()
+    : 0;
+
+  const height = screenHeight - statusBarHeight - tabBarHeight - top - bottom;
 
   const styles = useMemo(
-    () => getDynamicStyles(height, top, bg),
+    () => getDynamicStyles(height, top, bottom, bg),
     [height, top]
   );
 
@@ -107,7 +121,11 @@ export const Layout: FC<Props> = ({
 
   return (
     <SafeAreaView
-      style={[styles.container, withoutSafeArea && styles.withoutSafeArea]}
+      style={[
+        styles.container,
+        withoutTopSafeArea && styles.withoutTopSafeArea,
+        withoutBottomSafeArea && styles.withoutBottomSafeArea,
+      ]}
     >
       <StatusBar style={statusStyle || "dark"} />
       {scrollView ? scrollContent : content}
@@ -115,7 +133,12 @@ export const Layout: FC<Props> = ({
   );
 };
 
-const getDynamicStyles = (height: number, top: number, bg?: string) =>
+const getDynamicStyles = (
+  height: number,
+  top: number,
+  bottom: number,
+  bg?: string
+) =>
   StyleSheet.create({
     container: {
       flex: 1,
@@ -127,8 +150,11 @@ const getDynamicStyles = (height: number, top: number, bg?: string) =>
     scrollContainer: {
       flex: 1,
     },
-    withoutSafeArea: {
+    withoutTopSafeArea: {
       marginTop: -top,
+    },
+    withoutBottomSafeArea: {
+      marginBottom: -bottom,
     },
     padding: {
       paddingHorizontal: 20,

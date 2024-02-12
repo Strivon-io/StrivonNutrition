@@ -7,7 +7,7 @@ import { RecipeScreen } from "~screens/recipe";
 export type RecipesNavigatorParamList = {
   recipes: undefined;
   createRecipeSettings: undefined;
-  recipe: undefined;
+  recipe: { recipeUuid: string };
 };
 
 const Recipes = createNativeStackNavigator<RecipesNavigatorParamList>();

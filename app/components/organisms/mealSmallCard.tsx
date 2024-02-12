@@ -1,18 +1,20 @@
 import styled from "styled-components";
-import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Image, ImageSourcePropType, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { ParamListBase } from "@react-navigation/native";
 
 import { MainText } from "~components/atoms/mainText";
 import Tag from "~components/atoms/tag";
 import { colors, spacingPx } from "~constants/theme";
 
-interface Props {
+interface Props<NavigationType = NativeStackNavigationProp<ParamListBase>> {
   title: string;
   kcal: number;
   imagePath: ImageSourcePropType;
   tags: ("breakfast" | "meal" | "snack")[];
   recipeUuid: string;
+  navigation: NavigationType;
 }
 
 export const MealSmallCard = ({
@@ -21,15 +23,14 @@ export const MealSmallCard = ({
   imagePath,
   tags,
   recipeUuid,
+  navigation,
 }: Props) => {
-  const navigation = useNavigation();
-
-  const navigateToRecette = (recipeUuid: string) => {
-    navigation.navigate("recipeScreen", { recipeUuid });
+  const navigateToRecipe = (recipeUuid: string) => {
+    navigation.navigate("recipe", { recipeUuid });
   };
 
   return (
-    <MealSmallCardStyled onPress={() => navigateToRecette(recipeUuid)}>
+    <MealSmallCardStyled onPress={() => navigateToRecipe(recipeUuid)}>
       <DishImage source={imagePath} resizeMode="cover" />
       <TitleAndKcal>
         <MainText

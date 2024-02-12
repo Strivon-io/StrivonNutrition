@@ -12,7 +12,6 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { BottomTabParamList } from "~navigators/bottom-tab-navigator";
 import { Layout } from "~components/layout/layout";
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
 import { colors, spacingPx } from "~constants/theme";
 
 import { HomeWelcomeSection } from "./components/sections/welcomeSection";

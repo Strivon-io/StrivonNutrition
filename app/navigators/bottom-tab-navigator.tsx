@@ -14,6 +14,7 @@ import { ProfileIcon } from "../assets/icons/profileIcon";
 import { colors, iconSize } from "~constants/theme";
 
 import { RecipesNavigator } from "./recipes-navigator";
+import { routeWithoutTabBar } from "./navigator-utils";
 
 export type BottomTabParamList = {
   home: undefined;
@@ -29,9 +30,7 @@ type Route = RouteProp<Record<string, object | undefined>, string>;
 const getTabBarVisibility = (route: Route) => {
   const routeName = getFocusedRouteNameFromRoute(route);
 
-  const hideOnScreens = ["createRecipeSettings", "recipe"];
-
-  const notHidding = hideOnScreens.indexOf(routeName || "") <= -1;
+  const notHidding = routeWithoutTabBar.indexOf(routeName || "") <= -1;
   return notHidding ? "flex" : "none";
 };
 

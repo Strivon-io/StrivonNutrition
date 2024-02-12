@@ -6,10 +6,10 @@ import styled from "styled-components";
 
 export const PageTitle = ({
   title,
-  leftChild,
+  rightChild,
 }: {
   title: string;
-  leftChild?: ReactNode;
+  rightChild?: ReactNode;
 }) => {
   return (
     <View style={{ width: "100%" }}>
@@ -17,7 +17,7 @@ export const PageTitle = ({
         <MainText fontType="bold-italic" fontSize="xxl">
           {title}
         </MainText>
-        {leftChild && leftChild}
+        {rightChild && rightChild}
       </PageTitleWrapper>
     </View>
   );

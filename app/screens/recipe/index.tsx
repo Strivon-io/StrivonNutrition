@@ -19,12 +19,12 @@ import {
   spacing,
   spacingPx,
 } from "~constants/theme";
-import { LayoutSideColumns } from "~components/layout/layoutSideColumns";
 import { CrossIcon } from "~assets/icons/crossIcon";
 import { BottomFixedButton } from "~components/organisms/bottomFixedButton";
 
 import { RecipeTitleAndInformations } from "./components/organisms/recipeTitleAndInformations";
 import { RecipesNavigatorParamList } from "~navigators/recipes-navigator";
+import { Layout } from "~components/layout/layout";
 
 type RecipeScreenProps = NativeStackScreenProps<
   RecipesNavigatorParamList,
@@ -99,8 +99,12 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
   });
 
   return (
-    <>
-      <Animated.ScrollView onScroll={scrollHandler} scrollEventThrottle={10}>
+    <Layout noPadding withoutTopSafeArea withoutBottomSafeArea>
+      <Animated.ScrollView
+        onScroll={scrollHandler}
+        scrollEventThrottle={10}
+        showsVerticalScrollIndicator={false}
+      >
         <Animated.View style={ImageSection}>
           <IconInputWrapper onPress={handleBackPress}>
             <CrossIcon size={iconSize.m} color={colors.Alizarin} />
@@ -111,7 +115,7 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
           />
           <Overlay />
         </Animated.View>
-        <LayoutSideColumns style={{ marginBottom: spacing.l }}>
+        <View style={{ paddingHorizontal: 20 }}>
           <RecipeTitleAndInformations
             title={"Salade aux poulet et au multiple légumes"}
             informations={{
@@ -120,17 +124,17 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
               calories: 12,
             }}
           />
-          <IntrudctionWrapper>
+          <IntroductionWrapper>
             <Markdown style={markdownStyles}>{markdownContent}</Markdown>
-          </IntrudctionWrapper>
-        </LayoutSideColumns>
+          </IntroductionWrapper>
+        </View>
       </Animated.ScrollView>
       <BottomFixedButton label={t("programmeThisRecipe")} onPress={() => {}} />
-    </>
+    </Layout>
   );
 };
 
-const IntrudctionWrapper = styled(View)`
+const IntroductionWrapper = styled(View)`
   ${boxShadow}
   width: 100%;
   transform: translateY(-80px);
@@ -152,7 +156,6 @@ const Overlay = styled(View)`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 const IconInputWrapper = styled(TouchableOpacity)`
@@ -161,7 +164,7 @@ const IconInputWrapper = styled(TouchableOpacity)`
   top: ${parseInt(spacingPx.l, 10) + 10}px;
   right: ${spacingPx.m};
   border-radius: ${spacingPx.xl};
-  border-width: 1px;
+  border-width: 2px;
   border-color: ${colors.Alizarin};
 `;
 
