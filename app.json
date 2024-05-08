@@ -3,6 +3,11 @@
     "version": "1.0.0",
     "experiments": {
       "tsconfigPaths": true
+    },
+    "splash": {
+      "image": "./assets/splashScreen.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FF2749"
     }
   }
 }
