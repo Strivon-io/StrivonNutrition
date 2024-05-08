@@ -1,16 +1,16 @@
-import { FC } from "react";
-import { useTranslation } from "react-i18next";
-import { View, Image, TouchableOpacity } from "react-native";
+import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
+import { View, Image, TouchableOpacity } from 'react-native'
 import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
-} from "react-native-reanimated";
-import Markdown from "react-native-markdown-display";
-import styled from "styled-components";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+} from 'react-native-reanimated'
+import Markdown from 'react-native-markdown-display'
+import styled from 'styled-components'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import {
   boxShadow,
@@ -18,21 +18,21 @@ import {
   iconSize,
   spacing,
   spacingPx,
-} from "~constants/theme";
-import { CrossIcon } from "~assets/icons/crossIcon";
-import { BottomFixedButton } from "~components/organisms/bottomFixedButton";
+} from '~constants/theme'
+import { CrossIcon } from '~assets/icons/crossIcon'
+import { BottomFixedButton } from '~components/organisms/bottomFixedButton'
 
-import { RecipeTitleAndInformations } from "./components/organisms/recipeTitleAndInformations";
-import { RecipesNavigatorParamList } from "~navigators/recipes-navigator";
-import { Layout } from "~components/layout/layout";
+import { RecipeTitleAndInformations } from './components/organisms/recipeTitleAndInformations'
+import { RecipesNavigatorParamList } from '~navigators/recipes-navigator'
+import { Layout } from '~components/layout/layout'
 
 type RecipeScreenProps = NativeStackScreenProps<
   RecipesNavigatorParamList,
-  "recipe"
->;
+  'recipe'
+>
 
 export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   const markdownContent = `
   ## **Ingrédients**
@@ -70,18 +70,18 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
   5. **Servez :** Garnissez de feuilles de basilic frais avant de servir.
   
   Bon appétit !  
-    `;
+    `
 
   const handleBackPress = () => {
-    navigation.goBack();
-  };
+    navigation.goBack()
+  }
 
-  const scrollA = useSharedValue(0);
-  const BANNER_H = 150;
+  const scrollA = useSharedValue(0)
+  const BANNER_H = 150
 
   const scrollHandler = useAnimatedScrollHandler((event) => {
-    scrollA.value = event.contentOffset.y;
-  });
+    scrollA.value = event.contentOffset.y
+  })
 
   const ImageSection = useAnimatedStyle(() => {
     return {
@@ -91,48 +91,53 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
             scrollA.value,
             [-BANNER_H, 0, BANNER_H],
             [-BANNER_H / 2, 0, BANNER_H * 0.75],
-            Extrapolate.CLAMP
+            Extrapolate.CLAMP,
           ),
         },
       ],
-    };
-  });
+    }
+  })
 
   return (
     <Layout noPadding withoutTopSafeArea withoutBottomSafeArea>
-      <Animated.ScrollView
-        onScroll={scrollHandler}
-        scrollEventThrottle={10}
-        showsVerticalScrollIndicator={false}
-      >
-        <Animated.View style={ImageSection}>
-          <IconInputWrapper onPress={handleBackPress}>
-            <CrossIcon size={iconSize.m} color={colors.Alizarin} />
-          </IconInputWrapper>
-          <DishImage
-            source={require("~assets/recipeImages/exempleOfRecipe.png")}
-            resizeMode="cover"
-          />
-          <Overlay />
-        </Animated.View>
-        <View style={{ paddingHorizontal: 20 }}>
-          <RecipeTitleAndInformations
-            title={"Salade aux poulet et au multiple légumes"}
-            informations={{
-              protein: 12,
-              carbohydrate: 12,
-              calories: 12,
-            }}
-          />
-          <IntroductionWrapper>
-            <Markdown style={markdownStyles}>{markdownContent}</Markdown>
-          </IntroductionWrapper>
-        </View>
-      </Animated.ScrollView>
-      <BottomFixedButton label={t("programmeThisRecipe")} onPress={() => {}} />
+      <>
+        <Animated.ScrollView
+          onScroll={scrollHandler}
+          scrollEventThrottle={10}
+          showsVerticalScrollIndicator={false}
+        >
+          <Animated.View style={ImageSection}>
+            <IconInputWrapper onPress={handleBackPress}>
+              <CrossIcon size={iconSize.m} color={colors.Alizarin} />
+            </IconInputWrapper>
+            <DishImage
+              source={require('~assets/recipeImages/exempleOfRecipe.png')}
+              resizeMode="cover"
+            />
+            <Overlay />
+          </Animated.View>
+          <View style={{ paddingHorizontal: 20 }}>
+            <RecipeTitleAndInformations
+              title={'Salade aux poulet et au multiple légumes'}
+              informations={{
+                protein: 12,
+                carbohydrate: 12,
+                calories: 12,
+              }}
+            />
+            <IntroductionWrapper>
+              <Markdown style={markdownStyles}>{markdownContent}</Markdown>
+            </IntroductionWrapper>
+          </View>
+        </Animated.ScrollView>
+        <BottomFixedButton
+          label={t('programmeThisRecipe')}
+          onPress={() => {}}
+        />
+      </>
     </Layout>
-  );
-};
+  )
+}
 
 const IntroductionWrapper = styled(View)`
   ${boxShadow}
@@ -143,12 +148,12 @@ const IntroductionWrapper = styled(View)`
   background-color: ${colors.light.PureWhite};
   border-radius: ${spacingPx.xs};
   padding: ${spacingPx.m};
-`;
+`
 
 const DishImage = styled(Image)`
   width: 100%;
   height: 300px;
-`;
+`
 
 const Overlay = styled(View)`
   position: absolute;
@@ -156,7 +161,7 @@ const Overlay = styled(View)`
   left: 0;
   right: 0;
   bottom: 0;
-`;
+`
 
 const IconInputWrapper = styled(TouchableOpacity)`
   position: absolute;
@@ -166,7 +171,7 @@ const IconInputWrapper = styled(TouchableOpacity)`
   border-radius: ${spacingPx.xl};
   border-width: 2px;
   border-color: ${colors.Alizarin};
-`;
+`
 
 const markdownStyles = {
   heading1: {
@@ -180,4 +185,4 @@ const markdownStyles = {
   text: {
     lineHeight: 20,
   },
-};
+}
