@@ -25,11 +25,25 @@ export const NeedsResultScreen: FC<NeedResultScreenProps> = ({
 
   return (
     <Layout isHeaderLogo>
-      <>
-        <View style={styles.wrapper}>
-          <Text fontFamily="Avenir-Medium" fontSize="l" textAlign="center">
-            {t('youNeed')}
-          </Text>
+      <View style={styles.wrapper}>
+        <Text fontFamily="Avenir-Medium" fontSize="l" textAlign="center">
+          {t('youNeed')}
+        </Text>
+        <Text
+          fontFamily="Avenir-Bold-Italic"
+          fontSize="xxl"
+          color="Alizarin"
+          textAlign="center"
+        >
+          2700Kcal
+        </Text>
+        <Text fontFamily="Avenir-Medium" fontSize="l" textAlign="center">
+          {t('perDayToMaintainYourCurrentWeight')}
+        </Text>
+        <TouchableOpacity
+          style={{ marginTop: spacing.xs }}
+          onPress={handleHowItWorks}
+        >
           <Text
             fontFamily="Avenir-Bold-Italic"
             fontSize="xxl"
@@ -52,7 +66,6 @@ export const NeedsResultScreen: FC<NeedResultScreenProps> = ({
             </Text>
           </TouchableOpacity>
         </View>
-
         <MainButton
           style={boxShadow}
           label={t('viewMyFirstRecipes')}
