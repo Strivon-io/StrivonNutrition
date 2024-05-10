@@ -33,7 +33,7 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
   const handleCheck = () => setIsChecked(!isChecked)
 
   const handleBackArrow = () => {
-    setSignUpStep(signUpStep - 1)
+    signUpStep > 1 ? setSignUpStep(signUpStep - 1) : navigation.goBack()
   }
 
   return (
@@ -45,7 +45,7 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
             <Text fontFamily="Avenir-Bold-Italic">{`(${signUpStep}/2)`}</Text>
           }
           handleBackArrow={handleBackArrow}
-          isBackArrow={signUpStep > 1}
+          isBackArrow={true}
         />
         <View style={{ flex: 1 }}>
           {signUpStep === 1 && <StepOne />}

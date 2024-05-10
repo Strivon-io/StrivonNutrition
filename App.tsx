@@ -10,11 +10,15 @@ import '~translations/i18n.config'
 
 import { AppNavigator } from '~navigators/app-navigator'
 import { AuthProvider } from '~contexts/authContext'
+import i18n from '~translations/i18n.config'
+import { SettingsProvider } from '~contexts/settingsContext'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 SplashScreen.preventAutoHideAsync()
 
 export default function App() {
   const [isAppReady, setIsAppReady] = useState(false)
+  const queryClient = new QueryClient()
 
   const appState = useRef(AppState.currentState)
 
@@ -45,15 +49,19 @@ export default function App() {
     }
   }, [])
 
-  if (!isAppReady || !fontsLoaded) {
+  if (!isAppReady || !fontsLoaded || !i18n.isInitialized) {
     return
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <AuthProvider>
-        <AppNavigator />
-      </AuthProvider>
-    </GestureHandlerRootView>
+    <QueryClientProvider client={queryClient}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <SettingsProvider>
+          <AuthProvider>
+            <AppNavigator />
+          </AuthProvider>
+        </SettingsProvider>
+      </GestureHandlerRootView>
+    </QueryClientProvider>
   )
 }

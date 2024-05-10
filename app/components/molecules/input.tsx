@@ -19,6 +19,7 @@ interface InputProps {
     | 'visible-password'
   placeholderTextColor?: string
   onChange: (text: string) => void
+  error?: string
 }
 
 export const Input: FC<InputProps> = ({
@@ -28,6 +29,7 @@ export const Input: FC<InputProps> = ({
   onChange,
   keyboardType,
   value,
+  error,
 }) => {
   return (
     <View>
@@ -45,6 +47,11 @@ export const Input: FC<InputProps> = ({
         onChangeText={onChange}
         value={value}
       />
+      {error && (
+        <Text fontSize={'m'} fontFamily="Avenir-Medium" color="Bloody" mt={4}>
+          {error}
+        </Text>
+      )}
     </View>
   )
 }

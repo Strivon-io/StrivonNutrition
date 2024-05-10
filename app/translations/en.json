@@ -20,6 +20,7 @@
   "my-weight-(in-kg)": "Ma weight (in kg)",
   "my-birth-date": "My birth date",
   "i-am": "I am",
+  "i-was-born-as-a": "I was born as a",
   "man": "Man",
   "woman": "Woman",
   "my-goal": "My goal",
@@ -80,5 +81,12 @@
   "weightEvolution": "Weight evolution",
   "updateWeight": "Update weight",
   "howCaloriesCalculationWorks": "How calories calculation works",
-  "howCaloriesCalculationWorksExplanation": "Calories calculation is based on several factors, including basal metabolism, physical activity, and digestion of food. Here's an explanation of these elements:\n\nBasal Metabolism (BM): Basal metabolism represents the energy needed to maintain vital functions of the body at rest, such as breathing, blood circulation, regulation of body temperature, etc. It is measured in calories per day. Basal metabolism varies from person to person depending on factors such as age, sex, weight, height, and body composition.\n\nPhysical Activity: In addition to basal metabolism, physical activity also contributes to total energy expenditure. This energy expenditure includes both daily activities such as walking, climbing stairs, etc., as well as more intense sports or exercise activities. The more intense the physical activity, the higher the calorie expenditure.\n\nFood Digestion: Part of the energy consumed is also used for the digestion, absorption, and metabolism of food. This is often called the thermic effect of food (TEF). Some foods require more energy to be digested than others, which can influence total calorie expenditure.\n\nBy combining these factors, it is possible to estimate the total calorie expenditure of a person over a given period. However, it is important to note that calorie calculation is only an estimation and can vary depending on many other individual factors such as hydration level, body composition, medical conditions, etc."
+  "howCaloriesCalculationWorksExplanation": "Calories calculation is based on several factors, including basal metabolism, physical activity, and digestion of food. Here's an explanation of these elements:\n\nBasal Metabolism (BM): Basal metabolism represents the energy needed to maintain vital functions of the body at rest, such as breathing, blood circulation, regulation of body temperature, etc. It is measured in calories per day. Basal metabolism varies from person to person depending on factors such as age, sex, weight, height, and body composition.\n\nPhysical Activity: In addition to basal metabolism, physical activity also contributes to total energy expenditure. This energy expenditure includes both daily activities such as walking, climbing stairs, etc., as well as more intense sports or exercise activities. The more intense the physical activity, the higher the calorie expenditure.\n\nFood Digestion: Part of the energy consumed is also used for the digestion, absorption, and metabolism of food. This is often called the thermic effect of food (TEF). Some foods require more energy to be digested than others, which can influence total calorie expenditure.\n\nBy combining these factors, it is possible to estimate the total calorie expenditure of a person over a given period. However, it is important to note that calorie calculation is only an estimation and can vary depending on many other individual factors such as hydration level, body composition, medical conditions, etc.",
+  "loginScreen": {
+    "invalid-credentials": "The email or password is incorrect",
+    "password-is-required": "Password is required",
+    "password-min-length": "Password must be at least 8 characters long",
+    "email-is-required": "Email is required",
+    "email-is-invalid": "Email is invalid"
+  }
 }

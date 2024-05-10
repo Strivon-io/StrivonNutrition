@@ -3,6 +3,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { View, TouchableOpacity, StyleSheet } from 'react-native'
 import { boxShadow, colors, spacing } from '~constants/theme'
 import { useTranslation } from 'react-i18next'
+import { useForm, Controller } from 'react-hook-form'
 
 import { NavigatorParamList } from '~navigators/app-navigator'
 import { Text } from '~components/atoms/text'
@@ -14,20 +15,73 @@ import { FacebookIcon } from '~assets/icons/facebookIcon'
 import { AppleIcon } from '~assets/icons/appleIcon'
 
 import { SocialNetworkConnectionButton } from './components/molecules/socialConnectionButton'
+import { useMutation } from '@tanstack/react-query'
+import { useAuth } from '~contexts/authContext'
+import { login } from '~services/routes/user'
 
 type SignInScreenProps = NativeStackScreenProps<NavigatorParamList, 'signIn'>
 
 export const SigninScreen: FC<SignInScreenProps> = ({ navigation }) => {
   const { t } = useTranslation()
+  const { setAccessToken, setRefreshToken } = useAuth()
+
+  const {
+    control,
+    handleSubmit,
+    formState: { isValid, errors },
+  } = useForm({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    mode: 'onChange',
+  })
 
   const handleSignupPress = () => {
     navigation.navigate('signUp')
   }
 
-  const handleSignInPress = () => {}
+  const { mutate, isPending, isError } = useMutation({
+    mutationFn: (data: {
+      email: User['email']
+      password: User['password']
+    }) => {
+      return login(data)
+    },
+    onSuccess: (value) => {
+      setAccessToken(value.accessToken)
+      setRefreshToken(value.refreshToken)
+
+      navigation.navigate('bottomTab')
+    },
+  })
+
+  const validations = {
+    email: {
+      required: t('loginScreen.email-is-required'),
+      pattern: {
+        value: /^\S+@\S+\.\S+$/,
+        message: t('loginScreen.email-is-invalid'),
+      },
+    },
+    password: {
+      required: t('loginScreen.password-is-required'),
+      minLength: {
+        value: 8,
+        message: t('loginScreen.password-min-length'),
+      },
+    },
+  }
+
+  const onSubmit = (data: {
+    email: User['email']
+    password: User['password']
+  }) => {
+    mutate(data)
+  }
 
   return (
-    <Layout isHeaderLogo bg="White">
+    <Layout isHeaderLogo>
       <>
         <Text
           mb={spacing.m}
@@ -37,20 +91,35 @@ export const SigninScreen: FC<SignInScreenProps> = ({ navigation }) => {
         >
           {t('sign-in')}
         </Text>
-
         <View style={{ marginBottom: spacing.l }}>
-          <Input
-            value=""
-            label={t('email')}
-            placeholder={t('email-placeholder')}
-            keyboardType="email-address"
-            onChange={() => {}}
+          <Controller
+            control={control}
+            name="email"
+            rules={validations.email}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                value={value}
+                label={t('email')}
+                placeholder={t('email-placeholder')}
+                keyboardType="email-address"
+                onChange={onChange}
+                error={errors.email?.message}
+              />
+            )}
           />
-          <Input
-            value=""
-            label={t('password')}
-            secureTextEntry={true}
-            onChange={() => {}}
+          <Controller
+            control={control}
+            name="password"
+            rules={validations.password}
+            render={({ field: { onChange, value } }) => (
+              <Input
+                value={value}
+                label={t('password')}
+                secureTextEntry={true}
+                onChange={onChange}
+                error={errors.password?.message}
+              />
+            )}
           />
           <Text
             color="Alizarin"
@@ -60,12 +129,24 @@ export const SigninScreen: FC<SignInScreenProps> = ({ navigation }) => {
           >
             {t('forgot-password')}
           </Text>
+          {isError && (
+            <Text
+              style={{
+                marginTop: spacing.s,
+              }}
+              color="Bloody"
+              fontSize="m"
+              fontFamily="Avenir-Medium"
+            >
+              {t('loginScreen.invalid-credentials')}
+            </Text>
+          )}
         </View>
 
         <MainButton
           label={t('loggin')}
           style={boxShadow}
-          onPress={handleSignInPress}
+          onPress={handleSubmit(onSubmit)}
         />
 
         <View

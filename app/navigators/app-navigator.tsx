@@ -10,6 +10,10 @@ import { RecipesResultScreen } from '~screens/recipesResult'
 
 import { BottomTabNavigator } from './bottom-tab-navigator'
 import { NeedsResultExplanationScreen } from '~screens/needsResultExplanation'
+import { useAuth } from '~contexts/authContext'
+import { useQuery } from '@tanstack/react-query'
+import { getProfile } from '~services/routes/user'
+import { ProfileProvider } from '~contexts/profileContext'
 
 export type NavigatorParamList = {
   signIn: undefined
@@ -50,7 +54,13 @@ const AppStack = ({
         component={NeedsResultExplanationScreen}
       />
       <Stack.Screen name="recipesResult" component={RecipesResultScreen} />
-      <Stack.Screen name="bottomTab" component={BottomTabNavigator} />
+      <Stack.Screen name="bottomTab">
+        {() => (
+          <ProfileProvider>
+            <BottomTabNavigator />
+          </ProfileProvider>
+        )}
+      </Stack.Screen>
     </Stack.Navigator>
   )
 }
@@ -63,7 +73,46 @@ export const AppNavigator = (props: NavigationProps) => {
     'signIn',
   )
 
+  const { accessToken, isLoading: authIsLoading } = useAuth()
+
   const [isLoading, setIsLoading] = useState(false)
+
+  const { refetch } = useQuery({
+    queryKey: ['profile'],
+    queryFn: getProfile,
+    retry: false,
+    enabled: false,
+  })
+
+  const handleGetProfile = async () => {
+    const { data } = await refetch()
+    console.log('fooo->', data)
+    if (!data) {
+      return 'signIn'
+    } else {
+      return 'bottomTab'
+    }
+  }
+
+  useEffect(() => {
+    console.log('test, ', accessToken, authIsLoading)
+    if (authIsLoading) return
+    ;(async () => {
+      if (accessToken) {
+        try {
+          const route = await handleGetProfile()
+
+          setInitialRoute(route)
+        } catch (error) {
+          console.error(error)
+        } finally {
+          setIsLoading(false)
+        }
+      } else {
+        setIsLoading(false)
+      }
+    })()
+  }, [accessToken, authIsLoading])
 
   if (isLoading) return null
 
