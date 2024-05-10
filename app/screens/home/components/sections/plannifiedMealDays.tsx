@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import styled from "styled-components/native";
 import { Calendar } from "react-native-calendars";
 import { useTranslation } from "react-i18next";
@@ -9,21 +9,6 @@ import { colors, iconSize, spacing, spacingPx } from "~constants/theme";
 import { SectionTitle } from "~components/organisms/sectionTitle";
 import { LeftChevron } from "~assets/icons/leftChevron";
 import { RightChevron } from "~assets/icons/rightChevron";
-
-const boxShadow = {
-  shadowColor: "#3A296A",
-  shadowOffset: {
-    width: 0,
-    height: 0,
-  },
-  shadowOpacity: 0.2,
-  shadowRadius: 20,
-};
-
-const CalendarCard = styled.View`
-  ${boxShadow}
-  border-radius: ${spacingPx.m};
-`;
 
 export const PlannifiedMealDays: FC = () => {
   const { t } = useTranslation();
@@ -58,7 +43,7 @@ export const PlannifiedMealDays: FC = () => {
   return (
     <View style={{ paddingBottom: spacing.m }}>
       <SectionTitle title={t("yourPlannifiedMealsDays")} />
-      <CalendarCard>
+      <View style={styles.boxShadow}>
         <Calendar
           dayComponent={({ date, state }) => {
             const isMarked = markedDates[date.dateString]?.marked;
@@ -115,7 +100,20 @@ export const PlannifiedMealDays: FC = () => {
           markedDates={markedDates}
           onDayPress={() => {}}
         />
-      </CalendarCard>
+      </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  boxShadow: {
+    borderRadius: spacing.m,
+    shadowColor: "#3A296A",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 20,
+  },
+});

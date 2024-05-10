@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { View, Image, TouchableOpacity } from "react-native";
+import { View, Image, TouchableOpacity, StyleSheet } from "react-native";
 import Animated, {
   Extrapolate,
   interpolate,
@@ -124,9 +124,9 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
               calories: 12,
             }}
           />
-          <IntroductionWrapper>
+          <View style={styles.introductionWrapper}>
             <Markdown style={markdownStyles}>{markdownContent}</Markdown>
-          </IntroductionWrapper>
+          </View>
         </View>
       </Animated.ScrollView>
       <BottomFixedButton label={t("programmeThisRecipe")} onPress={() => {}} />
@@ -134,16 +134,18 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
   );
 };
 
-const IntroductionWrapper = styled(View)`
-  ${boxShadow}
-  width: 100%;
-  transform: translateY(-80px);
-  margin-top: ${spacingPx.m};
-  align-self: center;
-  background-color: ${colors.light.PureWhite};
-  border-radius: ${spacingPx.xs};
-  padding: ${spacingPx.m};
-`;
+const styles = StyleSheet.create({
+  introductionWrapper: {
+    ...boxShadow,
+    width: "100%",
+    transform: [{ translateY: -80 }],
+    marginTop: spacing.m,
+    alignSelf: "center",
+    backgroundColor: colors.light.PureWhite,
+    borderRadius: spacing.xs,
+    padding: spacing.m,
+  },
+});
 
 const DishImage = styled(Image)`
   width: 100%;

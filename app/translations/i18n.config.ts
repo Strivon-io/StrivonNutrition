@@ -5,6 +5,7 @@ import enTranslation from "./en.json";
 import frTranslation from "./fr.json";
 
 i18n.use(initReactI18next).init({
+  compatibilityJSON: "v3",
   resources: {
     en: {
       translation: enTranslation,
