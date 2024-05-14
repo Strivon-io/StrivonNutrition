@@ -9,10 +9,15 @@ export const login = async (data: {
   return response.data;
 };
 
-export const createUser = async (data: {}): Promise<{
+export const createUser = async (
+  data: CreateUser
+): Promise<{
   accessToken: string;
 }> => {
-  const response = await axios.post(`http://localhost:8000/users`, data);
+  const response = await axios.post(`http://localhost:8000/users`, {
+    ...data,
+    role: "user",
+  });
   return response.data;
 };
 

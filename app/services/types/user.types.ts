@@ -16,7 +16,7 @@ type User = {
   refreshTokenExpiresAt: string;
 };
 
-type createUser = {
+type CreateUser = {
   username: string;
   email: string;
   password: string;
@@ -24,5 +24,6 @@ type createUser = {
   size: string;
   weight: string;
   birthdayDate: Date;
+  goal: string;
   activityLevel: string;
 };

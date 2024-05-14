@@ -37,10 +37,7 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
   }
 
   const { mutate, isError, error } = useMutation({
-    mutationFn: (data: {
-      email: User['email']
-      password: User['password']
-    }) => {
+    mutationFn: (data: CreateUser) => {
       return createUser(data)
     },
     onSuccess: (value) => {
@@ -53,7 +50,7 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
     mutate(data)
   }
 
-  const handleValidate = (data: createUser) => {
+  const handleValidate = (data: CreateUser) => {
     if (signUpStep === 2) {
       onSubmit(data)
     } else {
