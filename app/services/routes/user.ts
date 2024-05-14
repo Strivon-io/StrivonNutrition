@@ -9,8 +9,15 @@ export const login = async (data: {
   return response.data;
 };
 
+export const createUser = async (data: {}): Promise<{
+  accessToken: string;
+}> => {
+  const response = await axios.post(`http://localhost:8000/users`, data);
+  return response.data;
+};
+
 export const getProfile = async (): Promise<User> => {
   const response = await api.get("/users");
 
-  return response.data.data;
+  return response.data;
 };

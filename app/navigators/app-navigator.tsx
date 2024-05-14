@@ -86,7 +86,6 @@ export const AppNavigator = (props: NavigationProps) => {
 
   const handleGetProfile = async () => {
     const { data } = await refetch()
-    console.log('fooo->', data)
     if (!data) {
       return 'signIn'
     } else {
@@ -95,11 +94,11 @@ export const AppNavigator = (props: NavigationProps) => {
   }
 
   useEffect(() => {
-    console.log('test, ', accessToken, authIsLoading)
     if (authIsLoading) return
     ;(async () => {
       if (accessToken) {
         try {
+          console.log(handleGetProfile())
           const route = await handleGetProfile()
 
           setInitialRoute(route)

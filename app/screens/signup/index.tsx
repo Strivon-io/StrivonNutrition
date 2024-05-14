@@ -11,6 +11,7 @@ import { Text } from '~components/atoms/text'
 import { ValidateFormBlock } from './components/validateFormBlock'
 import { StepOne } from './components/stepOne'
 import { StepTwo } from './components/stepTwo'
+import { useForm } from 'react-hook-form'
 
 type SignUpScreenProps = NativeStackScreenProps<NavigatorParamList, 'signUp'>
 
@@ -36,11 +37,73 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
     signUpStep > 1 ? setSignUpStep(signUpStep - 1) : navigation.goBack()
   }
 
+  const {
+    control,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: '',
+      username: '',
+      password: '',
+      confirmPassword: '',
+      size: '',
+      weight: '',
+      birthdayDate: '',
+      gender: '',
+      goal: '',
+    },
+    mode: 'onChange',
+  })
+
+  const validations = {
+    email: {
+      required: t('loginScreen.email-is-required'),
+      pattern: {
+        value: /^\S+@\S+\.\S+$/,
+        message: t('loginScreen.email-is-invalid'),
+      },
+    },
+    password: {
+      required: t('loginScreen.password-is-required'),
+      minLength: {
+        value: 8,
+        message: t('loginScreen.password-min-length'),
+      },
+    },
+    confirmPassword: {
+      required: t('signUpScreen.confirm-password-is-required'),
+      validate: (value: string) =>
+        value === watch('password') || t('signUpScreen.passwords-must-match'),
+    },
+    username: {
+      required: t('signUpScreen.username-is-required'),
+      message: t('signUpScreen.username-is-required'),
+    },
+    size: {
+      required: t('signUpScreen.size-is-required'),
+      message: t('signUpScreen.size-is-required'),
+    },
+    weight: {
+      required: t('signUpScreen.weight-is-required'),
+      message: t('signUpScreen.weight-is-required'),
+    },
+    gender: {
+      required: t('signUpScreen.gender-is-required'),
+      message: t('signUpScreen.gender-is-required'),
+    },
+    birthdayDate: {
+      required: t('signUpScreen.birthday-is-required'),
+      message: t('signUpScreen.birthday-is-required'),
+    },
+  }
+
   return (
     <Layout isHeaderLogo isBackArrow>
       <>
         <SectionHeader
-          title={t('my-informations')}
+          title={t('signUpScreen.my-informations')}
           sideElement={
             <Text fontFamily="Avenir-Bold-Italic">{`(${signUpStep}/2)`}</Text>
           }
@@ -48,10 +111,16 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
           isBackArrow={true}
         />
         <View style={{ flex: 1 }}>
-          {signUpStep === 1 && <StepOne />}
-
+          {signUpStep === 1 && (
+            <StepOne
+              control={control}
+              errors={errors}
+              validations={validations}
+            />
+          )}
           {signUpStep === 2 && (
             <StepTwo
+              control={control}
               gender={gender}
               setGender={setGender}
               goal={goal}
@@ -62,7 +131,7 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
 
         <ValidateFormBlock
           signUpStep={signUpStep}
-          handleValidate={handleValidate}
+          handleValidate={handleSubmit(handleValidate)}
           isChecked={isChecked}
           handleCheck={handleCheck}
         />

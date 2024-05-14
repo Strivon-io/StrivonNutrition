@@ -28,7 +28,7 @@ export const SigninScreen: FC<SignInScreenProps> = ({ navigation }) => {
   const {
     control,
     handleSubmit,
-    formState: { isValid, errors },
+    formState: { errors },
   } = useForm({
     defaultValues: {
       email: '',
@@ -41,7 +41,7 @@ export const SigninScreen: FC<SignInScreenProps> = ({ navigation }) => {
     navigation.navigate('signUp')
   }
 
-  const { mutate, isPending, isError } = useMutation({
+  const { mutate, isError } = useMutation({
     mutationFn: (data: {
       email: User['email']
       password: User['password']
