@@ -81,7 +81,7 @@ export const SigninScreen: FC<SignInScreenProps> = ({ navigation }) => {
   }
 
   return (
-    <Layout isHeaderLogo>
+    <Layout>
       <>
         <Text
           mb={spacing.m}
@@ -113,6 +113,7 @@ export const SigninScreen: FC<SignInScreenProps> = ({ navigation }) => {
             rules={validations.password}
             render={({ field: { onChange, value } }) => (
               <Input
+                isPassword
                 value={value}
                 label={t('password')}
                 secureTextEntry={true}

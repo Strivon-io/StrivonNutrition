@@ -1,4 +1,4 @@
-import { useState, FC } from 'react'
+import { useState, FC, useRef } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
@@ -12,16 +12,17 @@ import { ValidateFormBlock } from './components/validateFormBlock'
 import { StepOne } from './components/stepOne'
 import { StepTwo } from './components/stepTwo'
 import { useForm } from 'react-hook-form'
+import { ActivitySelector } from './components/activitySelector'
+import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
 
 type SignUpScreenProps = NativeStackScreenProps<NavigatorParamList, 'signUp'>
 
 export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
   const { t } = useTranslation()
 
-  const [signUpStep, setSignUpStep] = useState(1)
+  const [signUpStep, setSignUpStep] = useState(2)
   const [isChecked, setIsChecked] = useState(false)
-  const [gender, setGender] = useState<'female' | 'male' | null>(null)
-  const [goal, setGoal] = useState<'gain' | 'lose' | null>(null)
+  const bottomSheetRef = useRef<BottomSheet>(null)
 
   const handleValidate = () => {
     if (signUpStep === 2) {
@@ -53,6 +54,7 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
       birthdayDate: '',
       gender: '',
       goal: '',
+      activityLevel: '',
     },
     mode: 'onChange',
   })
@@ -100,42 +102,50 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
   }
 
   return (
-    <Layout isHeaderLogo isBackArrow>
-      <>
-        <SectionHeader
-          title={t('signUpScreen.my-informations')}
-          sideElement={
-            <Text fontFamily="Avenir-Bold-Italic">{`(${signUpStep}/2)`}</Text>
-          }
-          handleBackArrow={handleBackArrow}
-          isBackArrow={true}
-        />
-        <View style={{ flex: 1 }}>
-          {signUpStep === 1 && (
-            <StepOne
-              control={control}
-              errors={errors}
-              validations={validations}
-            />
-          )}
-          {signUpStep === 2 && (
-            <StepTwo
-              control={control}
-              gender={gender}
-              setGender={setGender}
-              goal={goal}
-              setGoal={setGoal}
-            />
-          )}
-        </View>
+    <>
+      <Layout isHeaderLogo isBackArrow>
+        <>
+          <SectionHeader
+            title={t('signUpScreen.my-informations')}
+            sideElement={
+              <Text fontFamily="Avenir-Bold-Italic">{`(${signUpStep}/2)`}</Text>
+            }
+            handleBackArrow={handleBackArrow}
+            isBackArrow={true}
+          />
+          <View style={{ flex: 1 }}>
+            {signUpStep === 1 && (
+              <StepOne
+                control={control}
+                errors={errors}
+                validations={validations}
+              />
+            )}
+            {signUpStep === 2 && (
+              <StepTwo
+                bottomSheetRef={bottomSheetRef}
+                control={control}
+                errors={errors}
+                validations={validations}
+                selectorValue={watch('activityLevel')}
+              />
+            )}
+          </View>
 
-        <ValidateFormBlock
-          signUpStep={signUpStep}
-          handleValidate={handleSubmit(handleValidate)}
-          isChecked={isChecked}
-          handleCheck={handleCheck}
-        />
-      </>
-    </Layout>
+          <ValidateFormBlock
+            signUpStep={signUpStep}
+            handleValidate={handleSubmit(handleValidate)}
+            isChecked={isChecked}
+            handleCheck={handleCheck}
+          />
+          <ActivitySelector
+            bottomSheetRef={bottomSheetRef}
+            control={control}
+            errors={errors}
+            validations={validations}
+          />
+        </>
+      </Layout>
+    </>
   )
 }

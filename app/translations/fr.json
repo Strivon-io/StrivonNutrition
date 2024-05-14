@@ -101,6 +101,13 @@
     "gain-weight": "Prendre du poids",
     "calculate-my-calories-need": "Calculer mon besoin en calories",
     "passwords-must-match": "Les mots de passe doivent correspondre",
-    "confirm-password-is-required": "La confirmation du mot de passe est requise"
+    "confirm-password-is-required": "La confirmation du mot de passe est requise",
+    "activity-level": "Niveau d'activité",
+    "select-an-activity-level": "Sélectionner un niveau d'activité",
+    "sedentary": "Sédentaire",
+    "lightlyActive": "Légèrement actif",
+    "moderatelyActive": "Modérément actif",
+    "veryActive": "Très actif",
+    "superActive": "Super actif"
   }
 }

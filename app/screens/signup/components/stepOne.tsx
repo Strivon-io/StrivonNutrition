@@ -1,19 +1,17 @@
 import { FC } from 'react'
-import { Control, Controller, FieldErrors } from 'react-hook-form'
+import { Controller } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 import { Input } from '~components/molecules/input'
 
 import { spacing } from '~constants/theme'
-import { SignupInformations, Validations } from '../signUpTypes'
+import { SignupStepsProps } from '../signUpTypes'
 
-type StepOneProps = {
-  control: Control<SignupInformations>
-  errors: FieldErrors<SignupInformations>
-  validations: Validations
-}
-
-export const StepOne: FC<StepOneProps> = ({ control, errors, validations }) => {
+export const StepOne: FC<SignupStepsProps> = ({
+  control,
+  errors,
+  validations,
+}) => {
   const { t } = useTranslation()
   return (
     <View style={{ marginTop: spacing.m, marginBottom: spacing.s }}>

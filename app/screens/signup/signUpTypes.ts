@@ -1,4 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { Control, FieldErrors } from "react-hook-form";
 import { NavigatorParamList } from "~navigators/app-navigator";
 
 export type ValidationRules = {
@@ -36,4 +37,11 @@ export type SignupInformations = {
   birthdayDate: string;
   gender: string;
   goal: string;
+  activityLevel: string;
+};
+
+export type SignupStepsProps = {
+  control: Control<SignupInformations>;
+  errors: FieldErrors<SignupInformations>;
+  validations: Validations;
 };

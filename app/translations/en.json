@@ -103,6 +103,13 @@
     "gain-weight": "Gain weight",
     "calculate-my-calories-need": "Calculate my calorie needs",
     "passwords-must-match": "The passwords must match",
-    "confirm-password-is-required": "Confirm password is required"
+    "confirm-password-is-required": "Confirm password is required",
+    "activity-level": "Activity level",
+    "select-an-activity-level": "Select an activity level",
+    "sedentary": "Sedentary",
+    "lightlyActive": "Lightly active",
+    "moderatelyActive": "Moderately active",
+    "veryActive": "Very active",
+    "superActive": "Super active"
   }
 }

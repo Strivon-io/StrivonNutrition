@@ -41,7 +41,11 @@ export const ValidateFormBlock: FC<Props> = ({
       <View style={{ marginTop: spacing.m }}>
         <MainButton
           style={boxShadow}
-          label={signUpStep === 1 ? t('next') : t('calculate-my-calories-need')}
+          label={
+            signUpStep === 1
+              ? t('next')
+              : t('signUpScreen.calculate-my-calories-need')
+          }
           onPress={handleValidate}
           icon={signUpStep === 1 && <RightChevron size={iconSize.s} />}
         />
