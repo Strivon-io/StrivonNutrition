@@ -34,7 +34,7 @@ export type SignupInformations = {
   confirmPassword: string;
   size: string;
   weight: string;
-  birthdayDate: string;
+  birthdayDate: Date;
   gender: string;
   goal: string;
   activityLevel: string;

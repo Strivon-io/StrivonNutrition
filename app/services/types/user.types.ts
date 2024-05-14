@@ -15,3 +15,14 @@ type User = {
   refreshToken: string;
   refreshTokenExpiresAt: string;
 };
+
+type createUser = {
+  username: string;
+  email: string;
+  password: string;
+  gender: string;
+  size: string;
+  weight: string;
+  birthdayDate: Date;
+  activityLevel: string;
+};

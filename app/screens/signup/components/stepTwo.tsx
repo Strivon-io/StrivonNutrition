@@ -1,4 +1,4 @@
-import { FC, RefObject, useRef } from 'react'
+import { FC, RefObject, useRef, useState } from 'react'
 import { View, StyleSheet } from 'react-native'
 import { Controller } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -15,25 +15,34 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Picker } from '@react-native-picker/picker'
 import { ActivitySelector } from './activitySelector'
 import { DownChevron } from '~assets/icons/downChevron'
+import RNDateTimePicker from '@react-native-community/datetimepicker'
 
 type StepTwoProps = SignupStepsProps & {
-  bottomSheetRef: RefObject<BottomSheet>
-  selectorValue: string
+  activitySelectorRef: RefObject<BottomSheet>
+  birthdaySelectorRef: RefObject<BottomSheet>
+  activityLevel: string
+  birthdayDate: Date
 }
 
 export const StepTwo: FC<StepTwoProps> = ({
   control,
   errors,
-  bottomSheetRef,
-  selectorValue,
+  activitySelectorRef,
+  birthdaySelectorRef,
+  activityLevel,
+  birthdayDate,
 }) => {
   const { t } = useTranslation()
-  const openModal = () => {
-    bottomSheetRef.current?.expand()
+  const openActivitySelector = () => {
+    activitySelectorRef.current?.expand()
+  }
+
+  const openBirthdaySelector = () => {
+    birthdaySelectorRef.current?.expand()
   }
 
   return (
-    <ScrollView style={{ marginTop: spacing.m, marginBottom: spacing.s }}>
+    <ScrollView style={{ marginTop: spacing.m }}>
       <Controller
         control={control}
         name="size"
@@ -62,6 +71,30 @@ export const StepTwo: FC<StepTwoProps> = ({
           />
         )}
       />
+      <View style={{ marginTop: spacing.s, gap: spacing.xs }}>
+        <Text fontFamily="Avenir-Medium" color="Alizarin" fontSize="m">
+          {t('signUpScreen.my-birth-date')}
+        </Text>
+        <TouchableOpacity
+          style={styles.selector}
+          onPress={openBirthdaySelector}
+        >
+          <Text>
+            {birthdayDate
+              ? new Date(birthdayDate).toLocaleDateString('en-GB', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                })
+              : new Date().toLocaleDateString('en-GB', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                })}
+          </Text>
+          <DownChevron size={24} />
+        </TouchableOpacity>
+      </View>
       <View style={{ marginTop: spacing.s }}>
         <Text fontFamily="Avenir-Medium" color="Alizarin" fontSize="m">
           {`${t('signUpScreen.i-was-born-as-a')} :`}
@@ -132,10 +165,13 @@ export const StepTwo: FC<StepTwoProps> = ({
           <Text fontFamily="Avenir-Medium" color="Alizarin" fontSize="m">
             {t('signUpScreen.activity-level')}
           </Text>
-          <TouchableOpacity style={styles.selector} onPress={openModal}>
+          <TouchableOpacity
+            style={styles.selector}
+            onPress={openActivitySelector}
+          >
             <Text>
-              {selectorValue
-                ? t(`signUpScreen.${selectorValue}`)
+              {activityLevel
+                ? t(`signUpScreen.${activityLevel}`)
                 : t('signUpScreen.select-an-activity-level')}
             </Text>
             <DownChevron size={24} />

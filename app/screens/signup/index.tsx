@@ -1,4 +1,4 @@
-import { useState, FC, useRef } from 'react'
+import { useState, FC, useRef, useEffect } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
@@ -14,28 +14,51 @@ import { StepTwo } from './components/stepTwo'
 import { useForm } from 'react-hook-form'
 import { ActivitySelector } from './components/activitySelector'
 import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
+import { useMutation } from '@tanstack/react-query'
+import { useAuth } from '~contexts/authContext'
+import { createUser } from '~services/routes/user'
+import { BirthdaySelector } from './components/birthdaySelector'
 
 type SignUpScreenProps = NativeStackScreenProps<NavigatorParamList, 'signUp'>
 
 export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
   const { t } = useTranslation()
+  const { setAccessToken } = useAuth()
 
   const [signUpStep, setSignUpStep] = useState(2)
   const [isChecked, setIsChecked] = useState(false)
-  const bottomSheetRef = useRef<BottomSheet>(null)
-
-  const handleValidate = () => {
-    if (signUpStep === 2) {
-      navigation.navigate('needsResult')
-    } else {
-      setSignUpStep(signUpStep + 1)
-    }
-  }
+  const activitySelectorRef = useRef<BottomSheet>(null)
+  const birthdaySelectorRef = useRef<BottomSheet>(null)
 
   const handleCheck = () => setIsChecked(!isChecked)
 
   const handleBackArrow = () => {
     signUpStep > 1 ? setSignUpStep(signUpStep - 1) : navigation.goBack()
+  }
+
+  const { mutate, isError, error } = useMutation({
+    mutationFn: (data: {
+      email: User['email']
+      password: User['password']
+    }) => {
+      return createUser(data)
+    },
+    onSuccess: (value) => {
+      setAccessToken(value.accessToken)
+      navigation.navigate('needsResult')
+    },
+  })
+
+  const onSubmit = (data) => {
+    mutate(data)
+  }
+
+  const handleValidate = (data: createUser) => {
+    if (signUpStep === 2) {
+      onSubmit(data)
+    } else {
+      setSignUpStep(signUpStep + 1)
+    }
   }
 
   const {
@@ -45,13 +68,13 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: '',
       username: '',
+      email: '',
       password: '',
       confirmPassword: '',
       size: '',
       weight: '',
-      birthdayDate: '',
+      birthdayDate: new Date(),
       gender: '',
       goal: '',
       activityLevel: '',
@@ -101,6 +124,10 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
     },
   }
 
+  useEffect(() => {
+    console.log('birthday', watch('birthdayDate'))
+  }, [watch])
+
   return (
     <>
       <Layout isHeaderLogo isBackArrow>
@@ -123,23 +150,31 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
             )}
             {signUpStep === 2 && (
               <StepTwo
-                bottomSheetRef={bottomSheetRef}
+                activitySelectorRef={activitySelectorRef}
+                birthdaySelectorRef={birthdaySelectorRef}
                 control={control}
                 errors={errors}
                 validations={validations}
-                selectorValue={watch('activityLevel')}
+                activityLevel={watch('activityLevel')}
+                birthdayDate={watch('birthdayDate')}
               />
             )}
           </View>
-
           <ValidateFormBlock
             signUpStep={signUpStep}
             handleValidate={handleSubmit(handleValidate)}
             isChecked={isChecked}
             handleCheck={handleCheck}
           />
+          {isError && <Text>{error.message}</Text>}
           <ActivitySelector
-            bottomSheetRef={bottomSheetRef}
+            activitySelectorRef={activitySelectorRef}
+            control={control}
+            errors={errors}
+            validations={validations}
+          />
+          <BirthdaySelector
+            birthdaySelectorRef={birthdaySelectorRef}
             control={control}
             errors={errors}
             validations={validations}

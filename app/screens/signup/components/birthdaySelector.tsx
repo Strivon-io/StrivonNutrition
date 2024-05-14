@@ -9,19 +9,21 @@ import { colors } from '~constants/theme'
 import { t } from 'i18next'
 import { Controller } from 'react-hook-form'
 import { SignupStepsProps } from '../signUpTypes'
+import RNDateTimePicker from '@react-native-community/datetimepicker'
+import { format } from 'date-fns'
 
 type StepTwoProps = SignupStepsProps & {
-  activitySelectorRef: RefObject<BottomSheet>
+  birthdaySelectorRef: RefObject<BottomSheet>
 }
 
-export const ActivitySelector: FC<StepTwoProps> = ({
+export const BirthdaySelector: FC<StepTwoProps> = ({
   control,
-  activitySelectorRef,
+  birthdaySelectorRef,
 }) => {
   const insets = useSafeAreaInsets()
   return (
     <BottomSheet
-      ref={activitySelectorRef}
+      ref={birthdaySelectorRef}
       snapPoints={['30%']}
       index={-1}
       enablePanDownToClose={true}
@@ -31,38 +33,28 @@ export const ActivitySelector: FC<StepTwoProps> = ({
       }}
     >
       <View style={styles.modalView}>
-        <Text>{t('signUpScreen.select-an-activity-level')}</Text>
+        <Text>{t('signUpScreen.select-your-birth-date')}</Text>
         <Controller
           control={control}
-          name="activityLevel"
+          name="birthdayDate"
           render={({ field: { onChange, value } }) => (
-            <Picker
-              selectedValue={value}
-              onValueChange={onChange}
-              style={styles.picker}
-              mode="dropdown"
-            >
-              <Picker.Item
-                label={t('signUpScreen.sedentary')}
-                value="sedentary"
-              />
-              <Picker.Item
-                label={t('signUpScreen.lightlyActive')}
-                value="lightlyActive"
-              />
-              <Picker.Item
-                label={t('signUpScreen.moderatelyActive')}
-                value="moderatelyActive"
-              />
-              <Picker.Item
-                label={t('signUpScreen.veryActive')}
-                value="veryActive"
-              />
-              <Picker.Item
-                label={t('signUpScreen.superActive')}
-                value="superActive"
-              />
-            </Picker>
+            <RNDateTimePicker
+              value={value ? new Date(value) : new Date()}
+              onChange={(_, selectedDate) => {
+                if (selectedDate) {
+                  const formattedDate = format(selectedDate, 'dd/MM/yyyy')
+                  console.log('formattedDate', formattedDate)
+                  onChange(selectedDate)
+                }
+              }}
+              display="spinner"
+              style={{
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
+                width: '100%',
+              }}
+              mode="date"
+            />
           )}
         />
       </View>
