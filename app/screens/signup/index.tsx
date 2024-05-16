@@ -16,16 +16,16 @@ import { ActivitySelector } from './components/activitySelector'
 import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet'
 import { useMutation } from '@tanstack/react-query'
 import { useAuth } from '~contexts/authContext'
-import { createUser } from '~services/routes/user'
+import { createUser, login } from '~services/routes/user'
 import { BirthdaySelector } from './components/birthdaySelector'
 
 type SignUpScreenProps = NativeStackScreenProps<NavigatorParamList, 'signUp'>
 
 export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
   const { t } = useTranslation()
-  const { setAccessToken } = useAuth()
+  const { setAccessToken, setRefreshToken } = useAuth()
 
-  const [signUpStep, setSignUpStep] = useState(2)
+  const [signUpStep, setSignUpStep] = useState(1)
   const [isChecked, setIsChecked] = useState(false)
   const activitySelectorRef = useRef<BottomSheet>(null)
   const birthdaySelectorRef = useRef<BottomSheet>(null)
@@ -36,12 +36,27 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
     signUpStep > 1 ? setSignUpStep(signUpStep - 1) : navigation.goBack()
   }
 
-  const { mutate, isError, error } = useMutation({
-    mutationFn: (data: CreateUser) => {
-      return createUser(data)
+  const { mutate: logUser } = useMutation({
+    mutationFn: (data: {
+      email: User['email']
+      password: User['password']
+    }) => {
+      return login(data)
     },
     onSuccess: (value) => {
       setAccessToken(value.accessToken)
+      setRefreshToken(value.refreshToken)
+    },
+  })
+
+  const { mutate, isError, error } = useMutation({
+    mutationFn: (data: CreateUser) => {
+      console.log('data-->>', data)
+      return createUser(data)
+    },
+    onSuccess: (_, data) => {
+      console.log('userInformationafterpost-->', data)
+      logUser({ email: data.email, password: data.password })
       navigation.navigate('needsResult')
     },
   })
@@ -71,7 +86,7 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
       confirmPassword: '',
       size: '',
       weight: '',
-      birthdayDate: new Date(),
+      birthday: new Date(),
       gender: '',
       goal: '',
       activityLevel: '',
@@ -120,10 +135,6 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
       message: t('signUpScreen.birthday-is-required'),
     },
   }
-
-  useEffect(() => {
-    console.log('birthday', watch('birthdayDate'))
-  }, [watch])
 
   return (
     <>

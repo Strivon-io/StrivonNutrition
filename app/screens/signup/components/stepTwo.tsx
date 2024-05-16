@@ -34,10 +34,12 @@ export const StepTwo: FC<StepTwoProps> = ({
 }) => {
   const { t } = useTranslation()
   const openActivitySelector = () => {
+    birthdaySelectorRef.current?.close()
     activitySelectorRef.current?.expand()
   }
 
   const openBirthdaySelector = () => {
+    activitySelectorRef.current?.close()
     birthdaySelectorRef.current?.expand()
   }
 

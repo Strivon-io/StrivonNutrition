@@ -24,7 +24,7 @@ export type Validations = {
   size: ValidationRules;
   weight: ValidationRules;
   gender: ValidationRules;
-  birthdayDate: ValidationRules;
+  birthday: ValidationRules;
 };
 
 export type SignupInformations = {
@@ -34,7 +34,7 @@ export type SignupInformations = {
   confirmPassword: string;
   size: string;
   weight: string;
-  birthdayDate: Date;
+  birthday: Date;
   gender: string;
   goal: string;
   activityLevel: string;

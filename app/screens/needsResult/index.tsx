@@ -8,6 +8,8 @@ import { Text } from '~components/atoms/text'
 import { Layout } from '~components/layout/layout'
 import { MainButton } from '~components/molecules/mainButton'
 import { boxShadow, colors, spacing } from '~constants/theme'
+import { useQuery } from '@tanstack/react-query'
+import { getProfile } from '~services/routes/user'
 
 type NeedResultScreenProps = NativeStackScreenProps<
   NavigatorParamList,
@@ -19,52 +21,65 @@ export const NeedsResultScreen: FC<NeedResultScreenProps> = ({
 }) => {
   const { t } = useTranslation()
 
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['profile'],
+    queryFn: getProfile,
+  })
+
   const handleViewRecipes = () => {
     navigation.navigate('recipesResult')
   }
 
   return (
-    <Layout isHeaderLogo>
-      <>
-        <View style={styles.wrapper}>
-          <Text fontFamily="Avenir-Medium" fontSize="l" textAlign="center">
-            {t('youNeed')}
-          </Text>
-          <Text
-            fontFamily="Avenir-Bold-Italic"
-            fontSize="xxl"
-            color="Alizarin"
-            textAlign="center"
-          >
-            2700Kcal
-          </Text>
-          <Text fontFamily="Avenir-Medium" fontSize="l" textAlign="center">
-            {t('perDayToMaintainYourCurrentWeight')}
-          </Text>
-          <TouchableOpacity style={{ marginTop: spacing.xs }}>
+    <Layout isHeader isHeaderLogo>
+      {!isLoading ? (
+        <>
+          <View style={styles.wrapper}>
+            <Text fontFamily="Avenir-Medium" fontSize="l" textAlign="center">
+              {t('youNeed')}
+            </Text>
             <Text
-              fontFamily="Avenir-Medium"
+              fontFamily="Avenir-Bold-Italic"
+              fontSize="xxl"
               color="Alizarin"
-              textDecorationLine="underline"
               textAlign="center"
             >
-              {t('howItWorks')}
+              <>{data.kcalNeeds}Kcal</>
             </Text>
-          </TouchableOpacity>
-        </View>
+            <Text fontFamily="Avenir-Medium" fontSize="l" textAlign="center">
+              {t('perDayToMaintainYourCurrentWeight')}
+            </Text>
+            <TouchableOpacity style={{ marginTop: spacing.xs }}>
+              <Text
+                fontFamily="Avenir-Medium"
+                color="Alizarin"
+                textDecorationLine="underline"
+                textAlign="center"
+              >
+                {t('howItWorks')}
+              </Text>
+            </TouchableOpacity>
+          </View>
 
-        <MainButton
-          style={boxShadow}
-          label={t('viewMyFirstRecipes')}
-          onPress={handleViewRecipes}
-        />
-      </>
+          <MainButton
+            style={boxShadow}
+            label={t('viewMyFirstRecipes')}
+            onPress={handleViewRecipes}
+          />
+        </>
+      ) : (
+        <Text>{t('loading')}</Text>
+      )}
     </Layout>
   )
 }
 
 const styles = StyleSheet.create({
   wrapper: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     flex: 1,
+    marginBottom: spacing.xl,
   },
 })

@@ -8,6 +8,10 @@ type User = {
   gender: string;
   height: string;
   weight: string;
+  birthday: string;
+  goal: string;
+  activityLevel: string;
+  kcalNeeds: string;
   groceryList: string[];
   recipes: string[];
   scheduledRecipe: string[];
