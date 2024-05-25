@@ -5,13 +5,19 @@ import { FC } from 'react'
 import { Text } from '~components/atoms/text'
 import { spacing } from '~constants/theme'
 
-export const HomeWelcomeSection: FC = () => {
+type HomeWelcomeSectionProps = {
+  username: string
+}
+
+export const HomeWelcomeSection: FC<HomeWelcomeSectionProps> = ({
+  username,
+}) => {
   const { t } = useTranslation()
 
   return (
     <View style={[{ marginBottom: spacing.m, paddingHorizontal: spacing.m }]}>
       <Text fontFamily="Avenir-Bold-Italic" fontSize="l">
-        Hello, Hugues !
+        <>Hello, {username} !</>
       </Text>
       <Text mt={spacing.xs} fontFamily="Avenir-Medium" fontSize="m">
         <>{t('hereIsWhatYouNeedToKnowToday')} 👨‍🍳</>

@@ -16,7 +16,9 @@ export const NeedsResultExplanationScreen: React.FC = () => {
         >
           {`${t('howCaloriesCalculationWorks')} ?`}
         </Text>
-        <Text fontSize="m">{t('howCaloriesCalculationWorksExplanation')}</Text>
+        <Text lineHeight={30} fontSize="m">
+          {t('howCaloriesCalculationWorksExplanation')}
+        </Text>
       </View>
     </Layout>
   )

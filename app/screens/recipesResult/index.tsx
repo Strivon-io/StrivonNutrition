@@ -17,9 +17,13 @@ type RecipesResultScreenProps = NativeStackScreenProps<
   'recipesResult'
 >
 
-export const RecipesResultScreen: FC<RecipesResultScreenProps> = () => {
+export const RecipesResultScreen: FC<RecipesResultScreenProps> = ({
+  navigation,
+}) => {
   const { t } = useTranslation()
-  const handleGoToApp = () => {}
+  const handleGoToApp = () => {
+    navigation.navigate('bottomTab')
+  }
   const [activeSlide, setActiveSlide] = useState(0)
   const carouselRef = useRef(null)
 

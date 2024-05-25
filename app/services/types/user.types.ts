@@ -1,7 +1,6 @@
 type User = {
   _id: string;
-  firstName: string;
-  lastName: string;
+  username: string;
   password: string;
   email: string;
   role: string;
@@ -27,7 +26,7 @@ type CreateUser = {
   gender: string;
   size: string;
   weight: string;
-  birthdayDate: Date;
+  birthday: Date;
   goal: string;
   activityLevel: string;
 };

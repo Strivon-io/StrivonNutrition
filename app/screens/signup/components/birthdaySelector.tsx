@@ -36,14 +36,13 @@ export const BirthdaySelector: FC<StepTwoProps> = ({
         <Text>{t('signUpScreen.select-your-birth-date')}</Text>
         <Controller
           control={control}
-          name="birthdayDate"
+          name="birthday"
           render={({ field: { onChange, value } }) => (
             <RNDateTimePicker
               value={value ? new Date(value) : new Date()}
               onChange={(_, selectedDate) => {
                 if (selectedDate) {
                   const formattedDate = format(selectedDate, 'dd/MM/yyyy')
-                  console.log('formattedDate', formattedDate)
                   onChange(selectedDate)
                 }
               }}

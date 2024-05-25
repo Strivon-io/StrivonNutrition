@@ -14,6 +14,9 @@ import { useAuth } from '~contexts/authContext'
 import { useQuery } from '@tanstack/react-query'
 import { getProfile } from '~services/routes/user'
 import { ProfileProvider } from '~contexts/profileContext'
+import { navigationRef } from './navigator-utils'
+import { useSettings } from '~contexts/settingsContext'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export type NavigatorParamList = {
   signIn: undefined
@@ -69,11 +72,11 @@ interface NavigationProps
   extends Partial<React.ComponentProps<typeof NavigationContainer>> {}
 
 export const AppNavigator = (props: NavigationProps) => {
+  const { accessToken, isLoading: authIsLoading } = useAuth()
+
   const [initialRoute, setInitialRoute] = useState<keyof NavigatorParamList>(
     'signIn',
   )
-
-  const { accessToken, isLoading: authIsLoading } = useAuth()
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -85,38 +88,35 @@ export const AppNavigator = (props: NavigationProps) => {
   })
 
   const handleGetProfile = async () => {
-    const { data } = await refetch()
-    if (!data) {
+    try {
+      const { data } = await refetch()
+      console.log('Profile data:', data)
+      return data ? 'bottomTab' : 'signIn'
+    } catch (error) {
+      console.error('Error fetching profile:', error)
       return 'signIn'
-    } else {
-      return 'bottomTab'
     }
   }
 
   useEffect(() => {
-    if (authIsLoading) return
-    ;(async () => {
-      if (accessToken) {
-        try {
-          console.log(handleGetProfile())
-          const route = await handleGetProfile()
-
-          setInitialRoute(route)
-        } catch (error) {
-          console.error(error)
-        } finally {
-          setIsLoading(false)
-        }
-      } else {
+    if (!authIsLoading && accessToken) {
+      ;(async () => {
+        setIsLoading(true)
+        const route = await handleGetProfile()
+        setInitialRoute(route)
         setIsLoading(false)
-      }
-    })()
+      })()
+    } else if (!authIsLoading) {
+      setIsLoading(false)
+    }
   }, [accessToken, authIsLoading])
 
-  if (isLoading) return null
+  if (isLoading) {
+    return null
+  }
 
   return (
-    <NavigationContainer theme={DefaultTheme} {...props}>
+    <NavigationContainer ref={navigationRef} theme={DefaultTheme} {...props}>
       <AppStack initialRouteName={initialRoute} />
     </NavigationContainer>
   )

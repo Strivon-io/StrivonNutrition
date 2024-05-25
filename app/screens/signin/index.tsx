@@ -41,7 +41,7 @@ export const SigninScreen: FC<SignInScreenProps> = ({ navigation }) => {
     navigation.navigate('signUp')
   }
 
-  const { mutate, isError } = useMutation({
+  const { mutate, isError, error } = useMutation({
     mutationFn: (data: {
       email: User['email']
       password: User['password']
@@ -102,7 +102,7 @@ export const SigninScreen: FC<SignInScreenProps> = ({ navigation }) => {
                 label={t('email')}
                 placeholder={t('email-placeholder')}
                 keyboardType="email-address"
-                onChange={onChange}
+                onChange={(text) => onChange(text.toLowerCase())}
                 error={errors.email?.message}
               />
             )}
@@ -149,7 +149,6 @@ export const SigninScreen: FC<SignInScreenProps> = ({ navigation }) => {
           style={boxShadow}
           onPress={handleSubmit(onSubmit)}
         />
-
         <View
           style={{
             marginTop: spacing.m,

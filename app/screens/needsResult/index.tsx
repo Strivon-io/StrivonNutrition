@@ -49,7 +49,10 @@ export const NeedsResultScreen: FC<NeedResultScreenProps> = ({
             <Text fontFamily="Avenir-Medium" fontSize="l" textAlign="center">
               {t('perDayToMaintainYourCurrentWeight')}
             </Text>
-            <TouchableOpacity style={{ marginTop: spacing.xs }}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('needsResultExplanation')}
+              style={{ marginTop: spacing.xs }}
+            >
               <Text
                 fontFamily="Avenir-Medium"
                 color="Alizarin"

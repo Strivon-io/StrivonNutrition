@@ -18,6 +18,8 @@ import { HomeWelcomeSection } from './components/sections/welcomeSection'
 import { DailyMealsSection } from './components/sections/dailyMealsSection'
 import { GroceryListSection } from './components/sections/groceryListSection'
 import { PlannifiedMealDays } from './components/sections/plannifiedMealDays'
+import { getProfile } from '~services/routes/user'
+import { useQuery } from '@tanstack/react-query'
 
 type HomeScreenProps = NativeStackScreenProps<BottomTabParamList, 'home'>
 
@@ -27,6 +29,13 @@ export const HomeScreen: FC<HomeScreenProps> = () => {
 
   const scrollHandler = useAnimatedScrollHandler((event) => {
     scrollA.value = event.contentOffset.y
+  })
+
+  const { data } = useQuery({
+    queryKey: ['profile'],
+    queryFn: getProfile,
+    retry: false,
+    enabled: false,
   })
 
   const HomeWelcomeSectionStyle = useAnimatedStyle(() => {
@@ -65,7 +74,7 @@ export const HomeScreen: FC<HomeScreenProps> = () => {
           showsVerticalScrollIndicator={false}
         >
           <Animated.View style={HomeWelcomeSectionStyle}>
-            <HomeWelcomeSection />
+            <HomeWelcomeSection username={data.username} />
           </Animated.View>
           <View style={styles.homeCardSection}>
             <DailyMealsSection />

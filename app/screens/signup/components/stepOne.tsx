@@ -41,7 +41,7 @@ export const StepOne: FC<SignupStepsProps> = ({
             label={t('email')}
             placeholder={t('signUpScreen.email-placeholder')}
             keyboardType="email-address"
-            onChange={onChange}
+            onChange={(text) => onChange(text.toLowerCase())}
             error={errors.email?.message}
           />
         )}

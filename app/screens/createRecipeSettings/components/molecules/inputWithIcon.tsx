@@ -31,20 +31,11 @@ export const InputWithIcon = ({
   )
 }
 
-const StyledInput = styled(TextInput)<{ textColor: string; fontType: string }>`
+const StyledInput = styled(TextInput)`
   padding-left: ${spacingPx.s};
   height: 40px;
   background-color: ${colors.light.AliceBlue};
   border-radius: ${spacingPx.xs} 0 0 ${spacingPx.xs};
-  font-family: ${(props) =>
-    props.fontType
-      ? `AvenirNext-${
-          props.fontType.substring(0, 1).toUpperCase() +
-          props.fontType.substring(1)
-        }`
-      : 'AvenirNext-Medium'};
-  color: ${(props) =>
-    props.textColor ? props.textColor : colors.darker.DarkestBlack};
 `
 
 const IconInputWrapper = styled(TouchableOpacity)`

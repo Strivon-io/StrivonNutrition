@@ -51,11 +51,9 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
 
   const { mutate, isError, error } = useMutation({
     mutationFn: (data: CreateUser) => {
-      console.log('data-->>', data)
       return createUser(data)
     },
     onSuccess: (_, data) => {
-      console.log('userInformationafterpost-->', data)
       logUser({ email: data.email, password: data.password })
       navigation.navigate('needsResult')
     },
@@ -130,7 +128,7 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
       required: t('signUpScreen.gender-is-required'),
       message: t('signUpScreen.gender-is-required'),
     },
-    birthdayDate: {
+    birthday: {
       required: t('signUpScreen.birthday-is-required'),
       message: t('signUpScreen.birthday-is-required'),
     },
@@ -164,7 +162,7 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
                 errors={errors}
                 validations={validations}
                 activityLevel={watch('activityLevel')}
-                birthdayDate={watch('birthdayDate')}
+                birthdayDate={watch('birthday')}
               />
             )}
           </View>
