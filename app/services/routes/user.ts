@@ -22,7 +22,7 @@ export const createUser = async (
 };
 
 export const getProfile = async (): Promise<User> => {
-  const response = await api.get("/users");
+  const response = await api.get("http://localhost:8000/users");
 
   return response.data;
 };

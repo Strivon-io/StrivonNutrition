@@ -1,54 +1,95 @@
-import { useState, FC } from "react";
-import { spacing } from "~constants/theme";
-import { View } from "react-native";
-import { useTranslation } from "react-i18next";
+import { useState, FC, useEffect } from 'react'
+import { spacing } from '~constants/theme'
+import { View } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import EventSource from 'react-native-event-source'
 
-import { Layout } from "~components/layout/layout";
-import { AddIngredientSection } from "./components/sections/addIngredientSection";
-import { DietaryRestrictionsSection } from "./components/sections/dietaryRestrictionsSection";
-import { NumberOfCaloriesSection } from "./components/sections/numberOfCaloriesSection";
-import { MainButton } from "~components/molecules/mainButton";
+import { Layout } from '~components/layout/layout'
+import { AddIngredientSection } from './components/sections/addIngredientSection'
+import { DietaryRestrictionsSection } from './components/sections/dietaryRestrictionsSection'
+import { NumberOfCaloriesSection } from './components/sections/numberOfCaloriesSection'
+import { MainButton } from '~components/molecules/mainButton'
+import { useMutation } from '@tanstack/react-query'
+import { createRecipe } from '~services/routes/recipe'
+import { CreateRecipe } from '~services/types/recipe.types'
+import { Text } from '~components/atoms/text'
 
 export const CreateRecipeSettingsScreen: FC = () => {
-  const [ingredients, setIngredients] = useState([]);
-  const [onlyUseIngredients, setOnlyUseIngredients] = useState(false);
-  const [calories, setCalories] = useState("");
-  const [dietaryRestrictions, setDietaryRestrictions] = useState([]);
+  const [ingredients, setIngredients] = useState([])
+  const [onlyUseIngredients, setOnlyUseIngredients] = useState(false)
+  const [calories, setCalories] = useState('')
+  const [dietaryRestrictions, setDietaryRestrictions] = useState([])
+  const [recipeData, setRecipeData] = useState(null)
 
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   const addIngredient = (ingredient: string) => {
-    setIngredients([...ingredients, ingredient]);
-  };
+    setIngredients([...ingredients, ingredient])
+  }
 
   const handleIngredientChange = (text: string, index: number) => {
-    const updatedIngredients = [...ingredients];
-    updatedIngredients[index] = text;
-    setIngredients(updatedIngredients);
-  };
+    const updatedIngredients = [...ingredients]
+    updatedIngredients[index] = text
+    setIngredients(updatedIngredients)
+  }
 
   const removeIngredient = (indexToRemove: number) => {
-    const updatedIngredients = [...ingredients];
-    updatedIngredients.splice(indexToRemove, 1);
-    setIngredients(updatedIngredients);
-  };
+    const updatedIngredients = [...ingredients]
+    updatedIngredients.splice(indexToRemove, 1)
+    setIngredients(updatedIngredients)
+  }
 
   const handleNewIngredientSubmit = (newIngredient, setNewIngredient) => {
-    if (newIngredient.trim() !== "") {
-      addIngredient(newIngredient);
-      setNewIngredient("");
+    if (newIngredient.trim() !== '') {
+      addIngredient(newIngredient)
+      setNewIngredient('')
     } else {
       setIngredients((prevIngredients) => {
         const updatedIngredients = prevIngredients.filter(
-          (ingredient) => ingredient.trim() !== ""
-        );
-        return updatedIngredients;
-      });
+          (ingredient) => ingredient.trim() !== '',
+        )
+        return updatedIngredients
+      })
     }
-  };
+  }
+
+  const { mutate } = useMutation({
+    mutationFn: (data: CreateRecipe) => {
+      return createRecipe(data)
+    },
+  })
+
+  const handleCreateRecipe = () => {
+    const eventSource = new EventSource('http://localhost:8000/recipes')
+
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data)
+      setRecipeData(data) // Mettez à jour l'état avec les données reçues
+    }
+
+    eventSource.onerror = (error) => {
+      console.error('EventSource failed:', error)
+      eventSource.close()
+    }
+
+    mutate({
+      ingredients: ingredients,
+      onlyUseAskedIngredients: onlyUseIngredients,
+      calories: parseInt(calories, 10),
+      restrictions: dietaryRestrictions,
+    })
+  }
+
+  useEffect(() => {
+    return () => {
+      if (EventSource) {
+        EventSource.close() // Fermer l'EventSource à la destruction du composant
+      }
+    }
+  }, [])
 
   return (
-    <Layout pageTitle={t("generateRecipe")} isBackArrow isHeader scrollView>
+    <Layout pageTitle={t('generateRecipe')} isBackArrow isHeader scrollView>
       <>
         <View style={{ flex: 1 }}>
           <View style={{ marginBottom: spacing.l }}>
@@ -74,9 +115,9 @@ export const CreateRecipeSettingsScreen: FC = () => {
             />
           </View>
         </View>
-
-        <MainButton label={t("generate")} onPress={() => {}} />
+        <Text>{recipeData}</Text>
+        <MainButton label={t('generate')} onPress={handleCreateRecipe} />
       </>
     </Layout>
-  );
-};
+  )
+}
