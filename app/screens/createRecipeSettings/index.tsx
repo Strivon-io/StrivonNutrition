@@ -20,6 +20,7 @@ export const CreateRecipeSettingsScreen: FC = () => {
   const [calories, setCalories] = useState('')
   const [dietaryRestrictions, setDietaryRestrictions] = useState([])
   const [recipeData, setRecipeData] = useState(null)
+  const eventSource = new EventSource('http://localhost:8000/recipes')
 
   const { t } = useTranslation()
 
@@ -60,8 +61,6 @@ export const CreateRecipeSettingsScreen: FC = () => {
   })
 
   const handleCreateRecipe = () => {
-    const eventSource = new EventSource('http://localhost:8000/recipes')
-
     eventSource.onmessage = (event) => {
       const data = JSON.parse(event.data)
       setRecipeData(data) // Mettez à jour l'état avec les données reçues
@@ -82,8 +81,8 @@ export const CreateRecipeSettingsScreen: FC = () => {
 
   useEffect(() => {
     return () => {
-      if (EventSource) {
-        EventSource.close() // Fermer l'EventSource à la destruction du composant
+      if (eventSource) {
+        eventSource.close()
       }
     }
   }, [])

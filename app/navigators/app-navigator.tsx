@@ -15,8 +15,6 @@ import { useQuery } from '@tanstack/react-query'
 import { getProfile } from '~services/routes/user'
 import { ProfileProvider } from '~contexts/profileContext'
 import { navigationRef } from './navigator-utils'
-import { useSettings } from '~contexts/settingsContext'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export type NavigatorParamList = {
   signIn: undefined
