@@ -1,8 +1,7 @@
-import { useState, FC, useEffect } from 'react'
-import { spacing } from '~constants/theme'
-import { View } from 'react-native'
+import { useState, FC } from 'react'
+import { spacing, spacingPx } from '~constants/theme'
+import { View, StyleSheet } from 'react-native'
 import { useTranslation } from 'react-i18next'
-import EventSource from 'react-native-event-source'
 
 import { Layout } from '~components/layout/layout'
 import { AddIngredientSection } from './components/sections/addIngredientSection'
@@ -12,6 +11,8 @@ import { MainButton } from '~components/molecules/mainButton'
 import { useMutation } from '@tanstack/react-query'
 import { createRecipe } from '~services/routes/recipe'
 import { CreateRecipe } from '~services/types/recipe.types'
+import LottieView from 'lottie-react-native'
+import LoaderLottie from '~assets/lotties/Vegetable Bag Lineal (2).json'
 import { Text } from '~components/atoms/text'
 
 export const CreateRecipeSettingsScreen: FC = () => {
@@ -19,8 +20,6 @@ export const CreateRecipeSettingsScreen: FC = () => {
   const [onlyUseIngredients, setOnlyUseIngredients] = useState(false)
   const [calories, setCalories] = useState('')
   const [dietaryRestrictions, setDietaryRestrictions] = useState([])
-  const [recipeData, setRecipeData] = useState(null)
-  const eventSource = new EventSource('http://localhost:8000/recipes')
 
   const { t } = useTranslation()
 
@@ -54,23 +53,13 @@ export const CreateRecipeSettingsScreen: FC = () => {
     }
   }
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (data: CreateRecipe) => {
       return createRecipe(data)
     },
   })
 
   const handleCreateRecipe = () => {
-    eventSource.onmessage = (event) => {
-      const data = JSON.parse(event.data)
-      setRecipeData(data) // Mettez à jour l'état avec les données reçues
-    }
-
-    eventSource.onerror = (error) => {
-      console.error('EventSource failed:', error)
-      eventSource.close()
-    }
-
     mutate({
       ingredients: ingredients,
       onlyUseAskedIngredients: onlyUseIngredients,
@@ -79,44 +68,71 @@ export const CreateRecipeSettingsScreen: FC = () => {
     })
   }
 
-  useEffect(() => {
-    return () => {
-      if (eventSource) {
-        eventSource.close()
-      }
-    }
-  }, [])
-
   return (
-    <Layout pageTitle={t('generateRecipe')} isBackArrow isHeader scrollView>
+    <Layout
+      pageTitle={!isPending ? t('generateRecipe') : ''}
+      isHeader
+      isBackArrow={!isPending}
+      isHeaderLogo={isPending}
+      scrollView={!isPending}
+    >
       <>
-        <View style={{ flex: 1 }}>
-          <View style={{ marginBottom: spacing.l }}>
-            <AddIngredientSection
-              ingredients={ingredients}
-              handleNewIngredientSubmit={handleNewIngredientSubmit}
-              handleIngredientChange={handleIngredientChange}
-              removeIngredient={removeIngredient}
-              onlyUseIngredients={onlyUseIngredients}
-              setOnlyUseIngredients={setOnlyUseIngredients}
+        {isPending ? (
+          <View style={styles.loaderContent}>
+            <LottieView
+              source={LoaderLottie}
+              autoPlay
+              loop
+              style={styles.animation}
             />
+            <Text fontSize="l" textAlign="center">
+              We are preparing your recipe... 😉
+            </Text>
           </View>
-          <View style={{ marginBottom: spacing.l }}>
-            <DietaryRestrictionsSection
-              dietaryRestrictions={dietaryRestrictions}
-              setDietaryRestrictions={setDietaryRestrictions}
-            />
-          </View>
-          <View style={{ marginBottom: spacing.l }}>
-            <NumberOfCaloriesSection
-              calories={calories}
-              setCalories={setCalories}
-            />
-          </View>
-        </View>
-        <Text>{recipeData}</Text>
-        <MainButton label={t('generate')} onPress={handleCreateRecipe} />
+        ) : (
+          <>
+            <View style={{ flex: 1 }}>
+              <View style={{ marginBottom: spacing.l }}>
+                <AddIngredientSection
+                  ingredients={ingredients}
+                  handleNewIngredientSubmit={handleNewIngredientSubmit}
+                  handleIngredientChange={handleIngredientChange}
+                  removeIngredient={removeIngredient}
+                  onlyUseIngredients={onlyUseIngredients}
+                  setOnlyUseIngredients={setOnlyUseIngredients}
+                />
+              </View>
+              <View style={{ marginBottom: spacing.l }}>
+                <DietaryRestrictionsSection
+                  dietaryRestrictions={dietaryRestrictions}
+                  setDietaryRestrictions={setDietaryRestrictions}
+                />
+              </View>
+              <View style={{ marginBottom: spacing.l }}>
+                <NumberOfCaloriesSection
+                  calories={calories}
+                  setCalories={setCalories}
+                />
+              </View>
+            </View>
+            <MainButton label={t('generate')} onPress={handleCreateRecipe} />
+          </>
+        )}
       </>
     </Layout>
   )
 }
+
+const styles = StyleSheet.create({
+  loaderContent: {
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: '50%',
+  },
+  animation: {
+    width: 200,
+    height: 200,
+  },
+})

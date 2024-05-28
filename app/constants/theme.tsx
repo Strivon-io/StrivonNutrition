@@ -81,6 +81,7 @@ export interface Spacing {
   m: number;
   l: number;
   xl: number;
+  xxl: number;
 }
 
 export const spacing: Spacing = {
@@ -89,6 +90,7 @@ export const spacing: Spacing = {
   m: 24,
   l: 48,
   xl: 80,
+  xxl: 120,
 };
 
 export interface SpacingPx extends Record<keyof Spacing, string> {}
