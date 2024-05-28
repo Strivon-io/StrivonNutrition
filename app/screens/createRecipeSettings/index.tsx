@@ -91,7 +91,7 @@ export const CreateRecipeSettingsScreen: FC = () => {
           </View>
         ) : (
           <>
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, marginTop: spacing.m }}>
               <View style={{ marginBottom: spacing.l }}>
                 <AddIngredientSection
                   ingredients={ingredients}

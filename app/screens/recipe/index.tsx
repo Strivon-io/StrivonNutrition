@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
-import { View, Image, TouchableOpacity } from 'react-native'
+import { View, Image, TouchableOpacity, StyleSheet } from 'react-native'
 import Animated, {
   Extrapolate,
   interpolate,
@@ -9,16 +9,9 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated'
 import Markdown from 'react-native-markdown-display'
-import styled from 'styled-components'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import {
-  boxShadow,
-  colors,
-  iconSize,
-  spacing,
-  spacingPx,
-} from '~constants/theme'
+import { boxShadow, colors, iconSize, spacing } from '~constants/theme'
 import { CrossIcon } from '~assets/icons/crossIcon'
 import { BottomFixedButton } from '~components/organisms/bottomFixedButton'
 
@@ -107,14 +100,18 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
           showsVerticalScrollIndicator={false}
         >
           <Animated.View style={ImageSection}>
-            <IconInputWrapper onPress={handleBackPress}>
+            <TouchableOpacity
+              style={styles.IconInputWrapper}
+              onPress={handleBackPress}
+            >
               <CrossIcon size={iconSize.m} color={colors.Alizarin} />
-            </IconInputWrapper>
-            <DishImage
+            </TouchableOpacity>
+            <Image
+              style={styles.dishImage}
               source={require('~assets/recipeImages/exempleOfRecipe.png')}
               resizeMode="cover"
             />
-            <Overlay />
+            <View style={styles.overlay} />
           </Animated.View>
           <View style={{ paddingHorizontal: 20 }}>
             <RecipeTitleAndInformations
@@ -125,9 +122,9 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
                 calories: 12,
               }}
             />
-            <IntroductionWrapper>
+            <View style={styles.introductionWrapper}>
               <Markdown style={markdownStyles}>{markdownContent}</Markdown>
-            </IntroductionWrapper>
+            </View>
           </View>
         </Animated.ScrollView>
         <BottomFixedButton
@@ -139,39 +136,39 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
   )
 }
 
-const IntroductionWrapper = styled(View)`
-  ${boxShadow}
-  width: 100%;
-  transform: translateY(-80px);
-  margin-top: ${spacingPx.m};
-  align-self: center;
-  background-color: ${colors.light.PureWhite};
-  border-radius: ${spacingPx.xs};
-  padding: ${spacingPx.m};
-`
-
-const DishImage = styled(Image)`
-  width: 100%;
-  height: 300px;
-`
-
-const Overlay = styled(View)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-`
-
-const IconInputWrapper = styled(TouchableOpacity)`
-  position: absolute;
-  z-index: 1;
-  top: ${parseInt(spacingPx.l, 10) + 10}px;
-  right: ${spacingPx.m};
-  border-radius: ${spacingPx.xl};
-  border-width: 2px;
-  border-color: ${colors.Alizarin};
-`
+const styles = StyleSheet.create({
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  IconInputWrapper: {
+    position: 'absolute',
+    zIndex: 1,
+    top: spacing.l + 10,
+    right: spacing.m,
+    borderRadius: spacing.xl,
+    borderWidth: 2,
+    borderColor: colors.Alizarin,
+  },
+  dishImage: {
+    width: '100%',
+    height: 300,
+  },
+  introductionWrapper: {
+    ...boxShadow,
+    width: '100%',
+    transform: [{ translateY: -80 }],
+    marginTop: spacing.m,
+    alignSelf: 'center',
+    backgroundColor: colors.light.PureWhite,
+    borderRadius: spacing.xs,
+    padding: spacing.m,
+  },
+})
 
 const markdownStyles = {
   heading1: {
