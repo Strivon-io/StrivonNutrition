@@ -8,14 +8,22 @@ import { AddIngredientSection } from './components/sections/addIngredientSection
 import { DietaryRestrictionsSection } from './components/sections/dietaryRestrictionsSection'
 import { NumberOfCaloriesSection } from './components/sections/numberOfCaloriesSection'
 import { MainButton } from '~components/molecules/mainButton'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createRecipe } from '~services/routes/recipe'
 import { CreateRecipe } from '~services/types/recipe.types'
 import LottieView from 'lottie-react-native'
 import LoaderLottie from '~assets/lotties/Vegetable Bag Lineal (2).json'
 import { Text } from '~components/atoms/text'
+import { StackNavigationProp } from '@react-navigation/stack'
 
-export const CreateRecipeSettingsScreen: FC = () => {
+type CreateRecipeSettingsScreenProps = {
+  navigation: StackNavigationProp<any>
+}
+
+export const CreateRecipeSettingsScreen: FC<CreateRecipeSettingsScreenProps> = ({
+  navigation,
+}) => {
+  const queryClient = useQueryClient()
   const [ingredients, setIngredients] = useState([])
   const [onlyUseIngredients, setOnlyUseIngredients] = useState(false)
   const [calories, setCalories] = useState('')
@@ -57,6 +65,10 @@ export const CreateRecipeSettingsScreen: FC = () => {
     mutationFn: (data: CreateRecipe) => {
       return createRecipe(data)
     },
+    onSuccess: (data) => {
+      queryClient.setQueryData(['recipe', data._id], data)
+      navigation.navigate('recipe', { recipeId: data._id })
+    },
   })
 
   const handleCreateRecipe = () => {
@@ -86,7 +98,7 @@ export const CreateRecipeSettingsScreen: FC = () => {
               style={styles.animation}
             />
             <Text fontSize="l" textAlign="center">
-              We are preparing your recipe... 😉
+              <>{t('createRecipeScreen.weArePreparingYourRecipe')}... 😉</>
             </Text>
           </View>
         ) : (

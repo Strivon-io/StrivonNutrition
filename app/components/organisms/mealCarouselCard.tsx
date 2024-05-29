@@ -1,5 +1,6 @@
 import { FC } from 'react'
 import { View, Image } from 'react-native'
+import { preview } from 'react-native-ide'
 import { styled } from 'styled-components'
 
 import { Text } from '~components/atoms/text'
@@ -24,6 +25,8 @@ export const MealCarouselCard: FC = () => {
     </View>
   )
 }
+
+
 
 const TitleAndKcal = styled(View)`
   position: absolute;

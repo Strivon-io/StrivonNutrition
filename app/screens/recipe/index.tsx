@@ -18,6 +18,11 @@ import { BottomFixedButton } from '~components/organisms/bottomFixedButton'
 import { RecipeTitleAndInformations } from './components/organisms/recipeTitleAndInformations'
 import { RecipesNavigatorParamList } from '~navigators/recipes-navigator'
 import { Layout } from '~components/layout/layout'
+import { useRoute } from '@react-navigation/native'
+
+import { getRecipeById } from '~services/routes/recipe'
+import { useQuery } from '@tanstack/react-query'
+import { Text } from '~components/atoms/text'
 
 type RecipeScreenProps = NativeStackScreenProps<
   RecipesNavigatorParamList,
@@ -26,44 +31,17 @@ type RecipeScreenProps = NativeStackScreenProps<
 
 export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
   const { t } = useTranslation()
+  const route = useRoute()
+  const { recipeId } = route.params
 
-  const markdownContent = `
-  ## **Ingrédients**
-  
-  - Blancs de poulet cuits et tranchés
-  - Laitue romaine hachée
-  - Tomates cerises, coupées en deux
-  - Concombre, tranché finement
-  - Carottes râpées
-  - Poivrons rouges, coupés en lanières
-  - Maïs doux
-  - Avocat, tranché
-  - Oignons rouges, tranchés finement
-  - Olives noires dénoyautées
-  - Quelques feuilles de basilic frais
-  
-  ## **Vinaigrette**
-  
-  - Huile d'olive extra vierge
-  - Vinaigre balsamique
-  - Moutarde de Dijon
-  - Miel
-  - Sel et poivre
-  
-  ## **Instructions**
-  
-  1. **Préparez la vinaigrette :** Dans un petit bol, mélangez l'huile d'olive, le vinaigre balsamique, la moutarde de Dijon, le miel, le sel et le poivre. Fouettez jusqu'à obtenir une consistance homogène.
-  
-  2. **Assemblez la salade :** Dans un grand saladier, combinez la laitue romaine, les tomates cerises, le concombre, les carottes, les poivrons, le maïs, l'avocat, les oignons rouges, et les olives noires.
-  
-  3. **Ajoutez le poulet :** Dispersez les tranches de poulet cuit sur la salade.
-  
-  4. **Assaisonnez :** Versez la vinaigrette sur la salade et mélangez délicatement pour bien enrober tous les ingrédients.
-  
-  5. **Servez :** Garnissez de feuilles de basilic frais avant de servir.
-  
-  Bon appétit !  
-    `
+  console.log('recipeId', recipeId)
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['recipe', recipeId],
+    queryFn: () => getRecipeById(recipeId),
+  })
+
+  console.log('data--->>>>', data)
 
   const handleBackPress = () => {
     navigation.goBack()
@@ -75,6 +53,7 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
   const scrollHandler = useAnimatedScrollHandler((event) => {
     scrollA.value = event.contentOffset.y
   })
+
 
   const ImageSection = useAnimatedStyle(() => {
     return {
@@ -93,50 +72,97 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
 
   return (
     <Layout noPadding withoutTopSafeArea withoutBottomSafeArea>
-      <>
-        <Animated.ScrollView
-          onScroll={scrollHandler}
-          scrollEventThrottle={10}
-          showsVerticalScrollIndicator={false}
-        >
-          <Animated.View style={ImageSection}>
-            <TouchableOpacity
-              style={styles.IconInputWrapper}
-              onPress={handleBackPress}
-            >
-              <CrossIcon size={iconSize.m} color={colors.Alizarin} />
-            </TouchableOpacity>
-            <Image
-              style={styles.dishImage}
-              source={require('~assets/recipeImages/exempleOfRecipe.png')}
-              resizeMode="cover"
-            />
-            <View style={styles.overlay} />
-          </Animated.View>
-          <View style={{ paddingHorizontal: 20 }}>
-            <RecipeTitleAndInformations
-              title={'Salade aux poulet et au multiple légumes'}
-              informations={{
-                protein: 12,
-                carbohydrate: 12,
-                calories: 12,
-              }}
-            />
-            <View style={styles.introductionWrapper}>
-              <Markdown style={markdownStyles}>{markdownContent}</Markdown>
+      {!isLoading && (
+        <>
+          <Animated.ScrollView
+            style={{ marginBottom: 50 }}
+            onScroll={scrollHandler}
+            scrollEventThrottle={10}
+            showsVerticalScrollIndicator={false}
+          >
+            <Animated.View style={ImageSection}>
+              <TouchableOpacity
+                style={styles.iconInputWrapper}
+                onPress={handleBackPress}
+              >
+                <CrossIcon size={iconSize.m} color={colors.Alizarin} />
+              </TouchableOpacity>
+              <Image
+                style={styles.dishImage}
+                source={{ uri: data.image }}
+                resizeMode="cover"
+              />
+              <View style={styles.overlay} />
+            </Animated.View>
+            <View style={{ paddingHorizontal: 20 }}>
+              <RecipeTitleAndInformations
+                title={data.name}
+                informations={{
+                  protein: data.proteins,
+                  carbohydrate: data.carbs,
+                  calories: data.calories,
+                }}
+              />
+              <View style={styles.introductionWrapper}>
+                <Text fontFamily="Avenir-Bold" fontSize="l">
+                  Ingrédients
+                </Text>
+                <View style={styles.ingredientsWrapper}>
+                  {data?.ingredients.map((ingredient) => (
+                    <Text
+                      style={styles.ingredientText}
+                      key={ingredient.name}
+                      fontSize="m"
+                    >
+                      {`- ${ingredient.name} : ${ingredient.quantity} ${ingredient.unity}`}
+                    </Text>
+                  ))}
+                </View>
+                <View style={styles.instructionsWrapper}>
+                  <Text fontFamily="Avenir-Bold" fontSize="l">
+                    Instructions
+                  </Text>
+                  <View style={styles.instructionsList}>
+                    {data?.instructions.map((instruction, i) => (
+                      <Text
+                        style={styles.ingredientText}
+                        key={instruction}
+                        fontSize="m"
+                      >
+                        {`${i + 1} - ${instruction}`}
+                      </Text>
+                    ))}
+                  </View>
+                </View>
+              </View>
             </View>
-          </View>
-        </Animated.ScrollView>
-        <BottomFixedButton
-          label={t('programmeThisRecipe')}
-          onPress={() => {}}
-        />
-      </>
+          </Animated.ScrollView>
+          <BottomFixedButton
+            label={t('programmeThisRecipe')}
+            onPress={() => {}}
+          />
+        </>
+      )}
     </Layout>
   )
 }
 
 const styles = StyleSheet.create({
+  instructionsList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: spacing.xs,
+    marginTop: spacing.xs,
+  },
+  instructionsWrapper: {
+    marginTop: spacing.s,
+  },
+  ingredientText: {
+    marginBottom: spacing.xs,
+  },
+  ingredientsWrapper: {
+    marginTop: spacing.xs,
+  },
   overlay: {
     position: 'absolute',
     top: 0,
@@ -145,7 +171,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
-  IconInputWrapper: {
+  iconInputWrapper: {
     position: 'absolute',
     zIndex: 1,
     top: spacing.l + 10,

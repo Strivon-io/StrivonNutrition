@@ -112,5 +112,8 @@
     "moderatelyActive": "Moderately active",
     "veryActive": "Very active",
     "superActive": "Super active"
+  },
+  "createRecipeScreen": {
+    "weArePreparingYourRecipe": "We are preparing your recipe"
   }
 }

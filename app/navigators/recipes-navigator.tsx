@@ -9,7 +9,7 @@ import { getFocusedRouteNameFromRoute } from '@react-navigation/native'
 export type RecipesNavigatorParamList = {
   recipes: undefined
   createRecipeSettings: undefined
-  recipe: { recipeUuid: string }
+  recipe: { recipeId: string }
 }
 
 const Recipes = createNativeStackNavigator<RecipesNavigatorParamList>()
