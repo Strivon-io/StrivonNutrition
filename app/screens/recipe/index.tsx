@@ -1,59 +1,61 @@
-import { FC } from 'react'
-import { useTranslation } from 'react-i18next'
-import { View, Image, TouchableOpacity, StyleSheet } from 'react-native'
+import { FC } from "react";
+import { useTranslation } from "react-i18next";
+import { View, Image, TouchableOpacity, StyleSheet } from "react-native";
 import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
-} from 'react-native-reanimated'
-import Markdown from 'react-native-markdown-display'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
+} from "react-native-reanimated";
+import Markdown from "react-native-markdown-display";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-import { boxShadow, colors, iconSize, spacing } from '~constants/theme'
-import { CrossIcon } from '~assets/icons/crossIcon'
-import { BottomFixedButton } from '~components/organisms/bottomFixedButton'
+import { boxShadow, colors, iconSize, spacing } from "~constants/theme";
+import { CrossIcon } from "~assets/icons/crossIcon";
+import { BottomFixedButton } from "~components/organisms/bottomFixedButton";
 
-import { RecipeTitleAndInformations } from './components/organisms/recipeTitleAndInformations'
-import { RecipesNavigatorParamList } from '~navigators/recipes-navigator'
-import { Layout } from '~components/layout/layout'
-import { useRoute } from '@react-navigation/native'
+import { RecipeTitleAndInformations } from "./components/organisms/recipeTitleAndInformations";
+import { RecipesNavigatorParamList } from "~navigators/recipes-navigator";
+import { Layout } from "~components/layout/layout";
+import { useRoute } from "@react-navigation/native";
 
-import { getRecipeById } from '~services/routes/recipe'
-import { useQuery } from '@tanstack/react-query'
-import { Text } from '~components/atoms/text'
+import { getRecipeById } from "~services/routes/recipe";
+import { useQuery } from "@tanstack/react-query";
+import { Text } from "~components/atoms/text";
+import { LeftChevron } from "~assets/icons/leftChevron";
+import { RightChevron } from "~assets/icons/rightChevron";
+import { HeaderLogo } from "~components/layout/atoms/headerLogo";
 
 type RecipeScreenProps = NativeStackScreenProps<
   RecipesNavigatorParamList,
-  'recipe'
->
+  "recipe"
+>;
 
 export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
-  const { t } = useTranslation()
-  const route = useRoute()
-  const { recipeId } = route.params
+  const { t } = useTranslation();
+  const route = useRoute();
+  const { recipeId } = route.params;
 
-  console.log('recipeId', recipeId)
+  console.log("recipeId", recipeId);
 
   const { data, isLoading } = useQuery({
-    queryKey: ['recipe', recipeId],
+    queryKey: ["recipe", recipeId],
     queryFn: () => getRecipeById(recipeId),
-  })
+  });
 
-  console.log('data--->>>>', data)
+  console.log("data--->>>>", data);
 
   const handleBackPress = () => {
-    navigation.goBack()
-  }
+    navigation.goBack();
+  };
 
-  const scrollA = useSharedValue(0)
-  const BANNER_H = 150
+  const scrollA = useSharedValue(0);
+  const BANNER_H = 150;
 
   const scrollHandler = useAnimatedScrollHandler((event) => {
-    scrollA.value = event.contentOffset.y
-  })
-
+    scrollA.value = event.contentOffset.y;
+  });
 
   const ImageSection = useAnimatedStyle(() => {
     return {
@@ -63,12 +65,12 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
             scrollA.value,
             [-BANNER_H, 0, BANNER_H],
             [-BANNER_H / 2, 0, BANNER_H * 0.75],
-            Extrapolate.CLAMP,
+            Extrapolate.CLAMP
           ),
         },
       ],
-    }
-  })
+    };
+  });
 
   return (
     <Layout noPadding withoutTopSafeArea withoutBottomSafeArea>
@@ -109,13 +111,16 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
                 </Text>
                 <View style={styles.ingredientsWrapper}>
                   {data?.ingredients.map((ingredient) => (
-                    <Text
-                      style={styles.ingredientText}
-                      key={ingredient.name}
-                      fontSize="m"
-                    >
-                      {`- ${ingredient.name} : ${ingredient.quantity} ${ingredient.unity}`}
-                    </Text>
+                    <View style={styles.ingredientText}>
+                      <Text key={ingredient.name} fontSize="m">
+                        {`${ingredient.name} : ${ingredient.quantity} ${ingredient.unity}`}
+                      </Text>
+                      <RightChevron color="black" size={12} />
+                      <Text
+                        fontFamily="Avenir-Bold"
+                        color="Alizarin"
+                      >{`${ingredient.calories}Kcal`}</Text>
+                    </View>
                   ))}
                 </View>
                 <View style={styles.instructionsWrapper}>
@@ -124,55 +129,95 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
                   </Text>
                   <View style={styles.instructionsList}>
                     {data?.instructions.map((instruction, i) => (
-                      <Text
-                        style={styles.ingredientText}
-                        key={instruction}
-                        fontSize="m"
-                      >
-                        {`${i + 1} - ${instruction}`}
-                      </Text>
+                      <>
+                        <Text
+                          fontFamily="Avenir-Bold"
+                          fontSize="m"
+                        >{`${instruction.step.toString()} - ${
+                          instruction.title
+                        }`}</Text>
+                        <Markdown>{instruction.description}</Markdown>
+                      </>
                     ))}
+                  </View>
+                  <View style={styles.signatureWrapper}>
+                    <Text fontFamily="Avenir-Medium" color="medium.StormyCloud">
+                      Recipe by
+                    </Text>
+                    <Image
+                      style={styles.logo}
+                      source={require("~assets/brand/Strivon.png")}
+                      resizeMode="contain"
+                    />
                   </View>
                 </View>
               </View>
             </View>
           </Animated.ScrollView>
           <BottomFixedButton
-            label={t('programmeThisRecipe')}
+            label={t("programmeThisRecipe")}
             onPress={() => {}}
           />
         </>
       )}
     </Layout>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
-  instructionsList: {
-    display: 'flex',
-    flexDirection: 'column',
+  logo: {
+    width: 100,
+    height: 20,
+  },
+  signatureWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     gap: spacing.xs,
+    marginTop: spacing.m,
+  },
+  loaderContainer: {
+    width: "100%",
+    height: 20,
+    backgroundColor: "#e0e0e0",
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+  loaderBar: {
+    height: "100%",
+  },
+  gradient: {
+    height: "100%",
+    borderRadius: 10,
+  },
+  instructionsList: {
+    display: "flex",
+    flexDirection: "column",
     marginTop: spacing.xs,
   },
   instructionsWrapper: {
     marginTop: spacing.s,
   },
   ingredientText: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.xs,
     marginBottom: spacing.xs,
   },
   ingredientsWrapper: {
     marginTop: spacing.xs,
   },
   overlay: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   iconInputWrapper: {
-    position: 'absolute',
+    position: "absolute",
     zIndex: 1,
     top: spacing.l + 10,
     right: spacing.m,
@@ -181,20 +226,20 @@ const styles = StyleSheet.create({
     borderColor: colors.Alizarin,
   },
   dishImage: {
-    width: '100%',
+    width: "100%",
     height: 300,
   },
   introductionWrapper: {
     ...boxShadow,
-    width: '100%',
+    width: "100%",
     transform: [{ translateY: -80 }],
     marginTop: spacing.m,
-    alignSelf: 'center',
+    alignSelf: "center",
     backgroundColor: colors.light.PureWhite,
     borderRadius: spacing.xs,
     padding: spacing.m,
   },
-})
+});
 
 const markdownStyles = {
   heading1: {
@@ -208,4 +253,4 @@ const markdownStyles = {
   text: {
     lineHeight: 20,
   },
-}
+};

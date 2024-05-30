@@ -1,8 +1,8 @@
-import axios from "axios";
+import api from "~services/api";
 import { CreateRecipe, Recipe } from "~services/types/recipe.types";
 
 export const createRecipe = async (data: CreateRecipe): Promise<any> => {
-  const response = await axios.post(`http://localhost:8000/recipes`, {
+  const response = await api.post(`http://localhost:8000/recipes`, {
     ...data,
     isPremiumGenerated: true,
   });
@@ -10,6 +10,11 @@ export const createRecipe = async (data: CreateRecipe): Promise<any> => {
 };
 
 export const getRecipeById = async (recipeId: string): Promise<Recipe> => {
-  const response = await axios.get(`http://localhost:8000/recipes/${recipeId}`);
+  const response = await api.get(`http://localhost:8000/recipes/${recipeId}`);
+  return response.data;
+};
+
+export const getAllRecipeByUser = async (): Promise<Recipe[]> => {
+  const response = await api.get(`http://localhost:8000/recipes`);
   return response.data;
 };

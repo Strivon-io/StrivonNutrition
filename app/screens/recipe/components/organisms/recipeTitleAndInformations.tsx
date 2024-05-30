@@ -1,61 +1,61 @@
-import { FC } from 'react'
-import { useTranslation } from 'react-i18next'
-import { View } from 'react-native'
-import styled from 'styled-components'
+import { FC } from "react";
+import { useTranslation } from "react-i18next";
+import { View } from "react-native";
+import styled from "styled-components";
 
-import { Text } from '~components/atoms/text'
-import { boxShadow, colors, spacingPx } from '~constants/theme'
+import { Text } from "~components/atoms/text";
+import { boxShadow, colors, spacingPx } from "~constants/theme";
 
 interface Props {
-  title: string
+  title: string;
   informations: {
-    protein: number
-    carbohydrate: number
-    calories: number
-  }
+    protein: number;
+    carbohydrate: number;
+    calories: number;
+  };
 }
 
 export const RecipeTitleAndInformations: FC<Props> = ({
   title,
   informations,
 }) => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   return (
     <RecipeNameAndInformations>
-      <Text fontFamily="Avenir-Bold-Italic" fontSize="m" textAlign="center">
+      <Text fontFamily="Avenir-Bold-Italic" fontSize="l" textAlign="center">
         {title}
       </Text>
       <InformationsWrapper>
         <InformationBlock
-          title={t('protein')}
+          title={t("protein")}
           value={informations.protein}
           unity="g"
         />
         <InformationBlock
-          title={t('calories')}
+          title={t("calories")}
           value={informations.calories}
           unity="Kcal"
         />
         <InformationBlock
-          title={t('carbohydrate')}
+          title={t("carbohydrate")}
           value={informations.carbohydrate}
           unity="g"
         />
       </InformationsWrapper>
     </RecipeNameAndInformations>
-  )
-}
+  );
+};
 
 interface InformationBlockProps {
-  title: string
-  value: number
-  unity: string
+  title: string;
+  value: number;
+  unity: string;
 }
 
 const InformationBlock = ({ title, value, unity }: InformationBlockProps) => {
   return (
-    <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+    <View style={{ flexDirection: "column", alignItems: "center" }}>
       <Text color="Alizarin" fontFamily="Avenir-Bold-Italic" fontSize="m">
         {title}
       </Text>
@@ -63,14 +63,14 @@ const InformationBlock = ({ title, value, unity }: InformationBlockProps) => {
         {`${value.toString()}${unity}`}
       </Text>
     </View>
-  )
-}
+  );
+};
 
 const InformationsWrapper = styled(View)`
   flex-direction: row;
   justify-content: space-between;
   margin-top: ${spacingPx.s};
-`
+`;
 
 const RecipeNameAndInformations = styled(View)`
   ${boxShadow}
@@ -83,4 +83,4 @@ const RecipeNameAndInformations = styled(View)`
   padding: ${spacingPx.l};
   z-index: 100;
   justify-content: center;
-`
+`;

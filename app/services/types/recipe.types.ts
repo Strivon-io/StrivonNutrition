@@ -10,14 +10,21 @@ export type Ingredient = {
   name: string;
   quantity: number;
   unity: string;
+  calories: number;
+};
+
+export type Instruction = {
+  title: string;
+  step: number;
+  description: string;
 };
 
 export type Recipe = {
   _id: string;
   name: string;
-  image: string
+  image: string;
   ingredients: Ingredient[];
-  instructions: string[];
+  instructions: Instruction[];
   onlyUseAskedIngredients: boolean;
   calories: number;
   carbs: number;
