@@ -14,7 +14,12 @@ export const getRecipeById = async (recipeId: string): Promise<Recipe> => {
   return response.data;
 };
 
-export const getAllRecipeByUser = async (): Promise<Recipe[]> => {
-  const response = await api.get(`http://localhost:8000/recipes`);
+export const getAllRecipeByUser = async (
+  limit: number,
+  skip: number
+): Promise<Recipe[]> => {
+  const response = await api.get(
+    `http://localhost:8000/recipes?limit=${limit}&skip=${skip}`
+  );
   return response.data;
 };

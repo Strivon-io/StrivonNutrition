@@ -1,75 +1,76 @@
-import { useState, FC } from 'react'
-import { spacing, spacingPx } from '~constants/theme'
-import { View, StyleSheet } from 'react-native'
-import { useTranslation } from 'react-i18next'
+import { useState, FC } from "react";
+import { spacing, spacingPx } from "~constants/theme";
+import { View, StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
 
-import { Layout } from '~components/layout/layout'
-import { AddIngredientSection } from './components/sections/addIngredientSection'
-import { DietaryRestrictionsSection } from './components/sections/dietaryRestrictionsSection'
-import { NumberOfCaloriesSection } from './components/sections/numberOfCaloriesSection'
-import { MainButton } from '~components/molecules/mainButton'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createRecipe } from '~services/routes/recipe'
-import { CreateRecipe } from '~services/types/recipe.types'
-import LottieView from 'lottie-react-native'
-import LoaderLottie from '~assets/lotties/Vegetable Bag Lineal (2).json'
-import { Text } from '~components/atoms/text'
-import { StackNavigationProp } from '@react-navigation/stack'
+import { Layout } from "~components/layout/layout";
+import { AddIngredientSection } from "./components/sections/addIngredientSection";
+import { DietaryRestrictionsSection } from "./components/sections/dietaryRestrictionsSection";
+import { NumberOfCaloriesSection } from "./components/sections/numberOfCaloriesSection";
+import { MainButton } from "~components/molecules/mainButton";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createRecipe } from "~services/routes/recipe";
+import { CreateRecipe } from "~services/types/recipe.types";
+import LottieView from "lottie-react-native";
+import LoaderLottie from "~assets/lotties/Vegetable Bag Lineal (2).json";
+import { Text } from "~components/atoms/text";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 type CreateRecipeSettingsScreenProps = {
-  navigation: StackNavigationProp<any>
-}
+  navigation: StackNavigationProp<any>;
+};
 
-export const CreateRecipeSettingsScreen: FC<CreateRecipeSettingsScreenProps> = ({
-  navigation,
-}) => {
-  const queryClient = useQueryClient()
-  const [ingredients, setIngredients] = useState([])
-  const [onlyUseIngredients, setOnlyUseIngredients] = useState(false)
-  const [calories, setCalories] = useState('')
-  const [dietaryRestrictions, setDietaryRestrictions] = useState([])
+export const CreateRecipeSettingsScreen: FC<
+  CreateRecipeSettingsScreenProps
+> = ({ navigation }) => {
+  const queryClient = useQueryClient();
+  const [ingredients, setIngredients] = useState([]);
+  const [onlyUseIngredients, setOnlyUseIngredients] = useState(false);
+  const [calories, setCalories] = useState("");
+  const [dietaryRestrictions, setDietaryRestrictions] = useState([]);
 
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   const addIngredient = (ingredient: string) => {
-    setIngredients([...ingredients, ingredient])
-  }
+    setIngredients([...ingredients, ingredient]);
+  };
 
   const handleIngredientChange = (text: string, index: number) => {
-    const updatedIngredients = [...ingredients]
-    updatedIngredients[index] = text
-    setIngredients(updatedIngredients)
-  }
+    const updatedIngredients = [...ingredients];
+    updatedIngredients[index] = text;
+    setIngredients(updatedIngredients);
+  };
 
   const removeIngredient = (indexToRemove: number) => {
-    const updatedIngredients = [...ingredients]
-    updatedIngredients.splice(indexToRemove, 1)
-    setIngredients(updatedIngredients)
-  }
+    const updatedIngredients = [...ingredients];
+    updatedIngredients.splice(indexToRemove, 1);
+    setIngredients(updatedIngredients);
+  };
 
   const handleNewIngredientSubmit = (newIngredient, setNewIngredient) => {
-    if (newIngredient.trim() !== '') {
-      addIngredient(newIngredient)
-      setNewIngredient('')
+    if (newIngredient.trim() !== "") {
+      addIngredient(newIngredient);
+      setNewIngredient("");
     } else {
       setIngredients((prevIngredients) => {
         const updatedIngredients = prevIngredients.filter(
-          (ingredient) => ingredient.trim() !== '',
-        )
-        return updatedIngredients
-      })
+          (ingredient) => ingredient.trim() !== ""
+        );
+        return updatedIngredients;
+      });
     }
-  }
+  };
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: CreateRecipe) => {
-      return createRecipe(data)
+      return createRecipe(data);
     },
     onSuccess: (data) => {
-      queryClient.setQueryData(['recipe', data._id], data)
-      navigation.navigate('recipe', { recipeId: data._id })
+      queryClient.setQueryData(["recipe", data._id], data);
+      queryClient.invalidateQueries({ queryKey: ["recipes"] });
+      navigation.navigate("recipe", { recipeId: data._id });
     },
-  })
+  });
 
   const handleCreateRecipe = () => {
     mutate({
@@ -77,12 +78,12 @@ export const CreateRecipeSettingsScreen: FC<CreateRecipeSettingsScreenProps> = (
       onlyUseAskedIngredients: onlyUseIngredients,
       calories: parseInt(calories, 10),
       restrictions: dietaryRestrictions,
-    })
-  }
+    });
+  };
 
   return (
     <Layout
-      pageTitle={!isPending ? t('generateRecipe') : ''}
+      pageTitle={!isPending ? t("generateRecipe") : ""}
       isHeader
       isBackArrow={!isPending}
       isHeaderLogo={isPending}
@@ -98,7 +99,7 @@ export const CreateRecipeSettingsScreen: FC<CreateRecipeSettingsScreenProps> = (
               style={styles.animation}
             />
             <Text fontSize="l" textAlign="center">
-              <>{t('createRecipeScreen.weArePreparingYourRecipe')}... 😉</>
+              <>{t("createRecipeScreen.weArePreparingYourRecipe")}... 😉</>
             </Text>
           </View>
         ) : (
@@ -127,24 +128,24 @@ export const CreateRecipeSettingsScreen: FC<CreateRecipeSettingsScreenProps> = (
                 />
               </View>
             </View>
-            <MainButton label={t('generate')} onPress={handleCreateRecipe} />
+            <MainButton label={t("generate")} onPress={handleCreateRecipe} />
           </>
         )}
       </>
     </Layout>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   loaderContent: {
-    height: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingBottom: '50%',
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingBottom: "50%",
   },
   animation: {
     width: 200,
     height: 200,
   },
-})
+});

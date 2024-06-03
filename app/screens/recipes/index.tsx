@@ -1,5 +1,10 @@
 import { useState, FC } from "react";
-import { View, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  ActivityIndicator,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 import { FlashList } from "@shopify/flash-list";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -12,7 +17,7 @@ import { PageTitle } from "~components/molecules/pageTitle";
 import { MealSmallCard } from "~components/organisms/mealSmallCard";
 import { colors, iconSize, spacing } from "~constants/theme";
 import { SearchBar } from "~components/molecules/searchBar";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { getAllRecipeByUser } from "~services/routes/recipe";
 import { Recipe } from "~services/types/recipe.types";
 
@@ -24,88 +29,40 @@ type RecipesScreenProps = NativeStackScreenProps<
 export const RecipesScreen: FC<RecipesScreenProps> = ({ navigation }) => {
   const { t } = useTranslation();
   const [search, setSearch] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
+  const [filteredData, setFilteredData] = useState<Recipe[]>([]);
 
-  const DATA = [
-    {
-      title: "Grilled Chicken and Vegetable Salad",
-      kcal: 240,
-      imagePath: require("~assets/recipeImages/exempleOfRecipe.png"),
-      tags: ["meal"],
-      uuid: "1",
-    },
-    {
-      title: "Grilled Chicken and Vegetable Salad",
-      kcal: 240,
-      imagePath: require("~assets/recipeImages/exempleOfRecipe.png"),
-      tags: ["breakfast", "snack"],
-      uuid: "2",
-    },
-    {
-      title: "Grilled Chicken and Vegetable Salad",
-      kcal: 240,
-      imagePath: require("~assets/recipeImages/exempleOfRecipe.png"),
-      tags: ["snack"],
-      uuid: "3",
-    },
-    {
-      title: "Grilled Chicken and Vegetable Salad",
-      kcal: 240,
-      imagePath: require("~assets/recipeImages/exempleOfRecipe.png"),
-      tags: ["meal"],
-      uuid: "4",
-    },
-    {
-      title: "Grilled Chicken and Vegetable Salad",
-      kcal: 240,
-      imagePath: require("~assets/recipeImages/exempleOfRecipe.png"),
-      tags: ["meal"],
-      uuid: "5",
-    },
-    {
-      title: "Grilled Chicken and Vegetable Salad",
-      kcal: 240,
-      imagePath: require("~assets/recipeImages/exempleOfRecipe.png"),
-      tags: ["meal"],
-      uuid: "6",
-    },
-    {
-      title: "Grilled Chicken and Vegetable Salad",
-      kcal: 240,
-      imagePath: require("~assets/recipeImages/exempleOfRecipe.png"),
-      tags: ["meal"],
-      uuid: "7",
-    },
-    {
-      title: "Grilled Chicken and Vegetable Salad",
-      kcal: 240,
-      imagePath: require("~assets/recipeImages/exempleOfRecipe.png"),
-      tags: ["meal"],
-      uuid: "8",
-    },
-    {
-      title: "Grilled Chicken and Vegetable Salad",
-      kcal: 240,
-      imagePath: require("~assets/recipeImages/exempleOfRecipe.png"),
-      tags: ["meal"],
-      uuid: "9",
-    },
-  ];
+  const listLimit = 10;
 
-  const { data: userRecipes, isLoading } = useQuery({
+  const {
+    data,
+    isLoading,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
     queryKey: ["recipes"],
-    queryFn: getAllRecipeByUser,
+    queryFn: ({ pageParam = 0 }) => getAllRecipeByUser(listLimit, pageParam),
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === listLimit
+        ? allPages.length * listLimit
+        : undefined;
+    },
+    initialPageParam: 0,
   });
 
-  console.log("recipes", userRecipes);
-
-  const updateSearch = (searchText) => {
+  const updateSearch = (searchText: string) => {
     setSearch(searchText);
-    const newData = userRecipes.filter((item) =>
-      item.name.toLowerCase().includes(searchText.toLowerCase())
-    );
-    setFilteredData(newData);
+    if (data) {
+      const allRecipes = data.pages.flat();
+      const newData = allRecipes.filter((item) =>
+        item.name.toLowerCase().includes(searchText.toLowerCase())
+      );
+      setFilteredData(newData);
+    }
   };
+
+  console.log(data);
 
   const toggleActionTray = () => {
     navigation.navigate("createRecipeSettings");
@@ -137,28 +94,48 @@ export const RecipesScreen: FC<RecipesScreenProps> = ({ navigation }) => {
             <SearchBar
               placeholder="Chercher une recette"
               onChangeText={updateSearch}
+              value={search}
             />
           </View>
         </View>
         {isLoading ? (
-          <Text>Loading...</Text>
+          <ActivityIndicator size="large" color={colors.Alizarin} />
+        ) : error ? (
+          <Text>Error: {error.message}</Text>
         ) : (
-          <View style={styles.flashListWrapper}>
-            <FlashList
-              numColumns={2}
-              estimatedItemSize={175}
-              showsVerticalScrollIndicator={false}
-              data={search ? filteredData : userRecipes}
-              keyExtractor={(_, index) => index.toString()}
-              renderItem={({
-                item,
-                index,
-              }: {
-                item: Recipe;
-                index: number;
-              }) => <MealSmallCard recipe={item} navigation={navigation} />}
-            />
-          </View>
+          <FlashList
+            style={{
+              flex: 1,
+              alignSelf: "center",
+            }}
+            ItemSeparatorComponent={() => (
+              <View style={{ height: spacing.xs, width: spacing.xs }} />
+            )}
+            contentContainerStyle={{
+              paddingHorizontal: 20,
+              paddingTop: spacing.m,
+            }}
+            horizontal={false}
+            numColumns={2}
+            estimatedItemSize={175}
+            showsVerticalScrollIndicator={false}
+            data={search ? filteredData : data.pages.flat()}
+            keyExtractor={(item) => item._id.toString()}
+            renderItem={({ item }: { item: Recipe }) => (
+              <View key={item._id}>
+                <MealSmallCard recipe={item} navigation={navigation} />
+              </View>
+            )}
+            onEndReached={() => {
+              if (hasNextPage) fetchNextPage();
+            }}
+            onEndReachedThreshold={0.5}
+            ListFooterComponent={
+              isFetchingNextPage ? (
+                <ActivityIndicator size="large" color={colors.Alizarin} />
+              ) : null
+            }
+          />
         )}
       </>
     </Layout>
@@ -172,6 +149,5 @@ const styles = StyleSheet.create({
   flashListWrapper: {
     flex: 1,
     alignSelf: "center",
-    width: "100%",
   },
 });

@@ -22,7 +22,7 @@ export const MealSmallCard = ({ recipe, navigation }: Props) => {
   };
 
   return (
-    <TouchableOpacity style={styles.cardBackground} onPress={navigateToRecipe}>
+    <TouchableOpacity style={styles.cardWrapper} onPress={navigateToRecipe}>
       <Image
         style={styles.dishImage}
         source={{ uri: recipe.image }}
@@ -51,8 +51,12 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 10,
   },
-  cardBackground: {
+  cardWrapper: {
     backgroundColor: colors.light.PureWhite,
+    marginHorizontal: spacing.xs,
+    minWidth: 165,
+    maxWidth: 165,
+    minHeight: 190,
     borderRadius: 10,
     shadowColor: "#000",
     shadowOffset: {
