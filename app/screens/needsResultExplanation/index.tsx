@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 import { Text } from '~components/atoms/text'
@@ -17,7 +16,9 @@ export const NeedsResultExplanationScreen: React.FC = () => {
         >
           {`${t('howCaloriesCalculationWorks')} ?`}
         </Text>
-        <Text fontSize="m">{t('howCaloriesCalculationWorksExplanation')}</Text>
+        <Text lineHeight={30} fontSize="m">
+          {t('howCaloriesCalculationWorksExplanation')}
+        </Text>
       </View>
     </Layout>
   )

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { View, Image, TouchableOpacity, StyleSheet } from "react-native";
 import Animated, {
@@ -9,22 +9,28 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import Markdown from "react-native-markdown-display";
-import styled from "styled-components";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-import {
-  boxShadow,
-  colors,
-  iconSize,
-  spacing,
-  spacingPx,
-} from "~constants/theme";
+import { boxShadow, colors, iconSize, spacing } from "~constants/theme";
 import { CrossIcon } from "~assets/icons/crossIcon";
 import { BottomFixedButton } from "~components/organisms/bottomFixedButton";
 
 import { RecipeTitleAndInformations } from "./components/organisms/recipeTitleAndInformations";
 import { RecipesNavigatorParamList } from "~navigators/recipes-navigator";
 import { Layout } from "~components/layout/layout";
+import { useRoute } from "@react-navigation/native";
+
+import { getRecipeById } from "~services/routes/recipe";
+import { useQuery } from "@tanstack/react-query";
+import { Text } from "~components/atoms/text";
+import { LeftChevron } from "~assets/icons/leftChevron";
+import { RightChevron } from "~assets/icons/rightChevron";
+import { HeaderLogo } from "~components/layout/atoms/headerLogo";
+import BottomSheet from "@gorhom/bottom-sheet";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
+import { MainBottomSheet } from "~components/molecules/BottomSheet";
+import { MainButton } from "~components/molecules/mainButton";
 
 type RecipeScreenProps = NativeStackScreenProps<
   RecipesNavigatorParamList,
@@ -33,47 +39,16 @@ type RecipeScreenProps = NativeStackScreenProps<
 
 export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
   const { t } = useTranslation();
+  const route = useRoute();
+  const { recipeId } = route.params;
 
-  const markdownContent = `
-  ## **Ingrédients**
-  
-  - Blancs de poulet cuits et tranchés
-  - Laitue romaine hachée
-  - Tomates cerises, coupées en deux
-  - Concombre, tranché finement
-  - Carottes râpées
-  - Poivrons rouges, coupés en lanières
-  - Maïs doux
-  - Avocat, tranché
-  - Oignons rouges, tranchés finement
-  - Olives noires dénoyautées
-  - Quelques feuilles de basilic frais
-  
-  ## **Vinaigrette**
-  
-  - Huile d'olive extra vierge
-  - Vinaigre balsamique
-  - Moutarde de Dijon
-  - Miel
-  - Sel et poivre
-  
-  ## **Instructions**
-  
-  1. **Préparez la vinaigrette :** Dans un petit bol, mélangez l'huile d'olive, le vinaigre balsamique, la moutarde de Dijon, le miel, le sel et le poivre. Fouettez jusqu'à obtenir une consistance homogène.
-  
-  2. **Assemblez la salade :** Dans un grand saladier, combinez la laitue romaine, les tomates cerises, le concombre, les carottes, les poivrons, le maïs, l'avocat, les oignons rouges, et les olives noires.
-  
-  3. **Ajoutez le poulet :** Dispersez les tranches de poulet cuit sur la salade.
-  
-  4. **Assaisonnez :** Versez la vinaigrette sur la salade et mélangez délicatement pour bien enrober tous les ingrédients.
-  
-  5. **Servez :** Garnissez de feuilles de basilic frais avant de servir.
-  
-  Bon appétit !  
-    `;
+  const { data, isLoading } = useQuery({
+    queryKey: ["recipe", recipeId],
+    queryFn: () => getRecipeById(recipeId),
+  });
 
   const handleBackPress = () => {
-    navigation.goBack();
+    navigation.navigate("recipes");
   };
 
   const scrollA = useSharedValue(0);
@@ -98,43 +73,226 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
     };
   });
 
+  const dateSelectorRef = useRef<BottomSheet>(null);
+  const insets = useSafeAreaInsets();
+
+  const handleDateSelector = () => {
+    dateSelectorRef.current?.expand();
+  };
+
   return (
     <Layout noPadding withoutTopSafeArea withoutBottomSafeArea>
-      <Animated.ScrollView
-        onScroll={scrollHandler}
-        scrollEventThrottle={10}
-        showsVerticalScrollIndicator={false}
-      >
-        <Animated.View style={ImageSection}>
-          <IconInputWrapper onPress={handleBackPress}>
-            <CrossIcon size={iconSize.m} color={colors.Alizarin} />
-          </IconInputWrapper>
-          <DishImage
-            source={require("~assets/recipeImages/exempleOfRecipe.png")}
-            resizeMode="cover"
+      {!isLoading && (
+        <>
+          <Animated.ScrollView
+            style={{ marginBottom: 50 }}
+            onScroll={scrollHandler}
+            scrollEventThrottle={10}
+            showsVerticalScrollIndicator={false}
+          >
+            <Animated.View style={ImageSection}>
+              <TouchableOpacity
+                style={styles.iconInputWrapper}
+                onPress={handleBackPress}
+              >
+                <CrossIcon size={iconSize.m} color={colors.Alizarin} />
+              </TouchableOpacity>
+              <Image
+                style={styles.dishImage}
+                source={{ uri: data.image }}
+                resizeMode="cover"
+              />
+              <View style={styles.overlay} />
+            </Animated.View>
+            <View style={{ paddingHorizontal: 20 }}>
+              <RecipeTitleAndInformations
+                title={data.name}
+                informations={{
+                  protein: data.proteins,
+                  carbohydrate: data.carbs,
+                  calories: data.calories,
+                }}
+              />
+              <View style={styles.introductionWrapper}>
+                <Text fontFamily="Avenir-Bold" fontSize="l">
+                  {t("recipeScreen.ingredients")}
+                </Text>
+                <View style={styles.ingredientsWrapper}>
+                  {data?.ingredients.map((ingredient) => (
+                    <View style={styles.ingredientText}>
+                      <Text key={ingredient.name} fontSize="m">
+                        {`${ingredient.name} : ${ingredient.quantity} ${ingredient.unity}`}
+                      </Text>
+                      <RightChevron color="black" size={12} />
+                      <Text
+                        fontFamily="Avenir-Bold"
+                        color="Alizarin"
+                      >{`${ingredient.calories}Kcal`}</Text>
+                    </View>
+                  ))}
+                </View>
+                <View style={styles.instructionsWrapper}>
+                  <Text fontFamily="Avenir-Bold" fontSize="l">
+                    {t("recipeScreen.instructions")}
+                  </Text>
+                  <View style={styles.instructionsList}>
+                    {data?.instructions.map((instruction, i) => (
+                      <>
+                        <Text
+                          fontFamily="Avenir-Bold"
+                          fontSize="m"
+                        >{`${instruction.step.toString()} - ${
+                          instruction.title
+                        }`}</Text>
+                        <Markdown>{instruction.description}</Markdown>
+                      </>
+                    ))}
+                  </View>
+                  <View style={styles.signatureWrapper}>
+                    <Text fontFamily="Avenir-Medium" color="medium.StormyCloud">
+                      {t("recipeScreen.recipeBy")}
+                    </Text>
+                    <Image
+                      style={styles.logo}
+                      source={require("~assets/brand/Strivon.png")}
+                      resizeMode="contain"
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
+          </Animated.ScrollView>
+          <BottomFixedButton
+            label={t("programmeThisRecipe")}
+            onPress={handleDateSelector}
           />
-          <Overlay />
-        </Animated.View>
-        <View style={{ paddingHorizontal: 20 }}>
-          <RecipeTitleAndInformations
-            title={"Salade aux poulet et au multiple légumes"}
-            informations={{
-              protein: 12,
-              carbohydrate: 12,
-              calories: 12,
+
+          <BottomSheet
+            style={{
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 10,
+                height: 0,
+              },
+              shadowOpacity: 0.5,
+              shadowRadius: 10,
+              elevation: 0,
             }}
-          />
-          <View style={styles.introductionWrapper}>
-            <Markdown style={markdownStyles}>{markdownContent}</Markdown>
-          </View>
-        </View>
-      </Animated.ScrollView>
-      <BottomFixedButton label={t("programmeThisRecipe")} onPress={() => {}} />
+            ref={dateSelectorRef}
+            snapPoints={["50%"]}
+            enablePanDownToClose={true}
+            bottomInset={-insets.bottom}
+            backgroundStyle={{
+              backgroundColor: colors.White,
+            }}
+          >
+            <View style={styles.bottomSheetContent}>
+              <Text
+                fontFamily="Avenir-Bold-Italic"
+                color="Alizarin"
+                fontSize="l"
+              >
+                {t("recipeScreen.selectDate")}
+              </Text>
+
+              <RNDateTimePicker
+                value={new Date()}
+                onChange={(_, selectedDate) => {
+                  if (selectedDate) {
+                  }
+                }}
+                display="spinner"
+                style={{
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                  width: "100%",
+                }}
+                mode="date"
+                minimumDate={new Date()}
+              />
+              <MainButton
+                label={t("recipeScreen.schedule")}
+                onPress={() => {}}
+              />
+            </View>
+          </BottomSheet>
+        </>
+      )}
     </Layout>
   );
 };
 
 const styles = StyleSheet.create({
+  bottomSheetContent: {
+    paddingHorizontal: 20,
+    display: "flex",
+    flexDirection: "column",
+    gap: spacing.m,
+  },
+  logo: {
+    width: 100,
+    height: 20,
+  },
+  signatureWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: spacing.xs,
+    marginTop: spacing.m,
+  },
+  loaderContainer: {
+    width: "100%",
+    height: 20,
+    backgroundColor: "#e0e0e0",
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+  loaderBar: {
+    height: "100%",
+  },
+  gradient: {
+    height: "100%",
+    borderRadius: 10,
+  },
+  instructionsList: {
+    display: "flex",
+    flexDirection: "column",
+    marginTop: spacing.xs,
+  },
+  instructionsWrapper: {
+    marginTop: spacing.s,
+  },
+  ingredientText: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.xs,
+    marginBottom: spacing.xs,
+  },
+  ingredientsWrapper: {
+    marginTop: spacing.xs,
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  iconInputWrapper: {
+    position: "absolute",
+    zIndex: 1,
+    top: spacing.l + 10,
+    right: spacing.m,
+    borderRadius: spacing.xl,
+    borderWidth: 2,
+    borderColor: colors.Alizarin,
+  },
+  dishImage: {
+    width: "100%",
+    height: 300,
+  },
   introductionWrapper: {
     ...boxShadow,
     width: "100%",
@@ -146,40 +304,3 @@ const styles = StyleSheet.create({
     padding: spacing.m,
   },
 });
-
-const DishImage = styled(Image)`
-  width: 100%;
-  height: 300px;
-`;
-
-const Overlay = styled(View)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-`;
-
-const IconInputWrapper = styled(TouchableOpacity)`
-  position: absolute;
-  z-index: 1;
-  top: ${parseInt(spacingPx.l, 10) + 10}px;
-  right: ${spacingPx.m};
-  border-radius: ${spacingPx.xl};
-  border-width: 2px;
-  border-color: ${colors.Alizarin};
-`;
-
-const markdownStyles = {
-  heading1: {
-    marginBottom: spacing.xs,
-    marginTop: spacing.m,
-  },
-  heading2: {
-    marginBottom: spacing.xs,
-    marginTop: spacing.s,
-  },
-  text: {
-    lineHeight: 20,
-  },
-};

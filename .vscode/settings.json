@@ -1,0 +1,7 @@
+{
+  "cSpell.words": ["Avenir"],
+  "editor.autoIndent": "full",
+  "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+  "notebook.formatOnSave.enabled": true,
+  "editor.formatOnSave": true
+}

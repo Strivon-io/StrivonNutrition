@@ -15,7 +15,10 @@ interface Props {
   };
 }
 
-export const RecipeTitleAndInformations: FC<Props> = ({ title }) => {
+export const RecipeTitleAndInformations: FC<Props> = ({
+  title,
+  informations,
+}) => {
   const { t } = useTranslation();
 
   return (
@@ -24,22 +27,40 @@ export const RecipeTitleAndInformations: FC<Props> = ({ title }) => {
         {title}
       </Text>
       <InformationsWrapper>
-        <InformationBlock title={t("protein")} value={"19g"} />
-        <InformationBlock title={t("calories")} value={"540"} />
-        <InformationBlock title={t("carbohydrate")} value={"19g"} />
+        <InformationBlock
+          title={t("protein")}
+          value={informations.protein}
+          unity="g"
+        />
+        <InformationBlock
+          title={t("calories")}
+          value={informations.calories}
+          unity="Kcal"
+        />
+        <InformationBlock
+          title={t("carbohydrate")}
+          value={informations.carbohydrate}
+          unity="g"
+        />
       </InformationsWrapper>
     </View>
   );
 };
 
-const InformationBlock = ({ title, value }) => {
+interface InformationBlockProps {
+  title: string;
+  value: number;
+  unity: string;
+}
+
+const InformationBlock = ({ title, value, unity }: InformationBlockProps) => {
   return (
     <View style={{ flexDirection: "column", alignItems: "center" }}>
       <Text color="Alizarin" fontFamily="Avenir-Bold-Italic" fontSize="m">
         {title}
       </Text>
       <Text fontFamily="Avenir-Medium" fontSize="m">
-        {value}
+        {`${value.toString()}${unity}`}
       </Text>
     </View>
   );
@@ -55,12 +76,12 @@ const styles = StyleSheet.create({
   recipeNameAndInformations: {
     ...boxShadow,
     width: "100%",
-    backgroundColor: colors.light.PureWhite, // Assurez-vous que cette couleur est définie quelque part
+    backgroundColor: colors.light.PureWhite,
     height: 150,
     alignSelf: "center",
-    transform: [{ translateY: -80 }], // Ajustement pour React Native
-    borderRadius: spacing.xs, // Assurez-vous que cette valeur est définie quelque part
-    padding: spacing.l, // Assurez-vous que cette valeur est définie quelque part
+    transform: [{ translateY: -80 }],
+    borderRadius: spacing.xs,
+    padding: spacing.l,
     zIndex: 100,
     justifyContent: "center",
   },

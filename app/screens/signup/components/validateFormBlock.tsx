@@ -1,18 +1,18 @@
-import { FC } from "react";
-import { useTranslation } from "react-i18next";
-import { Pressable, View, StyleSheet } from "react-native";
+import { FC } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Pressable, View, StyleSheet } from 'react-native'
 
-import { RightChevron } from "~assets/icons/rightChevron";
-import { Checkbox } from "~components/atoms/checkbox";
-import { Text } from "~components/atoms/text";
-import { MainButton } from "~components/molecules/mainButton";
-import { boxShadow, colors, iconSize, spacing } from "~constants/theme";
+import { RightChevron } from '~assets/icons/rightChevron'
+import { Checkbox } from '~components/atoms/checkbox'
+import { Text } from '~components/atoms/text'
+import { MainButton } from '~components/molecules/mainButton'
+import { boxShadow, colors, iconSize, spacing } from '~constants/theme'
 
 interface Props {
-  signUpStep: number;
-  handleValidate: () => void;
-  isChecked: boolean;
-  handleCheck: () => void;
+  signUpStep: number
+  handleValidate: () => void
+  isChecked: boolean
+  handleCheck: () => void
 }
 
 export const ValidateFormBlock: FC<Props> = ({
@@ -21,7 +21,7 @@ export const ValidateFormBlock: FC<Props> = ({
   handleCheck,
   handleValidate,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <View style={styles.validateFormBlockWrapper}>
@@ -31,37 +31,40 @@ export const ValidateFormBlock: FC<Props> = ({
         </View>
         <View style={styles.termOfUseText}>
           <Pressable onPress={handleCheck}>
-            <Text>{t("i-accept-the")}</Text>
+            <Text>{t('i-accept-the')}</Text>
           </Pressable>
           <Text color="Alizarin" textDecorationLine="underline">
-            {" "}
-            {t("terms-of-use")}
+            {t('terms-of-use')}
           </Text>
         </View>
       </View>
       <View style={{ marginTop: spacing.m }}>
         <MainButton
           style={boxShadow}
-          label={signUpStep === 1 ? t("next") : t("calculate-my-calories-need")}
+          label={
+            signUpStep === 1
+              ? t('next')
+              : t('signUpScreen.calculate-my-calories-need')
+          }
           onPress={handleValidate}
           icon={signUpStep === 1 && <RightChevron size={iconSize.s} />}
         />
       </View>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   validateFormBlockWrapper: {
-    width: "100%",
+    width: '100%',
     backgroundColor: colors.light.PureWhite,
   },
   termOfUseContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: spacing.xs,
   },
   termOfUseText: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
-});
+})

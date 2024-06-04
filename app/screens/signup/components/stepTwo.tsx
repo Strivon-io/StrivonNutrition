@@ -1,91 +1,221 @@
-import { Dispatch, SetStateAction, FC } from "react";
-import { useTranslation } from "react-i18next";
-import { View } from "react-native";
-import { styled } from "styled-components";
+import { FC, RefObject, useRef, useState } from 'react'
+import { View, StyleSheet } from 'react-native'
+import { Controller } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
-import { Text } from "~components/atoms/text";
-import { MainButton } from "~components/molecules/mainButton";
-import { MainInput } from "~components/molecules/mainInput";
-import { spacing, spacingPx } from "~constants/theme";
+import { Text } from '~components/atoms/text'
+import { Input } from '~components/molecules/input'
+import { MainButton } from '~components/molecules/mainButton'
+import { colors, spacing } from '~constants/theme'
 
-interface Props {
-  gender: string | null;
-  setGender: Dispatch<SetStateAction<string>>;
-  goal: string | null;
-  setGoal: Dispatch<SetStateAction<string>>;
+import { ScrollView } from 'react-native-gesture-handler'
+import { SignupStepsProps } from '../signUpTypes'
+import BottomSheet, { TouchableOpacity } from '@gorhom/bottom-sheet'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { Picker } from '@react-native-picker/picker'
+import { ActivitySelector } from './activitySelector'
+import { DownChevron } from '~assets/icons/downChevron'
+import RNDateTimePicker from '@react-native-community/datetimepicker'
+
+type StepTwoProps = SignupStepsProps & {
+  activitySelectorRef: RefObject<BottomSheet>
+  birthdaySelectorRef: RefObject<BottomSheet>
+  activityLevel: string
+  birthdayDate: Date
 }
 
-export const StepTwo: FC<Props> = ({ gender, setGender, goal, setGoal }) => {
-  const { t } = useTranslation();
+export const StepTwo: FC<StepTwoProps> = ({
+  control,
+  errors,
+  activitySelectorRef,
+  birthdaySelectorRef,
+  activityLevel,
+  birthdayDate,
+}) => {
+  const { t } = useTranslation()
+  const openActivitySelector = () => {
+    birthdaySelectorRef.current?.close()
+    activitySelectorRef.current?.expand()
+  }
+
+  const openBirthdaySelector = () => {
+    activitySelectorRef.current?.close()
+    birthdaySelectorRef.current?.expand()
+  }
 
   return (
-    <View style={{ marginTop: spacing.m, marginBottom: spacing.s }}>
-      <MainInput
-        label={t("my-size-(in-cm)")}
-        placeholder="180"
-        keyboardType="default"
+    <ScrollView style={{ marginTop: spacing.m }}>
+      <Controller
+        control={control}
+        name="size"
+        render={({ field: { onChange, value } }) => (
+          <Input
+            keyboardType="decimal-pad"
+            value={value}
+            label={t('signUpScreen.my-size-(in-cm)')}
+            placeholder="170"
+            onChange={onChange}
+            error={errors.size?.message}
+          />
+        )}
       />
-      <View style={{ marginTop: spacing.s, marginBottom: spacing.s }}>
-        <MainInput
-          label={t("my-weight-(in-kg)")}
-          placeholder="73.2"
-          keyboardType="default"
-        />
-      </View>
-      <MainInput
-        label={t("my-birth-date")}
-        placeholder="01/04/2000"
-        keyboardType="default"
+      <Controller
+        control={control}
+        name="weight"
+        render={({ field: { onChange, value } }) => (
+          <Input
+            keyboardType="decimal-pad"
+            value={value}
+            label={t('signUpScreen.my-weight-(in-kg)')}
+            placeholder="65.4"
+            onChange={(text) => onChange(text.replace(',', '.'))}
+            error={errors.weight?.message}
+          />
+        )}
       />
-      <View style={{ marginTop: spacing.s }}>
-        <Text fontFamily="Avenir-Medium" color="Alizarin">
-          {`${t("i-am")} :`}
+      <View style={{ marginTop: spacing.s, gap: spacing.xs }}>
+        <Text fontFamily="Avenir-Medium" color="Alizarin" fontSize="m">
+          {t('signUpScreen.my-birth-date')}
         </Text>
-        <ButtonWrapper>
-          <View style={{ width: "49%" }}>
-            <MainButton
-              label={t("woman")}
-              isHighlighted={gender !== "female"}
-              onPress={() => setGender("female")}
-            />
-          </View>
-          <View style={{ width: "49%" }}>
-            <MainButton
-              label={t("man")}
-              isHighlighted={gender !== "male"}
-              onPress={() => setGender("male")}
-            />
-          </View>
-        </ButtonWrapper>
+        <TouchableOpacity
+          style={styles.selector}
+          onPress={openBirthdaySelector}
+        >
+          <Text>
+            {birthdayDate
+              ? new Date(birthdayDate).toLocaleDateString('en-GB', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                })
+              : new Date().toLocaleDateString('en-GB', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                })}
+          </Text>
+          <DownChevron size={24} />
+        </TouchableOpacity>
       </View>
       <View style={{ marginTop: spacing.s }}>
-        <Text fontFamily="Avenir-Medium" color="Alizarin">
-          {`${t("my-goal")} :`}
+        <Text fontFamily="Avenir-Medium" color="Alizarin" fontSize="m">
+          {`${t('signUpScreen.i-was-born-as-a')} :`}
         </Text>
-        <ButtonWrapper>
-          <View style={{ width: "49%" }}>
-            <MainButton
-              label={t("lose-weight")}
-              onPress={() => setGoal("lose")}
-              isHighlighted={goal !== "lose"}
-            />
-          </View>
-          <View style={{ width: "49%" }}>
-            <MainButton
-              label={t("gain-weight")}
-              onPress={() => setGoal("gain")}
-              isHighlighted={goal !== "gain"}
-            />
-          </View>
-        </ButtonWrapper>
+        <View style={styles.buttonWrapper}>
+          <Controller
+            control={control}
+            name="gender"
+            render={({ field: { onChange, value } }) => (
+              <>
+                <View style={{ width: '49%' }}>
+                  <MainButton
+                    label={t('signUpScreen.woman')}
+                    isHighlighted={value !== 'female'}
+                    onPress={() => {
+                      onChange('female')
+                    }}
+                  />
+                </View>
+                <View style={{ width: '49%' }}>
+                  <MainButton
+                    label={t('signUpScreen.man')}
+                    isHighlighted={value !== 'male'}
+                    onPress={() => {
+                      onChange('male')
+                    }}
+                  />
+                </View>
+                <Text>{errors.gender?.message}</Text>
+              </>
+            )}
+          />
+        </View>
+      </View>
+      <View style={{ marginTop: spacing.s }}>
+        <Text fontFamily="Avenir-Medium" color="Alizarin" fontSize="m">
+          {`${t('signUpScreen.my-goal')} :`}
+        </Text>
+        <View style={styles.buttonWrapper}>
+          <Controller
+            control={control}
+            name="goal"
+            render={({ field: { onChange, value } }) => (
+              <>
+                <View style={{ width: '49%' }}>
+                  <MainButton
+                    label={t('signUpScreen.lose-weight')}
+                    isHighlighted={value !== 'lose'}
+                    onPress={() => {
+                      onChange('lose')
+                    }}
+                  />
+                </View>
+                <View style={{ width: '49%' }}>
+                  <MainButton
+                    label={t('signUpScreen.gain-weight')}
+                    isHighlighted={value !== 'gain'}
+                    onPress={() => {
+                      onChange('gain')
+                    }}
+                  />
+                </View>
+              </>
+            )}
+          />
+        </View>
+        <View style={{ marginTop: spacing.s, gap: spacing.xs }}>
+          <Text fontFamily="Avenir-Medium" color="Alizarin" fontSize="m">
+            {t('signUpScreen.activity-level')}
+          </Text>
+          <TouchableOpacity
+            style={styles.selector}
+            onPress={openActivitySelector}
+          >
+            <Text>
+              {activityLevel
+                ? t(`signUpScreen.${activityLevel}`)
+                : t('signUpScreen.select-an-activity-level')}
+            </Text>
+            <DownChevron size={24} />
+          </TouchableOpacity>
+        </View>
       </View>
       <View style={{ marginBottom: 150 }} />
-    </View>
-  );
-};
+    </ScrollView>
+  )
+}
 
-const ButtonWrapper = styled(View)`
-  flex-direction: row;
-  justify-content: space-between;
-  margin-top: ${spacingPx.xs};
-`;
+const styles = StyleSheet.create({
+  selector: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    borderRadius: spacing.xs,
+    padding: spacing.s,
+    backgroundColor: colors.light.AliceBlue,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    alignItems: 'center',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  picker: {
+    width: '100%',
+  },
+  buttonWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: spacing.xs,
+  },
+})

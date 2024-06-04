@@ -103,34 +103,36 @@ export const ScheduleScreen: FC<RecipesScreenProps> = ({ navigation }) => {
 
   return (
     <Layout scrollView>
-      <PageTitle title={t("Scheduling")} />
-      {uniqueDates.map((date) => (
-        <Fragment key={date}>
-          <SectionTitle
-            title={formatRecipeDate(date)}
-            fontFamily="Avenir-Bold-Italic"
-            fontSize="xl"
-          />
-          <MealSmallCardList>
-            {recipesByDate[date].map((item) => (
-              <View
-                style={{ width: itemWidth, margin: spacing / 2 }}
-                key={item.id}
-              >
-                <MealSmallCard
+      <>
+        <PageTitle title={t("Scheduling")} />
+        {uniqueDates.map((date) => (
+          <Fragment key={date}>
+            <SectionTitle
+              title={formatRecipeDate(date)}
+              fontType="Avenir-Bold-Italic"
+              fontSize="xl"
+            />
+            <MealSmallCardList>
+              {recipesByDate[date].map((item) => (
+                <View
+                  style={{ width: itemWidth, margin: spacing / 2 }}
                   key={item.id}
-                  title={item.recipe.title}
-                  kcal={item.recipe.kcal}
-                  imagePath={item.recipe.imagePath}
-                  tags={item.recipe.tags}
-                  recipeUuid={item.recipe.uuid}
-                  navigation={navigation}
-                />
-              </View>
-            ))}
-          </MealSmallCardList>
-        </Fragment>
-      ))}
+                >
+                  <MealSmallCard
+                    key={item.id}
+                    title={item.recipe.title}
+                    kcal={item.recipe.kcal}
+                    imagePath={item.recipe.imagePath}
+                    tags={item.recipe.tags}
+                    recipeUuid={item.recipe.uuid}
+                    navigation={navigation}
+                  />
+                </View>
+              ))}
+            </MealSmallCardList>
+          </Fragment>
+        ))}
+      </>
     </Layout>
   );
 };

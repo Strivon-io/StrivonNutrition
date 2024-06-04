@@ -10,6 +10,11 @@ import { RecipesResultScreen } from '~screens/recipesResult'
 
 import { BottomTabNavigator } from './bottom-tab-navigator'
 import { NeedsResultExplanationScreen } from '~screens/needsResultExplanation'
+import { useAuth } from '~contexts/authContext'
+import { useQuery } from '@tanstack/react-query'
+import { getProfile } from '~services/routes/user'
+import { ProfileProvider } from '~contexts/profileContext'
+import { navigationRef } from './navigator-utils'
 
 export type NavigatorParamList = {
   signIn: undefined
@@ -50,7 +55,13 @@ const AppStack = ({
         component={NeedsResultExplanationScreen}
       />
       <Stack.Screen name="recipesResult" component={RecipesResultScreen} />
-      <Stack.Screen name="bottomTab" component={BottomTabNavigator} />
+      <Stack.Screen name="bottomTab">
+        {() => (
+          <ProfileProvider>
+            <BottomTabNavigator />
+          </ProfileProvider>
+        )}
+      </Stack.Screen>
     </Stack.Navigator>
   )
 }
@@ -59,16 +70,51 @@ interface NavigationProps
   extends Partial<React.ComponentProps<typeof NavigationContainer>> {}
 
 export const AppNavigator = (props: NavigationProps) => {
+  const { accessToken, isLoading: authIsLoading } = useAuth()
+
   const [initialRoute, setInitialRoute] = useState<keyof NavigatorParamList>(
     'signIn',
   )
 
   const [isLoading, setIsLoading] = useState(false)
 
-  if (isLoading) return null
+  const { refetch } = useQuery({
+    queryKey: ['profile'],
+    queryFn: getProfile,
+    retry: false,
+    enabled: false,
+  })
+
+  const handleGetProfile = async () => {
+    try {
+      const { data } = await refetch()
+      console.log('Profile data:', data)
+      return data ? 'bottomTab' : 'signIn'
+    } catch (error) {
+      console.error('Error fetching profile:', error)
+      return 'signIn'
+    }
+  }
+
+  useEffect(() => {
+    if (!authIsLoading && accessToken) {
+      ;(async () => {
+        setIsLoading(true)
+        const route = await handleGetProfile()
+        setInitialRoute(route)
+        setIsLoading(false)
+      })()
+    } else if (!authIsLoading) {
+      setIsLoading(false)
+    }
+  }, [accessToken, authIsLoading])
+
+  if (isLoading) {
+    return null
+  }
 
   return (
-    <NavigationContainer theme={DefaultTheme} {...props}>
+    <NavigationContainer ref={navigationRef} theme={DefaultTheme} {...props}>
       <AppStack initialRouteName={initialRoute} />
     </NavigationContainer>
   )

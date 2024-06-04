@@ -1,35 +1,30 @@
-import { FC } from "react";
+import { FC } from 'react'
 import {
   Text as TextRN,
   StyleSheet,
   StyleProp,
   TextStyle,
   TextProps as TextPropsRN,
-} from "react-native";
+} from 'react-native'
 
-import { withSpacing } from "../communStyles/withSpacing";
-import { withColor } from "../communStyles/withColor";
-import {
-  ColorsKey,
-  FontSizeKey,
-  IfontSize,
-  FontFamily,
-} from "~constants/theme";
+import { withSpacing } from '../communStyles/withSpacing'
+import { withColor } from '../communStyles/withColor'
+import { ColorsKey, FontSizeKey, IfontSize, FontFamily } from '~constants/theme'
 
 interface TextProps extends TextPropsRN {
-  children: JSX.Element | string;
-  color?: ColorsKey;
-  fontSize?: FontSizeKey;
-  textDecorationLine?: "none" | "underline" | "line-through";
-  textAlign?: "left" | "center" | "right";
-  lineHeight?: number;
-  textTransform?: "uppercase" | "lowercase" | "capitalize";
-  fontFamily?: FontFamily;
-  onPress?: () => void;
+  children: JSX.Element | string
+  color?: ColorsKey
+  fontSize?: FontSizeKey
+  textDecorationLine?: 'none' | 'underline' | 'line-through'
+  textAlign?: 'left' | 'center' | 'right'
+  lineHeight?: number
+  textTransform?: 'uppercase' | 'lowercase' | 'capitalize'
+  fontFamily?: FontFamily
+  onPress?: () => void
 }
 
 interface Styles {
-  text: StyleProp<TextStyle & { fontFamily?: FontFamily }>;
+  text: StyleProp<TextStyle & { fontFamily?: FontFamily }>
 }
 
 const Text: FC<TextProps> = (props) => {
@@ -38,13 +33,13 @@ const Text: FC<TextProps> = (props) => {
     color,
     fontSize,
     textDecorationLine,
-    fontFamily = "Avenir-Regular",
+    fontFamily = 'Avenir-Regular',
     lineHeight,
     textAlign,
     numberOfLines,
     textTransform,
     onPress,
-  } = props;
+  } = props
 
   const dynamicStyles = getDynamicStyles({
     textDecorationLine,
@@ -54,7 +49,7 @@ const Text: FC<TextProps> = (props) => {
     lineHeight,
     textAlign,
     textTransform,
-  });
+  })
 
   return (
     <TextRN
@@ -65,8 +60,8 @@ const Text: FC<TextProps> = (props) => {
     >
       {children}
     </TextRN>
-  );
-};
+  )
+}
 
 const getDynamicStyles = ({
   textDecorationLine,
@@ -77,14 +72,14 @@ const getDynamicStyles = ({
   lineHeight,
   fontFamily,
 }: {
-  textDecorationLine: "none" | "underline" | "line-through";
-  fontFamily: FontFamily;
-  lineHeight?: number;
+  textDecorationLine: 'none' | 'underline' | 'line-through'
+  fontFamily: FontFamily
+  lineHeight?: number
 } & Pick<
   TextProps,
-  "color" | "fontSize" | "textAlign" | "textTransform"
+  'color' | 'fontSize' | 'textAlign' | 'textTransform'
 >): Styles => {
-  const numericFontSize: number = IfontSize[fontSize] || IfontSize["md"];
+  const numericFontSize: number = IfontSize[fontSize] || IfontSize['md']
 
   return StyleSheet.create({
     text: {
@@ -96,9 +91,9 @@ const getDynamicStyles = ({
       lineHeight,
       textTransform,
     },
-  });
-};
+  })
+}
 
-const TextWithSpacingAndColor = withSpacing(withColor(Text));
+const TextWithSpacingAndColor = withSpacing(withColor(Text))
 
-export { TextWithSpacingAndColor as Text };
+export { TextWithSpacingAndColor as Text }
