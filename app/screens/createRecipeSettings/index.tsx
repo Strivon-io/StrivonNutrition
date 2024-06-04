@@ -76,7 +76,7 @@ export const CreateRecipeSettingsScreen: FC<
     mutate({
       ingredients: ingredients,
       onlyUseAskedIngredients: onlyUseIngredients,
-      calories: parseInt(calories, 10),
+      calories: calories,
       restrictions: dietaryRestrictions,
     });
   };

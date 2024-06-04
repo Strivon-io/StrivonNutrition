@@ -1,7 +1,7 @@
 export type CreateRecipe = {
   ingredients: string[];
   onlyUseAskedIngredients: boolean;
-  calories: number;
+  calories: string;
   restrictions: string[];
 };
 

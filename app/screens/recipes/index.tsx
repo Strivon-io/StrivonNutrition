@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
+  RefreshControl,
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { FlashList } from "@shopify/flash-list";
@@ -30,6 +31,7 @@ export const RecipesScreen: FC<RecipesScreenProps> = ({ navigation }) => {
   const { t } = useTranslation();
   const [search, setSearch] = useState("");
   const [filteredData, setFilteredData] = useState<Recipe[]>([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   const listLimit = 10;
 
@@ -40,6 +42,7 @@ export const RecipesScreen: FC<RecipesScreenProps> = ({ navigation }) => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    refetch,
   } = useInfiniteQuery({
     queryKey: ["recipes"],
     queryFn: ({ pageParam = 0 }) => getAllRecipeByUser(listLimit, pageParam),
@@ -62,7 +65,11 @@ export const RecipesScreen: FC<RecipesScreenProps> = ({ navigation }) => {
     }
   };
 
-  console.log(data);
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  };
 
   const toggleActionTray = () => {
     navigation.navigate("createRecipeSettings");
@@ -104,17 +111,11 @@ export const RecipesScreen: FC<RecipesScreenProps> = ({ navigation }) => {
           <Text>Error: {error.message}</Text>
         ) : (
           <FlashList
-            style={{
-              flex: 1,
-              alignSelf: "center",
-            }}
+            style={styles.flashListWrapper}
             ItemSeparatorComponent={() => (
               <View style={{ height: spacing.xs, width: spacing.xs }} />
             )}
-            contentContainerStyle={{
-              paddingHorizontal: 20,
-              paddingTop: spacing.m,
-            }}
+            contentContainerStyle={styles.contentContainer}
             horizontal={false}
             numColumns={2}
             estimatedItemSize={175}
@@ -131,9 +132,19 @@ export const RecipesScreen: FC<RecipesScreenProps> = ({ navigation }) => {
             }}
             onEndReachedThreshold={0.5}
             ListFooterComponent={
-              isFetchingNextPage ? (
-                <ActivityIndicator size="large" color={colors.Alizarin} />
-              ) : null
+              <>
+                {isFetchingNextPage && (
+                  <ActivityIndicator size="large" color={colors.Alizarin} />
+                )}
+                <View style={{ height: spacing.xl }} />
+              </>
+            }
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                colors={[colors.Alizarin]}
+              />
             }
           />
         )}
@@ -149,5 +160,9 @@ const styles = StyleSheet.create({
   flashListWrapper: {
     flex: 1,
     alignSelf: "center",
+  },
+  contentContainer: {
+    paddingHorizontal: 20,
+    paddingTop: spacing.m,
   },
 });

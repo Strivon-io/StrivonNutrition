@@ -37,17 +37,13 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
   const route = useRoute();
   const { recipeId } = route.params;
 
-  console.log("recipeId", recipeId);
-
   const { data, isLoading } = useQuery({
     queryKey: ["recipe", recipeId],
     queryFn: () => getRecipeById(recipeId),
   });
 
-  console.log("data--->>>>", data);
-
   const handleBackPress = () => {
-    navigation.goBack();
+    navigation.navigate("recipes");
   };
 
   const scrollA = useSharedValue(0);
