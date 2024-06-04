@@ -304,17 +304,3 @@ const styles = StyleSheet.create({
     padding: spacing.m,
   },
 });
-
-const markdownStyles = {
-  heading1: {
-    marginBottom: spacing.xs,
-    marginTop: spacing.m,
-  },
-  heading2: {
-    marginBottom: spacing.xs,
-    marginTop: spacing.s,
-  },
-  text: {
-    lineHeight: 20,
-  },
-};

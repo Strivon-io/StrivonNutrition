@@ -1,10 +1,10 @@
 import { FC } from "react";
 import { useTranslation } from "react-i18next";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import styled from "styled-components";
 
 import { Text } from "~components/atoms/text";
-import { boxShadow, colors, spacingPx } from "~constants/theme";
+import { boxShadow, colors, spacingPx, spacing } from "~constants/theme";
 
 interface Props {
   title: string;
@@ -22,8 +22,8 @@ export const RecipeTitleAndInformations: FC<Props> = ({
   const { t } = useTranslation();
 
   return (
-    <RecipeNameAndInformations>
-      <Text fontFamily="Avenir-Bold-Italic" fontSize="l" textAlign="center">
+    <View style={styles.recipeNameAndInformations}>
+      <Text fontFamily="Avenir-Bold-Italic" fontSize="m" textAlign="center">
         {title}
       </Text>
       <InformationsWrapper>
@@ -43,7 +43,7 @@ export const RecipeTitleAndInformations: FC<Props> = ({
           unity="g"
         />
       </InformationsWrapper>
-    </RecipeNameAndInformations>
+    </View>
   );
 };
 
@@ -72,15 +72,17 @@ const InformationsWrapper = styled(View)`
   margin-top: ${spacingPx.s};
 `;
 
-const RecipeNameAndInformations = styled(View)`
-  ${boxShadow}
-  width: 100%;
-  background-color: ${colors.light.PureWhite};
-  height: 150px;
-  align-self: center;
-  transform: translateY(-80px);
-  border-radius: ${spacingPx.xs};
-  padding: ${spacingPx.l};
-  z-index: 100;
-  justify-content: center;
-`;
+const styles = StyleSheet.create({
+  recipeNameAndInformations: {
+    ...boxShadow,
+    width: "100%",
+    backgroundColor: colors.light.PureWhite,
+    height: 150,
+    alignSelf: "center",
+    transform: [{ translateY: -80 }],
+    borderRadius: spacing.xs,
+    padding: spacing.l,
+    zIndex: 100,
+    justifyContent: "center",
+  },
+});
