@@ -1,30 +1,30 @@
-import { FC, RefObject } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { FC, RefObject } from "react";
+import { View, StyleSheet } from "react-native";
 
-import { Text } from '~components/atoms/text'
-import BottomSheet from '@gorhom/bottom-sheet'
-import { Picker } from '@react-native-picker/picker'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { colors } from '~constants/theme'
-import { t } from 'i18next'
-import { Controller } from 'react-hook-form'
-import { SignupStepsProps } from '../signUpTypes'
-import RNDateTimePicker from '@react-native-community/datetimepicker'
-import { format } from 'date-fns'
+import { Text } from "~components/atoms/text";
+import BottomSheet from "@gorhom/bottom-sheet";
+import { Picker } from "@react-native-picker/picker";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { colors } from "~constants/theme";
+import { t } from "i18next";
+import { Controller } from "react-hook-form";
+import { SignupStepsProps } from "../signUpTypes";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
+import { format } from "date-fns";
 
 type StepTwoProps = SignupStepsProps & {
-  birthdaySelectorRef: RefObject<BottomSheet>
-}
+  birthdaySelectorRef: RefObject<BottomSheet>;
+};
 
 export const BirthdaySelector: FC<StepTwoProps> = ({
   control,
   birthdaySelectorRef,
 }) => {
-  const insets = useSafeAreaInsets()
+  const insets = useSafeAreaInsets();
   return (
     <BottomSheet
       ref={birthdaySelectorRef}
-      snapPoints={['30%']}
+      snapPoints={["30%"]}
       index={-1}
       enablePanDownToClose={true}
       bottomInset={-insets.bottom}
@@ -33,7 +33,7 @@ export const BirthdaySelector: FC<StepTwoProps> = ({
       }}
     >
       <View style={styles.modalView}>
-        <Text>{t('signUpScreen.select-your-birth-date')}</Text>
+        <Text>{t("signUpScreen.select-your-birth-date")}</Text>
         <Controller
           control={control}
           name="birthday"
@@ -42,15 +42,14 @@ export const BirthdaySelector: FC<StepTwoProps> = ({
               value={value ? new Date(value) : new Date()}
               onChange={(_, selectedDate) => {
                 if (selectedDate) {
-                  const formattedDate = format(selectedDate, 'dd/MM/yyyy')
-                  onChange(selectedDate)
+                  onChange(selectedDate);
                 }
               }}
               display="spinner"
               style={{
-                justifyContent: 'flex-start',
-                alignItems: 'flex-start',
-                width: '100%',
+                justifyContent: "flex-start",
+                alignItems: "flex-start",
+                width: "100%",
               }}
               mode="date"
             />
@@ -58,27 +57,27 @@ export const BirthdaySelector: FC<StepTwoProps> = ({
         />
       </View>
     </BottomSheet>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 22,
   },
   modalView: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
   picker: {
-    width: '100%',
+    width: "100%",
   },
-})
+});

@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { View, Image, TouchableOpacity, StyleSheet } from "react-native";
 import Animated, {
@@ -26,6 +26,11 @@ import { Text } from "~components/atoms/text";
 import { LeftChevron } from "~assets/icons/leftChevron";
 import { RightChevron } from "~assets/icons/rightChevron";
 import { HeaderLogo } from "~components/layout/atoms/headerLogo";
+import BottomSheet from "@gorhom/bottom-sheet";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
+import { MainBottomSheet } from "~components/molecules/BottomSheet";
+import { MainButton } from "~components/molecules/mainButton";
 
 type RecipeScreenProps = NativeStackScreenProps<
   RecipesNavigatorParamList,
@@ -68,6 +73,13 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
     };
   });
 
+  const dateSelectorRef = useRef<BottomSheet>(null);
+  const insets = useSafeAreaInsets();
+
+  const handleDateSelector = () => {
+    dateSelectorRef.current?.expand();
+  };
+
   return (
     <Layout noPadding withoutTopSafeArea withoutBottomSafeArea>
       {!isLoading && (
@@ -103,7 +115,7 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
               />
               <View style={styles.introductionWrapper}>
                 <Text fontFamily="Avenir-Bold" fontSize="l">
-                  Ingrédients
+                  {t("recipeScreen.ingredients")}
                 </Text>
                 <View style={styles.ingredientsWrapper}>
                   {data?.ingredients.map((ingredient) => (
@@ -121,7 +133,7 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
                 </View>
                 <View style={styles.instructionsWrapper}>
                   <Text fontFamily="Avenir-Bold" fontSize="l">
-                    Instructions
+                    {t("recipeScreen.instructions")}
                   </Text>
                   <View style={styles.instructionsList}>
                     {data?.instructions.map((instruction, i) => (
@@ -138,7 +150,7 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
                   </View>
                   <View style={styles.signatureWrapper}>
                     <Text fontFamily="Avenir-Medium" color="medium.StormyCloud">
-                      Recipe by
+                      {t("recipeScreen.recipeBy")}
                     </Text>
                     <Image
                       style={styles.logo}
@@ -152,8 +164,58 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
           </Animated.ScrollView>
           <BottomFixedButton
             label={t("programmeThisRecipe")}
-            onPress={() => {}}
+            onPress={handleDateSelector}
           />
+
+          <BottomSheet
+            style={{
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 10,
+                height: 0,
+              },
+              shadowOpacity: 0.5,
+              shadowRadius: 10,
+              elevation: 0,
+            }}
+            ref={dateSelectorRef}
+            snapPoints={["50%"]}
+            enablePanDownToClose={true}
+            bottomInset={-insets.bottom}
+            backgroundStyle={{
+              backgroundColor: colors.White,
+            }}
+          >
+            <View style={styles.bottomSheetContent}>
+              <Text
+                fontFamily="Avenir-Bold-Italic"
+                color="Alizarin"
+                fontSize="l"
+              >
+                {t("recipeScreen.selectDate")}
+              </Text>
+
+              <RNDateTimePicker
+                value={new Date()}
+                onChange={(_, selectedDate) => {
+                  if (selectedDate) {
+                  }
+                }}
+                display="spinner"
+                style={{
+                  justifyContent: "flex-start",
+                  alignItems: "flex-start",
+                  width: "100%",
+                }}
+                mode="date"
+                minimumDate={new Date()}
+              />
+              <MainButton
+                label={t("recipeScreen.schedule")}
+                onPress={() => {}}
+              />
+            </View>
+          </BottomSheet>
         </>
       )}
     </Layout>
@@ -161,6 +223,12 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  bottomSheetContent: {
+    paddingHorizontal: 20,
+    display: "flex",
+    flexDirection: "column",
+    gap: spacing.m,
+  },
   logo: {
     width: 100,
     height: 20,

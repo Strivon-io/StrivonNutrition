@@ -113,5 +113,12 @@
   },
   "createRecipeScreen": {
     "weArePreparingYourRecipe": "Nous préparons votre recette"
+  },
+  "recipeScreen": {
+    "recipeBy": "Recette par",
+    "instructions": "Instructions",
+    "ingredients": "Ingrédients",
+    "selectDate": "Sélectionner une date",
+    "schedule": "Programmer"
   }
 }

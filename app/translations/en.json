@@ -115,5 +115,11 @@
   },
   "createRecipeScreen": {
     "weArePreparingYourRecipe": "We are preparing your recipe"
+  },
+  "recipeScreen": {
+    "recipeBy": "Recipe by",
+    "instructions": "Instructions",
+    "ingredients": "Ingredients",
+    "schedule": "Schedule"
   }
 }
