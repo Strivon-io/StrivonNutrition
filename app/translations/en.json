@@ -120,6 +120,13 @@
     "recipeBy": "Recipe by",
     "instructions": "Instructions",
     "ingredients": "Ingredients",
-    "schedule": "Schedule"
+    "schedule": "Schedule",
+    "scheduleThisRecipe": "Schedule this recipe",
+    "selectDate": "Select date",
+    "selectTypeOfMeal": "Select type of meal",
+    "breakfast": "Breakfast",
+    "lunch": "Lunch",
+    "dinner": "Dinner",
+    "snack": "Snack"
   }
 }

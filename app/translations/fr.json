@@ -118,7 +118,13 @@
     "recipeBy": "Recette par",
     "instructions": "Instructions",
     "ingredients": "Ingrédients",
+    "schedule": "Programmer",
+    "selectTypeOfMeal": "Sélectionner le type de repas",
     "selectDate": "Sélectionner une date",
-    "schedule": "Programmer"
+    "breakfast": "Petit déjeuner",
+    "lunch": "Déjeuner",
+    "dinner": "Dîner",
+    "snack": "Collation",
+    "scheduleThisRecipe": "Programmer cette recette"
   }
 }

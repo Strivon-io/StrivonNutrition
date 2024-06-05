@@ -1,4 +1,4 @@
-import { FC, useRef } from "react";
+import React, { FC, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { View, Image, TouchableOpacity, StyleSheet } from "react-native";
 import Animated, {
@@ -23,14 +23,13 @@ import { useRoute } from "@react-navigation/native";
 import { getRecipeById } from "~services/routes/recipe";
 import { useQuery } from "@tanstack/react-query";
 import { Text } from "~components/atoms/text";
-import { LeftChevron } from "~assets/icons/leftChevron";
 import { RightChevron } from "~assets/icons/rightChevron";
-import { HeaderLogo } from "~components/layout/atoms/headerLogo";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
-import { MainBottomSheet } from "~components/molecules/BottomSheet";
 import { MainButton } from "~components/molecules/mainButton";
+import { Picker } from "@react-native-picker/picker";
+import { useForm, Controller } from "react-hook-form";
 
 type RecipeScreenProps = NativeStackScreenProps<
   RecipesNavigatorParamList,
@@ -80,6 +79,21 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
     dateSelectorRef.current?.expand();
   };
 
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      date: new Date(),
+      mealType: "breakfast",
+    },
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
     <Layout noPadding withoutTopSafeArea withoutBottomSafeArea>
       {!isLoading && (
@@ -119,8 +133,8 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
                 </Text>
                 <View style={styles.ingredientsWrapper}>
                   {data?.ingredients.map((ingredient) => (
-                    <View style={styles.ingredientText}>
-                      <Text key={ingredient.name} fontSize="m">
+                    <View style={styles.ingredientText} key={ingredient.name}>
+                      <Text fontSize="m">
                         {`${ingredient.name} : ${ingredient.quantity} ${ingredient.unity}`}
                       </Text>
                       <RightChevron color="black" size={12} />
@@ -136,8 +150,8 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
                     {t("recipeScreen.instructions")}
                   </Text>
                   <View style={styles.instructionsList}>
-                    {data?.instructions.map((instruction, i) => (
-                      <>
+                    {data?.instructions.map((instruction) => (
+                      <View key={instruction.step.toString()}>
                         <Text
                           fontFamily="Avenir-Bold"
                           fontSize="m"
@@ -145,7 +159,7 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
                           instruction.title
                         }`}</Text>
                         <Markdown>{instruction.description}</Markdown>
-                      </>
+                      </View>
                     ))}
                   </View>
                   <View style={styles.signatureWrapper}>
@@ -179,7 +193,8 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
               elevation: 0,
             }}
             ref={dateSelectorRef}
-            snapPoints={["50%"]}
+            snapPoints={["95%"]}
+            index={-1}
             enablePanDownToClose={true}
             bottomInset={-insets.bottom}
             backgroundStyle={{
@@ -192,27 +207,70 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
                 color="Alizarin"
                 fontSize="l"
               >
-                {t("recipeScreen.selectDate")}
+                {t("recipeScreen.scheduleThisRecipe")}
               </Text>
-
-              <RNDateTimePicker
-                value={new Date()}
-                onChange={(_, selectedDate) => {
-                  if (selectedDate) {
-                  }
-                }}
-                display="spinner"
-                style={{
-                  justifyContent: "flex-start",
-                  alignItems: "flex-start",
-                  width: "100%",
-                }}
-                mode="date"
-                minimumDate={new Date()}
-              />
+              <View>
+                <Text fontFamily="Avenir-Medium" fontSize="l">
+                  {t("recipeScreen.selectDate")}
+                </Text>
+                <Controller
+                  control={control}
+                  name="date"
+                  render={({ field: { onChange, value } }) => (
+                    <RNDateTimePicker
+                      textColor="red"
+                      value={value}
+                      onChange={(_, selectedDate) => {
+                        onChange(selectedDate);
+                      }}
+                      display="inline"
+                      style={{
+                        justifyContent: "flex-start",
+                        alignItems: "flex-start",
+                        width: "100%",
+                      }}
+                      mode="date"
+                      minimumDate={new Date()}
+                    />
+                  )}
+                />
+              </View>
+              <View>
+                <Text fontFamily="Avenir-Medium" fontSize="l">
+                  {t("recipeScreen.selectTypeOfMeal")}
+                </Text>
+                <Controller
+                  control={control}
+                  name="mealType"
+                  render={({ field: { onChange, value } }) => (
+                    <Picker
+                      selectedValue={value}
+                      onValueChange={(itemValue) => onChange(itemValue)}
+                      mode="dropdown"
+                    >
+                      <Picker.Item
+                        label={t("recipeScreen.breakfast")}
+                        value="breakfast"
+                      />
+                      <Picker.Item
+                        label={t("recipeScreen.lunch")}
+                        value="lunch"
+                      />
+                      <Picker.Item
+                        label={t("recipeScreen.dinner")}
+                        value="dinner"
+                      />
+                      <Picker.Item
+                        label={t("recipeScreen.snack")}
+                        value="snack"
+                      />
+                    </Picker>
+                  )}
+                />
+              </View>
               <MainButton
                 label={t("recipeScreen.schedule")}
-                onPress={() => {}}
+                onPress={handleSubmit(onSubmit)}
               />
             </View>
           </BottomSheet>
@@ -304,3 +362,5 @@ const styles = StyleSheet.create({
     padding: spacing.m,
   },
 });
+
+export default RecipeScreen;
