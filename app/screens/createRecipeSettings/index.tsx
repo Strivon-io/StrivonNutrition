@@ -9,7 +9,7 @@ import { DietaryRestrictionsSection } from "./components/sections/dietaryRestric
 import { NumberOfCaloriesSection } from "./components/sections/numberOfCaloriesSection";
 import { MainButton } from "~components/molecules/mainButton";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createRecipe } from "~services/routes/recipe";
+import { createRecipe } from "~services/routes/recipe.service";
 import { CreateRecipe } from "~services/types/recipe.types";
 import LottieView from "lottie-react-native";
 import LoaderLottie from "~assets/lotties/Vegetable Bag Lineal (2).json";

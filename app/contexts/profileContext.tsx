@@ -1,36 +1,36 @@
-import { useQuery } from '@tanstack/react-query'
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import { useQuery } from "@tanstack/react-query";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
-import { getProfile } from '~services/routes/user'
+import { getProfile } from "~services/routes/user.service";
 
 const ProfileContext = createContext<{
-  profile?: User
-  clearProfile: () => void
+  profile?: User;
+  clearProfile: () => void;
 }>({
   profile: undefined,
   clearProfile: () => {},
-})
+});
 
 export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [profile, setProfile] = useState<User | null>(null)
+  const [profile, setProfile] = useState<User | null>(null);
 
   const { isError, data, error } = useQuery({
-    queryKey: ['profile'],
+    queryKey: ["profile"],
     queryFn: getProfile,
-  })
+  });
 
   useEffect(() => {
-    setProfile(data)
-  }, [data])
+    setProfile(data);
+  }, [data]);
 
   const clearProfile = () => {
-    setProfile(null)
-  }
+    setProfile(null);
+  };
 
   if (isError) {
-    console.error('An error occurred while fetching the profile: ', error)
+    console.error("An error occurred while fetching the profile: ", error);
   }
 
   return (
@@ -42,13 +42,13 @@ export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({
     >
       {children}
     </ProfileContext.Provider>
-  )
-}
+  );
+};
 
 export const useProfile = () => {
-  const context = useContext(ProfileContext)
+  const context = useContext(ProfileContext);
   if (context === undefined) {
-    throw new Error('useProfile must be used within a ProfileProvider')
+    throw new Error("useProfile must be used within a ProfileProvider");
   }
-  return context
-}
+  return context;
+};

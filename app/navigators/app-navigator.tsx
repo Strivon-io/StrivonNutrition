@@ -1,46 +1,46 @@
-import { useState, useEffect } from 'react'
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import * as SplashScreen from 'expo-splash-screen'
+import { useState, useEffect } from "react";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import * as SplashScreen from "expo-splash-screen";
 
-import { SigninScreen } from '~screens/signin'
-import { SignupScreen } from '~screens/signup'
-import { NeedsResultScreen } from '~screens/needsResult'
-import { RecipesResultScreen } from '~screens/recipesResult'
+import { SigninScreen } from "~screens/signin";
+import { SignupScreen } from "~screens/signup";
+import { NeedsResultScreen } from "~screens/needsResult";
+import { RecipesResultScreen } from "~screens/recipesResult";
 
-import { BottomTabNavigator } from './bottom-tab-navigator'
-import { NeedsResultExplanationScreen } from '~screens/needsResultExplanation'
-import { useAuth } from '~contexts/authContext'
-import { useQuery } from '@tanstack/react-query'
-import { getProfile } from '~services/routes/user'
-import { ProfileProvider } from '~contexts/profileContext'
-import { navigationRef } from './navigator-utils'
+import { BottomTabNavigator } from "./bottom-tab-navigator";
+import { NeedsResultExplanationScreen } from "~screens/needsResultExplanation";
+import { useAuth } from "~contexts/authContext";
+import { useQuery } from "@tanstack/react-query";
+import { getProfile } from "~services/routes/user.service";
+import { ProfileProvider } from "~contexts/profileContext";
+import { navigationRef } from "./navigator-utils";
 
 export type NavigatorParamList = {
-  signIn: undefined
-  signUp: undefined
-  needsResult: undefined
-  recipesResult: undefined
-  needsResultExplanation: undefined
-  bottomTab: undefined
-}
+  signIn: undefined;
+  signUp: undefined;
+  needsResult: undefined;
+  recipesResult: undefined;
+  needsResultExplanation: undefined;
+  bottomTab: undefined;
+};
 
-const Stack = createNativeStackNavigator<NavigatorParamList>()
+const Stack = createNativeStackNavigator<NavigatorParamList>();
 
 const AppStack = ({
   initialRouteName,
 }: {
-  initialRouteName: keyof NavigatorParamList
+  initialRouteName: keyof NavigatorParamList;
 }) => {
-  console.log('Initial route: ', initialRouteName)
+  console.log("Initial route: ", initialRouteName);
 
   const hideSplashScreen = async () => {
-    await SplashScreen.hideAsync()
-  }
+    await SplashScreen.hideAsync();
+  };
 
   useEffect(() => {
-    hideSplashScreen()
-  }, [])
+    hideSplashScreen();
+  }, []);
 
   return (
     <Stack.Navigator
@@ -63,61 +63,60 @@ const AppStack = ({
         )}
       </Stack.Screen>
     </Stack.Navigator>
-  )
-}
+  );
+};
 
 interface NavigationProps
   extends Partial<React.ComponentProps<typeof NavigationContainer>> {}
 
 export const AppNavigator = (props: NavigationProps) => {
-  const { accessToken, isLoading: authIsLoading } = useAuth()
+  const { accessToken, isLoading: authIsLoading } = useAuth();
 
-  const [initialRoute, setInitialRoute] = useState<keyof NavigatorParamList>(
-    'signIn',
-  )
+  const [initialRoute, setInitialRoute] =
+    useState<keyof NavigatorParamList>("signIn");
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const { refetch } = useQuery({
-    queryKey: ['profile'],
+    queryKey: ["profile"],
     queryFn: getProfile,
     retry: false,
     enabled: false,
-  })
+  });
 
   const handleGetProfile = async () => {
     try {
-      const { data } = await refetch()
-      console.log('Profile data:', data)
-      return data ? 'bottomTab' : 'signIn'
+      const { data } = await refetch();
+      console.log("Profile data:", data);
+      return data ? "bottomTab" : "signIn";
     } catch (error) {
-      console.error('Error fetching profile:', error)
-      return 'signIn'
+      console.error("Error fetching profile:", error);
+      return "signIn";
     }
-  }
+  };
 
   useEffect(() => {
     if (!authIsLoading && accessToken) {
-      ;(async () => {
-        setIsLoading(true)
-        const route = await handleGetProfile()
-        setInitialRoute(route)
-        setIsLoading(false)
-      })()
+      (async () => {
+        setIsLoading(true);
+        const route = await handleGetProfile();
+        setInitialRoute(route);
+        setIsLoading(false);
+      })();
     } else if (!authIsLoading) {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }, [accessToken, authIsLoading])
+  }, [accessToken, authIsLoading]);
 
   if (isLoading) {
-    return null
+    return null;
   }
 
   return (
     <NavigationContainer ref={navigationRef} theme={DefaultTheme} {...props}>
       <AppStack initialRouteName={initialRoute} />
     </NavigationContainer>
-  )
-}
+  );
+};
 
-AppNavigator.displayName = 'AppNavigator'
+AppNavigator.displayName = "AppNavigator";

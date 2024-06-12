@@ -29,9 +29,7 @@ api.interceptors.response.use(
       originalRequest._retry = true;
       try {
         const refreshToken = await AsyncStorage.getItem("refreshToken");
-        const response = await api.post("/auth/refreshToken", {
-          refreshToken,
-        });
+        const response = await api.post(`/auth/refresh/${refreshToken}`);
 
         await AsyncStorage.setItem(
           "accessToken",

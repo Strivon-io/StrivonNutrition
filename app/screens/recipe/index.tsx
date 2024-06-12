@@ -20,8 +20,8 @@ import { RecipesNavigatorParamList } from "~navigators/recipes-navigator";
 import { Layout } from "~components/layout/layout";
 import { useRoute } from "@react-navigation/native";
 
-import { getRecipeById } from "~services/routes/recipe";
-import { useQuery } from "@tanstack/react-query";
+import { getRecipeById } from "~services/routes/recipe.service";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Text } from "~components/atoms/text";
 import { RightChevron } from "~assets/icons/rightChevron";
 import BottomSheet from "@gorhom/bottom-sheet";
@@ -30,6 +30,7 @@ import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { MainButton } from "~components/molecules/mainButton";
 import { Picker } from "@react-native-picker/picker";
 import { useForm, Controller } from "react-hook-form";
+import { postScheduledRecipe } from "~services/routes/scheduledRecipe.service";
 
 type RecipeScreenProps = NativeStackScreenProps<
   RecipesNavigatorParamList,
@@ -39,7 +40,7 @@ type RecipeScreenProps = NativeStackScreenProps<
 export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
   const { t } = useTranslation();
   const route = useRoute();
-  const { recipeId } = route.params;
+  const { recipeId } = route.params as { recipeId: string };
 
   const { data, isLoading } = useQuery({
     queryKey: ["recipe", recipeId],
@@ -90,8 +91,21 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
     },
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const { mutate: postRecipeForm, isPending: isPosting } = useMutation({
+    mutationKey: ["postRecipeForm"],
+    mutationFn: (data: { recipeId: string; date: Date; mealType: string }) =>
+      postScheduledRecipe(data.recipeId, data.date, data.mealType),
+    onSuccess: () => {
+      console.log("Form successfully posted");
+      navigation.navigate("recipes");
+    },
+    onError: (error) => {
+      console.error("Error posting form:", error);
+    },
+  });
+
+  const onSubmit = (data: { date: Date; mealType: string }) => {
+    postRecipeForm({ recipeId, ...data });
   };
 
   return (

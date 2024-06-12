@@ -19,7 +19,7 @@ import { MealSmallCard } from "~components/organisms/mealSmallCard";
 import { colors, iconSize, spacing } from "~constants/theme";
 import { SearchBar } from "~components/molecules/searchBar";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getAllRecipeByUser } from "~services/routes/recipe";
+import { getAllRecipeByUser } from "~services/routes/recipe.service";
 import { Recipe } from "~services/types/recipe.types";
 
 type RecipesScreenProps = NativeStackScreenProps<
