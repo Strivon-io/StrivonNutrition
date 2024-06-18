@@ -1,50 +1,71 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { FC } from "react";
-import { View, Image } from "react-native";
+import { View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { preview } from "react-native-ide";
-import { styled } from "styled-components";
-
 import { Text } from "~components/atoms/text";
-import { spacingPx } from "~constants/theme";
+import { spacing } from "~constants/theme";
+import { Recipe } from "~services/types/recipe.types";
 
-export const MealCarouselCard: FC = () => {
+export const MealCarouselCard: FC<{ navigation; recipe: Recipe }> = ({
+  navigation,
+  recipe,
+}) => {
+  const queryClient = useQueryClient();
+  const navigateToRecipe = () => {
+    queryClient.setQueryData(["recipe", recipe._id], recipe);
+    navigation.navigate("recipe", { recipeId: recipe._id });
+  };
   return (
-    <View style={{ height: 100 }}>
-      <DishImage
-        source={require("~assets/recipeImages/exempleOfRecipe.png")}
+    <TouchableOpacity onPress={navigateToRecipe} style={styles.background}>
+      <Image
+        style={styles.dishImage}
+        source={{ uri: recipe.image }}
         resizeMode="cover"
       />
-      <ImageOverlay />
-      <TitleAndKcal>
-        <Text fontFamily="Avenir-Bold" fontSize="m" color="light.PureWhite">
-          Grilled Chicken and Vegetable Salad
+      <View style={styles.imageOverlay} />
+
+      <View style={styles.titleAndKcal}>
+        <Text fontFamily="Avenir-Bold" fontSize="s" color="light.PureWhite">
+          {recipe.name}
         </Text>
-        <Text fontFamily="Avenir-Bold" fontSize="m" color="Alizarin">
-          240Kcal
+        <Text
+          style={{
+            marginTop: spacing.xs,
+          }}
+          fontFamily="Avenir-Bold"
+          fontSize="s"
+          color="Alizarin"
+        >
+          {`${recipe.calories}Kcal`}
         </Text>
-      </TitleAndKcal>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 };
 
-const TitleAndKcal = styled(View)`
-  position: absolute;
-  bottom: ${spacingPx.s};
-  margin-left: ${spacingPx.s};
-`;
-
-const DishImage = styled(Image)`
-  flex: 1;
-  width: 100%;
-  height: 100%;
-  border-radius: ${spacingPx.s};
-`;
-
-const ImageOverlay = styled(View)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: ${spacingPx.s};
-`;
+const styles = StyleSheet.create({
+  background: {
+    height: 100,
+  },
+  titleAndKcal: {
+    position: "absolute",
+    bottom: spacing.s,
+    left: spacing.s,
+    right: spacing.s,
+  },
+  dishImage: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    borderRadius: spacing.s,
+  },
+  imageOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.65)",
+    borderRadius: spacing.s,
+  },
+});

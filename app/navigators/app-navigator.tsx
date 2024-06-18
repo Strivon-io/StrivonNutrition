@@ -15,11 +15,13 @@ import { useQuery } from "@tanstack/react-query";
 import { getProfile } from "~services/routes/user.service";
 import { ProfileProvider } from "~contexts/profileContext";
 import { navigationRef } from "./navigator-utils";
+import RecipeScreen from "~screens/recipe";
 
 export type NavigatorParamList = {
   signIn: undefined;
   signUp: undefined;
   needsResult: undefined;
+  recipe: { recipeId: string };
   recipesResult: undefined;
   needsResultExplanation: undefined;
   bottomTab: undefined;
@@ -55,6 +57,7 @@ const AppStack = ({
         component={NeedsResultExplanationScreen}
       />
       <Stack.Screen name="recipesResult" component={RecipesResultScreen} />
+      <Stack.Screen name="recipe" component={RecipeScreen} />
       <Stack.Screen name="bottomTab">
         {() => (
           <ProfileProvider>

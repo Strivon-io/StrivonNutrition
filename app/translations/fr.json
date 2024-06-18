@@ -126,5 +126,8 @@
     "dinner": "Dîner",
     "snack": "Collation",
     "scheduleThisRecipe": "Programmer cette recette"
+  },
+  "homeScreen": {
+    "noRecipes": "Aucune recette programmée"
   }
 }

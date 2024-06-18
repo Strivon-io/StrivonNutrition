@@ -31,3 +31,22 @@ export type Recipe = {
   proteins: number;
   restrictions: string[];
 };
+
+export type ScheduledRecipe = {
+  _id: string;
+  recipe: Recipe;
+  mealType: string;
+};
+
+export type ShoppingListItem = {
+  _id: string;
+  ingredient: Ingredient;
+  quantity: number;
+  unity: string;
+};
+
+export type ShoppingList = {
+  _id: string;
+  ingredients: Ingredient[];
+  createdAt: Date;
+};

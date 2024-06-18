@@ -8,53 +8,96 @@ import { Text } from "~components/atoms/text";
 import { spacing, spacingPx } from "~constants/theme";
 import { MealCarouselCard } from "~components/organisms/mealCarouselCard";
 import { SectionTitle } from "~components/organisms/sectionTitle";
+import { ScheduledRecipe } from "~services/types/recipe.types";
 
-export const DailyMealsSection: FC = () => {
+export const DailyMealsSection: FC<{
+  navigation;
+  scheduledRecipes: ScheduledRecipe[];
+}> = ({ navigation, scheduledRecipes }) => {
   const [activeSlide, setActiveSlide] = useState(0);
   const carouselRef = useRef(null);
-  const mealsData = [
-    { title: "test1", kcal: 564, recipe: {} },
-    { title: "test2", kcal: 564, recipe: {} },
-    { title: "test3", kcal: 564, recipe: {} },
-    { title: "test4", kcal: 564, recipe: {} },
-  ];
-
   const { t } = useTranslation();
 
-  const renderRecipeCard: FC = () => {
-    return <MealCarouselCard />;
+  const renderRecipeCard: FC = (items: ScheduledRecipe[]) => {
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+        }}
+      >
+        {items.length > 0 ? (
+          items.map((item, index) => (
+            <View key={index} style={{ width: "48%", margin: 2 }}>
+              <MealCarouselCard recipe={item.recipe} navigation={navigation} />
+            </View>
+          ))
+        ) : (
+          <Text color="darker.DarkestBlack">{t("homeScreen.noRecipes")}</Text>
+        )}
+      </View>
+    );
   };
 
   const { width: viewportWidth } = Dimensions.get("window");
 
   const mealLabels = [t("morning"), t("lunch"), t("dinner"), t("snack")];
 
+  const mealsData = [
+    {
+      title: "Breakfast",
+      recipes: scheduledRecipes?.filter(
+        (recipe) => recipe.mealType === "breakfast"
+      ),
+    },
+    {
+      title: "Lunch",
+      recipes: scheduledRecipes?.filter(
+        (recipe) => recipe.mealType === "lunch"
+      ),
+    },
+    {
+      title: "Dinner",
+      recipes: scheduledRecipes?.filter(
+        (recipe) => recipe.mealType === "dinner"
+      ),
+    },
+    {
+      title: "Snack",
+      recipes: scheduledRecipes?.filter(
+        (recipe) => recipe.mealType === "snack"
+      ),
+    },
+  ];
+
   return (
     <View style={{ marginBottom: spacing.m }}>
-      <SectionTitle
-        title={t("yourDailyMeals")}
-        leftChild={
-          <Text color="Alizarin" fontFamily="Avenir-Bold" fontSize="m">
-            1459Kcal
-          </Text>
-        }
-      />
-
-      <MealLabels activeSlide={activeSlide} mealLabels={mealLabels} />
-
-      <Carousel
-        data={mealsData}
-        renderItem={renderRecipeCard}
-        sliderWidth={viewportWidth - 40}
-        onScrollIndexChanged={(index) => setActiveSlide(index)}
-        itemWidth={viewportWidth - spacing.l}
-        ref={carouselRef}
-        vertical={false}
-        loopClonesPerSide={2}
-        autoplayDelay={500}
-        autoplayInterval={3000}
-        autoplay
-      />
+      {scheduledRecipes && (
+        <>
+          <SectionTitle
+            title={t("yourDailyMeals")}
+            leftChild={
+              <Text color="Alizarin" fontFamily="Avenir-Bold" fontSize="m">
+                {`${scheduledRecipes.reduce(
+                  (acc, recipe) => acc + recipe.recipe.calories,
+                  0
+                )}Kcal`}
+              </Text>
+            }
+          />
+          <MealLabels activeSlide={activeSlide} mealLabels={mealLabels} />
+          <Carousel
+            data={mealsData}
+            renderItem={({ item }) => renderRecipeCard(item.recipes)}
+            sliderWidth={viewportWidth - 40}
+            onScrollIndexChanged={(index) => setActiveSlide(index)}
+            itemWidth={viewportWidth - spacing.l}
+            ref={carouselRef}
+            vertical={false}
+          />
+        </>
+      )}
     </View>
   );
 };

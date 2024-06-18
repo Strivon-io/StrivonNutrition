@@ -128,5 +128,8 @@
     "lunch": "Lunch",
     "dinner": "Dinner",
     "snack": "Snack"
+  },
+  "homeScreen": {
+    "noRecipes": "No recipes scheduled"
   }
 }

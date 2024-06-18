@@ -21,7 +21,7 @@ import { Layout } from "~components/layout/layout";
 import { useRoute } from "@react-navigation/native";
 
 import { getRecipeById } from "~services/routes/recipe.service";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Text } from "~components/atoms/text";
 import { RightChevron } from "~assets/icons/rightChevron";
 import BottomSheet from "@gorhom/bottom-sheet";
@@ -39,6 +39,7 @@ type RecipeScreenProps = NativeStackScreenProps<
 
 export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
   const route = useRoute();
   const { recipeId } = route.params as { recipeId: string };
 
@@ -48,7 +49,7 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
   });
 
   const handleBackPress = () => {
-    navigation.navigate("recipes");
+    navigation.goBack();
   };
 
   const scrollA = useSharedValue(0);
@@ -97,6 +98,12 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
       postScheduledRecipe(data.recipeId, data.date, data.mealType),
     onSuccess: () => {
       console.log("Form successfully posted");
+      queryClient.invalidateQueries({
+        queryKey: ["dayEvents"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["scheduledRecipe"],
+      });
       navigation.navigate("recipes");
     },
     onError: (error) => {

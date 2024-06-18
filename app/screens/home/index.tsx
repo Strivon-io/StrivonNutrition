@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, ActivityIndicator } from "react-native";
 import { styled } from "styled-components";
 import Animated, {
   Extrapolate,
@@ -24,7 +24,7 @@ import { getDayEvents } from "~services/routes/dayEvents.service";
 
 type HomeScreenProps = NativeStackScreenProps<BottomTabParamList, "home">;
 
-export const HomeScreen: FC<HomeScreenProps> = () => {
+export const HomeScreen: FC<HomeScreenProps> = ({ navigation }) => {
   const scrollA = useSharedValue(0);
   const BANNER_H = 350;
 
@@ -37,7 +37,7 @@ export const HomeScreen: FC<HomeScreenProps> = () => {
     queryFn: getProfile,
   });
 
-  const { data: dayEventsData } = useQuery({
+  const { data: dayEventsData, isLoading } = useQuery({
     queryKey: ["dayEvents"],
     queryFn: () => getDayEvents(new Date()),
   });
@@ -68,28 +68,35 @@ export const HomeScreen: FC<HomeScreenProps> = () => {
 
   return (
     <Layout noPadding bg="#F8F8F8">
-      <>
-        <View style={{ paddingHorizontal: 20 }}>
-          <StrivonLogo
-            source={require("~assets/brand/Strivon.png")}
-            resizeMode="contain"
-          />
-        </View>
-        <Animated.ScrollView
-          onScroll={scrollHandler}
-          scrollEventThrottle={16}
-          showsVerticalScrollIndicator={false}
-        >
-          <Animated.View style={HomeWelcomeSectionStyle}>
-            <HomeWelcomeSection username={profileData.username} />
-          </Animated.View>
-          <View style={styles.homeCardSection}>
-            <DailyMealsSection />
-            <GroceryListSection />
-            <PlannifiedMealDays />
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <>
+          <View style={{ paddingHorizontal: 20 }}>
+            <StrivonLogo
+              source={require("~assets/brand/Strivon.png")}
+              resizeMode="contain"
+            />
           </View>
-        </Animated.ScrollView>
-      </>
+          <Animated.ScrollView
+            onScroll={scrollHandler}
+            scrollEventThrottle={16}
+            showsVerticalScrollIndicator={false}
+          >
+            <Animated.View style={HomeWelcomeSectionStyle}>
+              <HomeWelcomeSection username={profileData.username} />
+            </Animated.View>
+            <View style={styles.homeCardSection}>
+              <DailyMealsSection
+                navigation={navigation}
+                scheduledRecipes={dayEventsData?.scheduledRecipes}
+              />
+              <GroceryListSection shoppingList={dayEventsData?.shoppingList} />
+              <PlannifiedMealDays />
+            </View>
+          </Animated.ScrollView>
+        </>
+      )}
     </Layout>
   );
 };
