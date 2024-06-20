@@ -130,6 +130,8 @@
     "snack": "Snack"
   },
   "homeScreen": {
-    "noRecipes": "No recipes scheduled"
+    "noRecipes": "No recipes scheduled",
+    "showLess": "Show less",
+    "readMore": "Read more"
   }
 }

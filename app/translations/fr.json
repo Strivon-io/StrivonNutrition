@@ -128,6 +128,8 @@
     "scheduleThisRecipe": "Programmer cette recette"
   },
   "homeScreen": {
-    "noRecipes": "Aucune recette programmée"
+    "noRecipes": "Aucune recette programmée",
+    "showLess": "Afficher moins",
+    "readMore": "Lire plus"
   }
 }

@@ -80,7 +80,7 @@ export const DailyMealsSection: FC<{
             leftChild={
               <Text color="Alizarin" fontFamily="Avenir-Bold" fontSize="m">
                 {`${scheduledRecipes.reduce(
-                  (acc, recipe) => acc + recipe.recipe.calories,
+                  (acc, recipe) => acc + recipe?.recipe?.calories || 0,
                   0
                 )}Kcal`}
               </Text>

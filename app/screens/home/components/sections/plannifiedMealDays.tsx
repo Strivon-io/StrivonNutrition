@@ -9,6 +9,7 @@ import { colors, iconSize, spacing, spacingPx } from "~constants/theme";
 import { SectionTitle } from "~components/organisms/sectionTitle";
 import { LeftChevron } from "~assets/icons/leftChevron";
 import { RightChevron } from "~assets/icons/rightChevron";
+import { formatISO, parseISO } from "date-fns";
 
 const boxShadow = {
   shadowColor: "#3A296A",
@@ -25,7 +26,9 @@ const CalendarCard = styled.View`
   border-radius: ${spacingPx.m};
 `;
 
-export const PlannifiedMealDays: FC = () => {
+export const PlannifiedMealDays: FC<{ scheduledRecipesDates: string[] }> = ({
+  scheduledRecipesDates,
+}) => {
   const { t } = useTranslation();
 
   const monthNames = [
@@ -55,13 +58,24 @@ export const PlannifiedMealDays: FC = () => {
     },
   };
 
+  const convertToDateString = (isoString) => {
+    return formatISO(parseISO(isoString), { representation: "date" });
+  };
+
+  const updatedScheduledRecipesDates = scheduledRecipesDates.map((date) =>
+    convertToDateString(date)
+  );
+
   return (
     <View style={{ paddingBottom: spacing.m }}>
       <SectionTitle title={t("yourPlannifiedMealsDays")} />
       <View style={boxShadow}>
         <Calendar
           dayComponent={({ date, state }) => {
-            const isMarked = markedDates[date.dateString]?.marked;
+            console.log(date.dateString);
+            const isMarked = updatedScheduledRecipesDates.includes(
+              date.dateString
+            );
             return (
               <View style={{ height: 50, alignItems: "center" }}>
                 <Text

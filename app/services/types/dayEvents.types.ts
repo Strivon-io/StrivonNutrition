@@ -1,6 +1,7 @@
-import { Recipe } from "./recipe.types";
+import { ScheduledRecipe } from "./recipe.types";
 
 export type DayEvents = {
-  scheduledRecipes: Recipe[];
+  scheduledRecipes: ScheduledRecipe[];
   shoppingList: any;
+  scheduledRecipesDates: string[];
 };

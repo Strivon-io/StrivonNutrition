@@ -39,14 +39,14 @@ export type ScheduledRecipe = {
 };
 
 export type ShoppingListItem = {
-  _id: string;
-  ingredient: Ingredient;
+  isChecked: boolean;
+  name: string;
   quantity: number;
   unity: string;
 };
 
 export type ShoppingList = {
   _id: string;
-  ingredients: Ingredient[];
+  items: ShoppingListItem[];
   createdAt: Date;
 };

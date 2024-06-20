@@ -19,14 +19,14 @@ export const MealCarouselCard: FC<{ navigation; recipe: Recipe }> = ({
     <TouchableOpacity onPress={navigateToRecipe} style={styles.background}>
       <Image
         style={styles.dishImage}
-        source={{ uri: recipe.image }}
+        source={{ uri: recipe?.image }}
         resizeMode="cover"
       />
       <View style={styles.imageOverlay} />
 
       <View style={styles.titleAndKcal}>
         <Text fontFamily="Avenir-Bold" fontSize="s" color="light.PureWhite">
-          {recipe.name}
+          {recipe?.name}
         </Text>
         <Text
           style={{
@@ -36,7 +36,7 @@ export const MealCarouselCard: FC<{ navigation; recipe: Recipe }> = ({
           fontSize="s"
           color="Alizarin"
         >
-          {`${recipe.calories}Kcal`}
+          {`${recipe?.calories}Kcal`}
         </Text>
       </View>
     </TouchableOpacity>

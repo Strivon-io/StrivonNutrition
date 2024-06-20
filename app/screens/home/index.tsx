@@ -63,9 +63,6 @@ export const HomeScreen: FC<HomeScreenProps> = ({ navigation }) => {
     };
   });
 
-  console.log("scheduledRecipe", dayEventsData?.scheduledRecipes);
-  console.log("shoppingList", dayEventsData?.shoppingList);
-
   return (
     <Layout noPadding bg="#F8F8F8">
       {isLoading ? (
@@ -92,7 +89,9 @@ export const HomeScreen: FC<HomeScreenProps> = ({ navigation }) => {
                 scheduledRecipes={dayEventsData?.scheduledRecipes}
               />
               <GroceryListSection shoppingList={dayEventsData?.shoppingList} />
-              <PlannifiedMealDays />
+              <PlannifiedMealDays
+                scheduledRecipesDates={dayEventsData?.scheduledRecipesDates}
+              />
             </View>
           </Animated.ScrollView>
         </>
