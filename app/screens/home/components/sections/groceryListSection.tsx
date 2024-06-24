@@ -15,7 +15,7 @@ export const GroceryListSection: FC<{ shoppingList: ShoppingList }> = ({
   const { t } = useTranslation();
 
   const [groceryList, setGroceryList] = useState<ShoppingListItem[]>(
-    shoppingList.items
+    shoppingList?.items
   );
   const [showMore, setShowMore] = useState(false);
 
@@ -33,7 +33,7 @@ export const GroceryListSection: FC<{ shoppingList: ShoppingList }> = ({
 
   const toggleCheckbox = (itemName: string) => {
     const updatedList = groceryList.map((item) =>
-      item.name === itemName ? { ...item, isChecked: !item.isChecked } : item
+      item?.name === itemName ? { ...item, isChecked: !item.isChecked } : item
     );
     setGroceryList(updatedList);
     updateGroceryList();
@@ -91,11 +91,11 @@ export const GroceryListSection: FC<{ shoppingList: ShoppingList }> = ({
             )
           ) : (
             <View>
-              <Text>{t("noGroceryList")}</Text>
+              <Text>{t("homeScreen.noGroceryList")}</Text>
             </View>
           )}
         </View>
-        {groceryList.length > 10 && (
+        {groceryList?.length > 10 && (
           <TouchableOpacity
             onPress={toggleShowMore}
             style={{ marginTop: 10, alignSelf: "center" }}

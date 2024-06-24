@@ -132,6 +132,7 @@
   "homeScreen": {
     "noRecipes": "No recipes scheduled",
     "showLess": "Show less",
-    "readMore": "Read more"
+    "readMore": "Read more",
+    "noGroceryList": "No grocery list"
   }
 }

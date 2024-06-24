@@ -130,6 +130,7 @@
   "homeScreen": {
     "noRecipes": "Aucune recette programmée",
     "showLess": "Afficher moins",
-    "readMore": "Lire plus"
+    "readMore": "Lire plus",
+    "noGroceryList": "Aucune liste de courses"
   }
 }

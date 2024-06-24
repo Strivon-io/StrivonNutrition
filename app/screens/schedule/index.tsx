@@ -12,6 +12,9 @@ import { getScheduledRecipesDates } from "~services/routes/scheduledRecipe.servi
 import { Text } from "~components/atoms/text";
 import { format } from "date-fns";
 import { StyleSheet } from "react-native";
+import CalendarStrip from "react-native-calendar-strip";
+import { colors } from "~constants/theme";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type RecipesScreenProps = NativeStackScreenProps<
   BottomTabParamList,
@@ -33,46 +36,44 @@ export const ScheduleScreen: FC<RecipesScreenProps> = ({ navigation }) => {
     queryFn: getScheduledRecipesDates,
   });
 
+  const markedDatesArray = scheduledRecipesDates?.map((date) => ({
+    date: format(date, "yyyy-MM-dd"),
+    dots: [
+      {
+        color: colors.Alizarin,
+        selectedColor: colors.Alizarin,
+      },
+    ],
+  }));
+
   return (
-    <Layout scrollView>
-      <PageTitle title={t("Scheduling")} />
-      <ScrollView
-        style={{
-          flex: 1,
-          height: 100,
-        }}
-        horizontal
-      >
-        <View style={styles.dayContainer}>
-          {scheduledRecipesDates.map((date, index) => {
-            const dayName = format(date, "EE");
-            const dayNumber = format(date, "d");
-            const monthName = format(date, "MMMM");
-            const isToday = format(date, "Pp") === format(new Date(), "Pp");
-            return (
-              <TouchableOpacity
-                style={[
-                  styles.dayBlock,
-                  {
-                    borderWidth: 1,
-                    borderColor: isToday ? "red" : "grey",
-                  },
-                ]}
-                key={index}
-                onPress={() => console.log(date)}
-              >
-                <Text>{dayName}</Text>
-                <Text>{dayNumber}</Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-      </ScrollView>
-    </Layout>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.padding}>
+        <PageTitle title={t("Scheduling")} />
+      </View>
+      <CalendarStrip
+        scrollable
+        style={{ height: 100 }}
+        calendarColor={colors.light.PureWhite}
+        calendarHeaderStyle={{ color: "black" }}
+        dateNumberStyle={{ color: "black" }}
+        dateNameStyle={{ color: "black" }}
+        iconContainer={{ flex: 0.1 }}
+        markedDates={markedDatesArray}
+      />
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.light.PureWhite,
+  },
+  padding: {
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+  },
   dayContainer: {
     flexDirection: "row",
     height: 50,
