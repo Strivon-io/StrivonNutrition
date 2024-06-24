@@ -25,3 +25,8 @@ export const updateShoppingList = async (
   });
   return response.data;
 };
+
+export const getScheduledRecipesDates = async () => {
+  const response = await api.get("/scheduledRecipes/dates");
+  return response.data;
+};

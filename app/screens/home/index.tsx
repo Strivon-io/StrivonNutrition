@@ -21,6 +21,7 @@ import { PlannifiedMealDays } from "./components/sections/plannifiedMealDays";
 import { getProfile } from "~services/routes/user.service";
 import { useQuery } from "@tanstack/react-query";
 import { getDayEvents } from "~services/routes/dayEvents.service";
+import { getScheduledRecipesDates } from "~services/routes/scheduledRecipe.service";
 
 type HomeScreenProps = NativeStackScreenProps<BottomTabParamList, "home">;
 
@@ -41,6 +42,15 @@ export const HomeScreen: FC<HomeScreenProps> = ({ navigation }) => {
     queryKey: ["dayEvents"],
     queryFn: () => getDayEvents(new Date()),
   });
+
+  const {
+    data: scheduledRecipesDates,
+    isLoading: isLoadingScheduledRecipesDates,
+  } = useQuery({
+    queryKey: ["scheduledRecipesDates"],
+    queryFn: getScheduledRecipesDates,
+  });
+  console.log("scheduledRecipesDates", scheduledRecipesDates);
 
   const HomeWelcomeSectionStyle = useAnimatedStyle(() => {
     return {

@@ -72,7 +72,6 @@ export const PlannifiedMealDays: FC<{ scheduledRecipesDates: string[] }> = ({
       <View style={boxShadow}>
         <Calendar
           dayComponent={({ date, state }) => {
-            console.log(date.dateString);
             const isMarked = updatedScheduledRecipesDates.includes(
               date.dateString
             );

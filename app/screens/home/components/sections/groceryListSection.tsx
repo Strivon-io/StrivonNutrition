@@ -51,8 +51,9 @@ export const GroceryListSection: FC<{ shoppingList: ShoppingList }> = ({
             marginRight: spacing.m,
           }}
         >
-          {showMore
-            ? groceryList.map((item, index) => (
+          {groceryList ? (
+            showMore ? (
+              groceryList.map((item, index) => (
                 <TouchableOpacity
                   onPress={() => toggleCheckbox(item.name)}
                   key={item.name}
@@ -69,7 +70,8 @@ export const GroceryListSection: FC<{ shoppingList: ShoppingList }> = ({
                   </View>
                 </TouchableOpacity>
               ))
-            : groceryList.slice(0, 10).map((item, index) => (
+            ) : (
+              groceryList.slice(0, 10).map((item, index) => (
                 <TouchableOpacity
                   onPress={() => toggleCheckbox(item.name)}
                   key={item.name}
@@ -85,7 +87,13 @@ export const GroceryListSection: FC<{ shoppingList: ShoppingList }> = ({
                     </Text>
                   </View>
                 </TouchableOpacity>
-              ))}
+              ))
+            )
+          ) : (
+            <View>
+              <Text>{t("noGroceryList")}</Text>
+            </View>
+          )}
         </View>
         {groceryList.length > 10 && (
           <TouchableOpacity
