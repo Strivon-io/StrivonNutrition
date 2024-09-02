@@ -26,3 +26,8 @@ export const getProfile = async (): Promise<User> => {
 
   return response.data;
 };
+
+export const deleteUser = async (): Promise<void> => {
+  console.log("test");
+  await api.delete("http://localhost:8000/users");
+};

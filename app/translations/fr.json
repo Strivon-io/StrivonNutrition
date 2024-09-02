@@ -132,5 +132,10 @@
     "showLess": "Afficher moins",
     "readMore": "Lire plus",
     "noGroceryList": "Aucune liste de courses"
+  },
+  "profileScreen": {
+    "logout": "Déconnexion",
+    "updateWeight": "Mettre à jour le poids",
+    "deleteAccount": "Supprimer le compte"
   }
 }

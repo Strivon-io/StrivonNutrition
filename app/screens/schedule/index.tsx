@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, Dimensions } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -15,6 +15,9 @@ import { StyleSheet } from "react-native";
 import CalendarStrip from "react-native-calendar-strip";
 import { colors } from "~constants/theme";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { DailyMealsSection } from "~screens/home/components/sections/dailyMealsSection";
+import { getDayEvents } from "~services/routes/dayEvents.service";
+import { GroceryListSection } from "~screens/home/components/sections/groceryListSection";
 
 type RecipesScreenProps = NativeStackScreenProps<
   BottomTabParamList,
@@ -23,6 +26,7 @@ type RecipesScreenProps = NativeStackScreenProps<
 
 export const ScheduleScreen: FC<RecipesScreenProps> = ({ navigation }) => {
   const { t } = useTranslation();
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
 
   const spacing = 8;
   const screenWidth = Dimensions.get("window").width - 40;
@@ -46,22 +50,52 @@ export const ScheduleScreen: FC<RecipesScreenProps> = ({ navigation }) => {
     ],
   }));
 
+  const dayName = format(selectedDate, "EEEE");
+  const dayNumber = format(selectedDate, "dd");
+  const monthName = format(selectedDate, "MMMM");
+
+  const { data: dayEventsData, isLoading } = useQuery({
+    queryKey: ["dayEvents", selectedDate],
+    queryFn: () => getDayEvents(new Date(selectedDate)),
+  });
+
+  console.log("test", dayEventsData);
+
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={[styles.container, { paddingTop: 70 }]}>
       <View style={styles.padding}>
         <PageTitle title={t("Scheduling")} />
       </View>
+
       <CalendarStrip
         scrollable
-        style={{ height: 100 }}
+        style={{ height: 100, marginTop: 20 }}
         calendarColor={colors.light.PureWhite}
         calendarHeaderStyle={{ color: "black" }}
         dateNumberStyle={{ color: "black" }}
         dateNameStyle={{ color: "black" }}
         iconContainer={{ flex: 0.1 }}
+        onDateSelected={(date) => {
+          setSelectedDate(date.toDate());
+        }}
+        selectedDate={selectedDate}
         markedDates={markedDatesArray}
       />
-    </SafeAreaView>
+      <View style={styles.padding}>
+        <Text fontFamily="Avenir-Bold-Italic" fontSize="l">
+          <>
+            {dayName} {dayNumber} {monthName}
+          </>
+        </Text>
+      </View>
+      <ScrollView style={styles.padding}>
+        <DailyMealsSection
+          navigation={navigation}
+          scheduledRecipes={dayEventsData?.scheduledRecipes}
+        />
+        <GroceryListSection shoppingList={dayEventsData?.shoppingList} />
+      </ScrollView>
+    </View>
   );
 };
 
@@ -72,7 +106,6 @@ const styles = StyleSheet.create({
   },
   padding: {
     paddingHorizontal: 20,
-    paddingVertical: 20,
   },
   dayContainer: {
     flexDirection: "row",

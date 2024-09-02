@@ -134,5 +134,10 @@
     "showLess": "Show less",
     "readMore": "Read more",
     "noGroceryList": "No grocery list"
+  },
+  "profileScreen": {
+    "logout": "Logout",
+    "updateWeight": "Update weight",
+    "deleteAccount": "Delete account"
   }
 }

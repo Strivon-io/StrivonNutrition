@@ -15,13 +15,14 @@ import { BottomTabParamList } from "~navigators/bottom-tab-navigator";
 
 import { MainButton } from "~components/molecules/mainButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { deleteUser, getProfile } from "~services/routes/user.service";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 type ProfileScreenProps = NativeStackScreenProps<BottomTabParamList, "profile">;
 
 export const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
   const { t } = useTranslation();
 
-  // the sorting for the 3 last months may be in the back later
   const weightData = [
     { weight: 50.0, date: "2023-12-02" },
     { weight: 50.5, date: "2023-12-010" },
@@ -79,6 +80,26 @@ export const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
     ],
   };
 
+  const { data: profileData } = useQuery({
+    queryKey: ["profile"],
+    queryFn: getProfile,
+  });
+
+  const { mutate: deleteUserMutation } = useMutation({
+    mutationFn: deleteUser,
+  });
+
+  const calculateAge = (birthday) => {
+    const today = new Date();
+    const birthDate = new Date(birthday);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
   return (
     <Layout>
       <>
@@ -97,11 +118,13 @@ export const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
           />
           <View style={styles.userNameAndAge}>
             <Text fontSize="l" fontFamily="Avenir-Bold">
-              Hugues, 23
+              <>
+                {profileData?.username}, {calculateAge(profileData.birthday)}
+              </>
             </Text>
           </View>
         </View>
-        <SectionTitle title={t("weightEvolution")} />
+        {/* <SectionTitle title={t("weightEvolution")} />
         <LineChart
           data={chartData}
           width={Dimensions.get("window").width - 30}
@@ -130,27 +153,40 @@ export const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
             marginVertical: 8,
             borderRadius: 16,
           }}
-        />
-        <MainButton
-          onPress={() => {}}
-          label={t("updateWeight")}
-          isHighlighted
-        />
-        <MainButton
-          onPress={async () => {
-            await AsyncStorage.removeItem("accessToken");
-            await AsyncStorage.removeItem("refreshToken");
-            navigation.navigate("signIn");
-          }}
-          label={t("logout")}
-          isHighlighted
-        />
+        /> */}
+        <View style={styles.buttonsContainer}>
+          <MainButton
+            onPress={async () => {
+              await deleteUserMutation();
+              await AsyncStorage.removeItem("accessToken");
+              await AsyncStorage.removeItem("refreshToken");
+              navigation.navigate("signIn");
+            }}
+            label={t("profileScreen.deleteAccount")}
+            isHighlighted
+            style={{
+              marginBottom: spacing.s,
+            }}
+          />
+          <MainButton
+            onPress={async () => {
+              await AsyncStorage.removeItem("accessToken");
+              await AsyncStorage.removeItem("refreshToken");
+              navigation.navigate("signIn");
+            }}
+            label={t("profileScreen.logout")}
+            isHighlighted
+          />
+        </View>
       </>
     </Layout>
   );
 };
 
 const styles = StyleSheet.create({
+  buttonsContainer: {
+    marginTop: spacing.m,
+  },
   userBlock: {
     flexDirection: "column",
     rowGap: spacing.s,

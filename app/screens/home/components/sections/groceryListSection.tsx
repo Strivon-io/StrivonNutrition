@@ -1,5 +1,5 @@
-import { useMutation } from "@tanstack/react-query";
-import { FC, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { FC, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { View, TouchableOpacity, ScrollView } from "react-native";
 import { Checkbox } from "~components/atoms/checkbox";
@@ -13,11 +13,15 @@ export const GroceryListSection: FC<{ shoppingList: ShoppingList }> = ({
   shoppingList,
 }) => {
   const { t } = useTranslation();
-
+  const queryClient = useQueryClient();
   const [groceryList, setGroceryList] = useState<ShoppingListItem[]>(
-    shoppingList?.items
+    shoppingList?.items || []
   );
   const [showMore, setShowMore] = useState(false);
+
+  useEffect(() => {
+    setGroceryList(shoppingList?.items || []);
+  }, [shoppingList]);
 
   const { mutate: updateGroceryList } = useMutation({
     mutationKey: ["updateGroceryList"],
@@ -28,6 +32,14 @@ export const GroceryListSection: FC<{ shoppingList: ShoppingList }> = ({
         new Date()
       );
       return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["scheduledRecipesDates"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["dayEvents"],
+      });
     },
   });
 

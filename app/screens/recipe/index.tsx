@@ -104,6 +104,9 @@ export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
       queryClient.invalidateQueries({
         queryKey: ["scheduledRecipe"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["scheduledRecipesDates"],
+      });
       navigation.navigate("recipes");
     },
     onError: (error) => {
