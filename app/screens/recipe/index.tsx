@@ -38,7 +38,7 @@ type RecipeScreenProps = NativeStackScreenProps<
 >;
 
 export const RecipeScreen: FC<RecipeScreenProps> = ({ navigation }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(); 
   const queryClient = useQueryClient();
   const route = useRoute();
   const { recipeId } = route.params as { recipeId: string };

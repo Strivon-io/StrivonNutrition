@@ -1,8 +1,7 @@
 import { FC, useRef, useState } from "react";
-import { View, Dimensions } from "react-native";
+import { View, Dimensions, StyleSheet } from "react-native";
 import { Carousel } from "react-native-snap-carousel";
 import { useTranslation } from "react-i18next";
-import { styled } from "styled-components";
 
 import { Text } from "~components/atoms/text";
 import { spacing, spacingPx } from "~constants/theme";
@@ -107,7 +106,7 @@ const MealLabels: FC<{ activeSlide: number; mealLabels: string[] }> = ({
   mealLabels,
 }) => {
   return (
-    <MealLabelsContainer>
+    <View style={styles.mealLabelsContainer}>
       {mealLabels.map((label, index) => (
         <Text
           fontFamily="Avenir-Bold-Italic"
@@ -117,12 +116,14 @@ const MealLabels: FC<{ activeSlide: number; mealLabels: string[] }> = ({
           {label}
         </Text>
       ))}
-    </MealLabelsContainer>
+    </View>
   );
 };
 
-const MealLabelsContainer = styled(View)`
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: ${spacingPx.s};
-`;
+const styles = StyleSheet.create({
+  mealLabelsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: spacing.s,
+  },
+});

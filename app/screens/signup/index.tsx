@@ -134,6 +134,8 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
     },
   };
 
+  console.log("error", error);
+
   return (
     <>
       <Layout isHeaderLogo isBackArrow>
@@ -172,7 +174,7 @@ export const SignupScreen: FC<SignUpScreenProps> = ({ navigation }) => {
             isChecked={isChecked}
             handleCheck={handleCheck}
           />
-          {isError && <Text>{error.message}</Text>}
+          {isError && <Text>{error.response.data.message}</Text>}
           <ActivitySelector
             activitySelectorRef={activitySelectorRef}
             control={control}

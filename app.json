@@ -8,6 +8,9 @@
       "image": "./assets/splashScreen.png",
       "resizeMode": "contain",
       "backgroundColor": "#FF2749"
-    }
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }

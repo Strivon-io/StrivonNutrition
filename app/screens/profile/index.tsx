@@ -103,19 +103,19 @@ export const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
   return (
     <Layout>
       <>
-        <PageTitle
-          title={t("profile")}
-          rightChild={
-            <TouchableOpacity>
-              <ParamsIcon color={colors.Alizarin} />
-            </TouchableOpacity>
-          }
-        />
+        <PageTitle title={t("profile")} />
         <View style={styles.userBlock}>
-          <Image
-            source={require("~assets/profileExemple/profile.png")}
-            style={styles.profilePicture}
-          />
+          <View style={styles.profilePictureContainer}>
+            <Text
+              lineHeight={110}
+              textAlign="center"
+              color="White"
+              fontSize="xxl"
+              fontFamily="Avenir-Bold"
+            >
+              {profileData?.username[0]}
+            </Text>
+          </View>
           <View style={styles.userNameAndAge}>
             <Text fontSize="l" fontFamily="Avenir-Bold">
               <>
@@ -124,7 +124,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
             </Text>
           </View>
         </View>
-        {/* <SectionTitle title={t("weightEvolution")} />
+        <SectionTitle title={t("weightEvolution")} />
         <LineChart
           data={chartData}
           width={Dimensions.get("window").width - 30}
@@ -153,9 +153,9 @@ export const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
             marginVertical: 8,
             borderRadius: 16,
           }}
-        /> */}
+        />
         <View style={styles.buttonsContainer}>
-          <MainButton
+          {/* <MainButton
             onPress={async () => {
               await deleteUserMutation();
               await AsyncStorage.removeItem("accessToken");
@@ -167,7 +167,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
             style={{
               marginBottom: spacing.s,
             }}
-          />
+          /> */}
           <MainButton
             onPress={async () => {
               await AsyncStorage.removeItem("accessToken");
@@ -183,7 +183,18 @@ export const ProfileScreen: FC<ProfileScreenProps> = ({ navigation }) => {
   );
 };
 
+
 const styles = StyleSheet.create({
+  profilePictureContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 100,
+    height: 100,
+    backgroundColor: colors.Alizarin,
+    borderRadius: 50,
+    verticalAlign: "middle",
+  },
   buttonsContainer: {
     marginTop: spacing.m,
   },
